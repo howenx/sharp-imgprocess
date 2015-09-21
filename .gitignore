@@ -1,0 +1,11 @@
+uploads/fullsize/
+uploads/minify/
+uploads/thumb/
+uploads/crop/
+**/.DS_Store
+**/*.log
+*.log
+node_modules/*
+.idea/*
+# Logs
+logs

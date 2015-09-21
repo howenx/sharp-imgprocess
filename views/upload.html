@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Preview images</title>
+	<link rel="stylesheet" href="/stylesheets/button.css">
+	<link rel="stylesheet" href="/stylesheets/upload.css">
+</head>
+<body>
+<h1><%= title %></h1>
+<a class="large orangellow button" style="margin-bottom:10px;position:relative;" id='upbn'>Upload</a>
+<input style="display:none;" type="file" id="fileinput" name="displayImage" accept="image/gif, image/jpeg, image/webp, image/png" />
+<div id="gallery" style="display: table;border: 1px solid #ddd;"></div>
+<h3>压缩后图片</h3>
+<div id='gpicnm' style="position:relative;margin-top:10px;width:500px;border: 1px solid #ddd;"></div>
+<h2>缩略图</h2>
+<div id="divthumbsubmit" style="position: relative;margin-top: 20px;">
+	<div style="display:block;width:100%;margin-bottom:5px;">图片名称：<input class='imginput' id='imgname' type="text" /></div>
+	<div style="display:block;width:100%;margin-bottom:5px;">图片宽度：<input class='imginput' id='imgwidth' type="tel" /></div>
+	<div style="display:block;width:100%;margin-bottom:5px;">图片高度：<input class='imginput' id='imgheight' type="tel" /></div>
+</div>
+
+<div style="position: relative;margin-top: 10px;display:block;">
+	<a class="large green button" id="submit">提交</a>
+</div>
+<h3>Mark Div</h3>
+<div>
+	<ur id= 'create-mark'>
+		<li>
+			<label style='margin-left: 14px;'>Mark Name: <input id='mark-nm' type ='text' style='width: 250px;margin-left:15px;'></label>
+		</li>
+		<!-- <li>
+			<label>Mark Rotate: <input id='mark-rotate' type ='text' style='width: 250px;margin-left:15px;'></label>
+		</li> -->
+		<!-- <li>
+			<label>Mark Position: <p id='mark-position' type ='text'></p></label>
+		</li> -->
+		<li>
+			<label style="margin-right: 10px;">Rotate Degree:</label>
+				<div style='display: inline-block;'>
+					<input type="radio" name="mark-deg" value="0"/><b>0度</b>
+				</div>
+				<div style='display: inline-block;position: relative;'>
+					<input type="radio" name="mark-deg" value="45"/><b>45度</b>
+				</div>
+				<div style='display: inline-block;position: relative;'>
+					<input type="radio" name="mark-deg" value="135"/><b>135度</b>
+				</div>
+				<div style='display: inline-block;position: relative;'>
+					<input type="radio" name="mark-deg" value="180"/><b>180度</b>
+				</div>
+		</li>
+		<li>
+			<a class="large blue button" id='mark-bt' >Create</a>
+		</li>
+	</ur>
+</div>
+<div id='dragon-container'></div>
+<a class="large red button" id="push">Push Data</a>
+<div class="thumb" style='position: relative;margin-top: 10px;margin-bottom:50px;display:block;'></div>
+
+<!--reference script region-->
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="/javascripts/upload.js"></script>
+</body>
+</html>
