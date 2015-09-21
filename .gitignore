@@ -5,6 +5,7 @@ uploads/crop/
 **/.DS_Store
 **/*.log
 *.log
+webkit/node_modules/
 node_modules/*
 .idea/*
 # Logs
