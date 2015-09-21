@@ -11,7 +11,8 @@ var multer = require('multer');
 /********** modules config *************/
 var app = express();
 var upload = require('./routes/upload');
-
+var split = require('./routes/split');
+var screenshot = require('./routes/screenshot');
 /****** Global variable ************/
 path = require('path');
 colors = require('colors');
@@ -60,6 +61,8 @@ app.use(multer({
 /********* routers ******************/
 app.use(express.static('public'));
 app.use('/', upload);
+app.use('/', split);
+app.use('/', screenshot);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

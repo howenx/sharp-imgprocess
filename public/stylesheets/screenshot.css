@@ -1,0 +1,260 @@
+#gallery .thumbnail{
+			display: table;
+			width:150px;
+			height: 150px;
+			float:left;
+			margin:10px;
+		}
+		#gallery .thumbnail img{
+			width:200px;
+			
+		}
+		.imginput{
+			margin-bottom:10px;
+			width:300px;
+		}
+		.button {
+			display: inline-block;
+			text-decoration: none;
+			font-weight: bold;
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+			-khtml-border-radius: 5px;
+			border-radius: 5px;
+			border: 0px none;
+			color: #fff;
+			padding: 0 40px;
+			border-color: #2975e5;
+			background-color: #2e82ff;
+			display: inline-block;
+			  height: 38px;
+			  line-height: 38px;
+			  font-size: 13px;
+			  font-weight: 700;
+			  border-radius: 2px;
+			  border-width: 1px;
+			  border-style: solid;
+			  vertical-align: top;
+		}
+		.rec_sku {
+		  padding-top: 15px;
+		  overflow: hidden;
+		}
+		
+		.title{
+			line-height: 20px;
+			  padding: 5px 5px 0 0;;
+			  margin: 0;
+			  display: block;
+			  word-wrap: break-word;
+			  color: #666;
+			  font-size: 12px;
+			  font-family: Arial;
+			  position: relative;
+			  text-align: left;
+		}
+		.title p{
+			display: block;
+			-webkit-margin-before: 1em;
+			-webkit-margin-after: 1em;
+			-webkit-margin-start: 0px;
+			-webkit-margin-end: 0px;
+			  line-height: 20px;
+			  word-wrap: break-word;
+			  margin: 0;
+			  padding: 0;
+		}
+		.np_pic {
+  		  	text-align: center;
+/*  			width: 226px;*/
+  	  		position: relative;
+		}
+		.new_poster {
+		  background: #fff;
+/*		  border: 1px solid #ddd;*/
+/*		  margin-top: 14px;*/
+/*		  width: 226px;*/
+		}
+		.price {
+		  background: #fff;
+		  height: 18px;
+		  line-height: 18px;
+		  padding: 0 5px;
+		  position: absolute;
+		  bottom: 0;
+		  right: 0;
+		  opacity: .8;
+		  color: #f69;
+		  filter: alpha(opacity=80);
+		}
+		.comm_num {
+		  line-height: 22px;
+		  position: relative;
+		    padding: 5px 5px 0px 2px;
+		}
+		.pl {
+		  color: #999;
+		  float: right;
+		    text-decoration: none;
+			  line-height: 22px;
+		}
+		.red_f {
+		  color: #f69;
+		}
+		.f14_f {
+		  font-size: 14px;
+		}
+		Inherited from 
+		.likes {
+		  cursor: pointer;
+		  height: 22px;
+		  line-height: 22px;
+		}
+		li {
+		  list-style: none;
+		}
+		.lm_love2 {
+		  background: url("http://i.meilishuo.net/css/images/header/mls_global140607.png") no-repeat;
+		  background-position: -53px -260px;
+		  float:left;
+		  width:11px;
+		  height:10px;
+		  margin:5px 0 0 3px;
+		  cursor: pointer;
+		}
+		.likes_status {
+		  background-color: #ff74a1;
+		  color: #fff;
+		  float: left;
+		  text-align: center;
+		  margin-right: 6px;
+		  height: 20px;
+		  line-height: 20px;
+		  width: 50px;
+		  -webkit-border-radius: 2px;
+		  border-radius: 2px;
+		  border: 1px solid #fa5b90;
+		  font-weight: normal;
+		}
+		li{
+		    float: left;
+		    display: block;
+		    margin-right: 24px;
+/*		    width: 180px;*/
+		    margin-bottom: 20px;
+		}
+		.title p a{
+			color: #666;
+			text-decoration: none;
+			   cursor: text;
+		/*           cursor: auto;*/
+		}
+		.promotion{
+			  padding: 5px 5px 5px 0;  
+			  margin: 0;
+			  display: block;
+			  bottom: 0px;
+			  /* bottom: 0px; */
+			  position: relative;
+		}
+		.add_red {
+		 color: #fa669b;
+		 color: #f69;
+		 font-size: 16px;
+		}
+		.origin_price {
+			color: #999;
+			  text-decoration: line-through;
+			  margin-left: 5px;
+		}
+		.btn {
+		  float: right;
+		  padding: 0 5px;
+		  background-color: #fa669b;
+			font-size: 14px;
+			border-radius: 3px;
+		/*            cursor: pointer;*/
+			  cursor: text;
+			  text-align: center;
+			  background: #f69;
+			  color: #fff;
+				/*margin-left: 20px;*/
+		}
+		.li {
+		  
+		  text-align: center;
+		  height: 254px;
+		  display: inline;
+/*		  overflow: hidden;*/
+		 /* margin-top: 5px;
+		  margin-right: 5px;*/
+		  position: relative;
+		  text-align: center;
+		}
+		.li {
+		  list-style: none;
+		}
+		.pic {
+		  display: block;
+		  height: 254px;
+		  width: 100%;
+		}
+		.pic a {
+		  color: #666;
+		  text-decoration: none;
+			cursor: auto;
+		}
+		.bar {
+		  background: url("http://i.meilishuo.net/css/images/welcome/bar_bg.png");
+		  float: left;
+		  color: #fff;
+		  font-size: 14px;
+		  height: 34px;
+		  line-height: 34px;
+		  width: 100%;
+		  position: absolute;
+		  left: 0;
+		  bottom: 0;
+		  _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://i.meilishuo.net/css/images/welcome/bar_bg.png',sizingMethod='scale');
+		  _background-image: none;
+			text-decoration: none;
+			cursor: text;
+		}
+		/*#unpack_title{
+		    background: rgb(230, 224, 224);
+		    float: left;
+		    color: #FDF6F6;
+		    font-size: 14px;
+		    height: 50px;
+		    line-height: 34px;
+		    width: 90%;
+		    position: absolute;
+		    left: 5%;
+		    bottom: 0;
+		    text-decoration: none;
+		    cursor: default;
+		    opacity: 0.9;
+		}*/
+		body{
+			  color: #666;
+			  font-size: 12px;
+			  font-family: Arial;
+		}
+		.radio {
+			position: relative;
+			display: inline-block;
+			margin-bottom: 10px;
+			margin-right: 20px;
+			cursor: pointer;
+			color: #3367cc;
+
+		}
+		.pre_temp{
+		    float: right;
+			border: 1px solid #ddd;
+			width:300px;
+			height:auto;
+		    position: relative;
+		    background-color: #f4f4f4;
+			margin-left:10px;
+		}

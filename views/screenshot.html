@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			Shop Window
+		</title>
+		<link rel="stylesheet" href="/stylesheets/screenshot.css" type="text/css">
+	</head>
+	<body>
+		<h2>
+			Upload Images
+		</h2>
+		<p>
+			<button class="button" style="margin-bottom:10px;position:relative;" id='upbn'>Upload</button>
+		</p>
+		<form>
+			<input style="display:none;" type="file" id="fileinput" name="displayImage" accept="image/gif, image/jpeg, image/webp, image/png">
+		</form>
+		<div id="gallery" style="display: table;border: 1px solid #ddd;"></div>
+		<h3>
+			Compressed Images
+		</h3>
+		<div id='gpicnm' style="position:relative;margin-top:10px;width:500px;border: 1px solid #ddd;"></div>
+		<h2>
+			Select Template
+		</h2>
+		<ul class="rec_sku">
+			<!--bottom price template-->
+			<li>
+				<p>
+					<label class="radio"><input type="radio"  class="set-main temp_radio_class" name="setMain"> 底部价格</label>
+				</p>
+				<div id='shop_price' class='sync-hide' name='temp_price' style='display: inline-block;'>
+					<div class='li' id='price_img' style='display: block;postition:relative;border: 0px solid #ddd;height: auto;width:auto;'>
+						<!-- -->
+						<img src="http://d03.res.meilishuo.net/img/_o/e1/29/59162b78563c66e3781754e6623f_180_254.cg.jpg_4c5f1929_s2_180_255.jpg">
+					</div>
+					<div style='display: block;postition:relative; height: 54px;width:100%;'>
+						<div class="title">
+							<p>
+								<a href="javascript:void(0)" id ='price_title' target="_blank">韩版娃娃领打底雪纺衫</a>
+							</p>
+						</div>
+						<div class="promotion">
+							<span id='price_discount' class="btn">3.2折</span>
+							<span id='price_current_price'class="add_red">￥49.92</span>
+							<span id='price_origin_price'class="origin_price">￥158.00</span>
+						</div>
+					</div>
+				</div>
+				<div class="pre_temp sync-hide" >
+					<label style='display:block;margin-top:10px;margin-left:10px;'>标题：<input style='width: 235px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>现价：<input type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>原价：<input type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>折扣：<input type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>图片名称：<input style='width: 270px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>宽度：<input id='price_custom_w' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>高度：<input id='price_custom_h' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>默认宽高<input id='price_default_wh' type="checkbox"></label>
+					<button id='pre_price_bt' class="button" style="left: 100px;margin-left:10px;padding: 0 10px;height: 28px;line-height: 28px;margin-top:10px;margin-bottom:10px;position:relative;" >Preview</button>
+				</div>
+			</li>
+			<!--bottom gray template-->
+			<li>
+				<p>
+					<label class="radio"><input type="radio"  class="set-main temp_radio_class" name="setMain"> 底部灰色</label>
+				</p>
+				<div id='shop_gray' name="temp_gray" class="li sync-hide" style='display: inline-block;width:auto;height:auto;'>
+					<div class='li' id='gray_img' style='display: block;postition:relative;border: 0px solid #ddd;height: 255px;width:180px;'>
+						<img src="http://d03.res.meilishuo.net/img/_o/e1/29/59162b78563c66e3781754e6623f_180_254.cg.jpg_4c5f1929_s2_180_255.jpg">
+					</div>
+					<a id='gray_title' class="bar" href="javascript:void(0)" target="_blank">当季最CHIC小白鞋</a> 
+				</div>
+				<div class="pre_temp sync-hide" >
+					<label style='display:block;margin-top:10px;margin-left:10px;'>标题：<input style='width: 235px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>图片名称：<input style='width: 270px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>宽度：<input id='gray_custom_w' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>高度：<input id='gray_custom_h' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>默认宽高<input id='gray_default_wh' type="checkbox"></label>
+					<button id='pre_gray_bt' class="button" style="left: 100px;margin-left:10px;padding: 0 10px;height: 28px;line-height: 28px;margin-top:10px;margin-bottom:10px;position:relative;" >Preview</button>
+				</div>
+			</li>
+			<!--simple template-->
+			<li>
+				<p>
+					<label class="radio"><input type="radio" class="set-main temp_radio_class" name="setMain"> 简约风格</label>
+				</p>
+				<div id='shop_poster' name="temp_poster" style='display: inline-block;width: auto;height:auto;' class="new_poster sync-hide">
+					<div class="np_pic hover_pic">
+						<div id='poster_price' class="price">￥108.00</div>
+						<div id='poster_img' style='display:block;width:auto;height:auto;'>
+							<img src="http://d03.res.meilishuo.net/img/_o/e1/29/59162b78563c66e3781754e6623f_180_254.cg.jpg_4c5f1929_s2_180_255.jpg">
+						</div>
+						<div></div>
+					</div>
+					<div class="title">
+						<p>
+							<a id='poster_title' href="javascript:void(0)" target="_blank">平底鞋单鞋小白鞋帆布鞋</a>
+						</p>
+					</div>
+					<div class="comm_num">
+						<a class="pl" href="javascript:void(0)" target="_blank">销量（<span id='poster_sale_num'>102</span>）</a> 
+						<b class="likes_status">
+							<i class="lm_love2"></i>&nbsp;喜欢
+						</b> 
+						<span id='poster_like_num' class="red_f f14_f poster_like_num">11</span>
+					</div>
+				</div>
+				<div class="pre_temp sync-hide" >
+					<label style='display:block;margin-top:10px;margin-left:10px;'>标题：<input style='width: 235px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>价格：<input type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>销量：<input type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>喜欢：<input type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>图片名称：<input style='width: 270px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>宽度：<input id='poster_custom_w' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>高度：<input id='poster_custom_h' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>默认宽高<input id='poster_default_wh' type="checkbox"></label>
+					<button id='pre_poster_bt' class="button" style="left: 100px;margin-left:10px;padding: 0 10px;height: 28px;line-height: 28px;margin-top:10px;margin-bottom:10px;position:relative;">Preview</button>
+				</div>
+			</li>
+			<!-- unpack template -->
+			<li>
+				<p>
+					<label class="radio"><input type="radio"  class="set-main temp_radio_class" name="setMain"> 拼购打折</label>
+				</p>
+				<div id='shop_unpack' name="temp_unpack" class="li sync-hide" style='display: inline-block;width:auto;height:auto;'>
+					<div class='li' id='unpack_img' style='display: block;postition:relative;border: 0px solid #ddd;width: 400px;height: 400px;background: url("/images/400x400.jpg");'>
+					</div>
+					<div id='unpack_title' style=' background: rgb(230, 224, 224);float: left;color: #FDF6F6;font-size: 14px;height: 50px;line-height: 34px;width: 90%;position: absolute;left: 5%;bottom: 0;text-decoration: none;cursor: default;opacity: 0.9;'>
+						<span style="position: absolute;left: 25px;font-size: 30px;color: RGB(228,118,47);top: 10px;"><b id='unpack_discount' style="font-weight: normal;">20</b><b style="font-size: 17px;font-weight: normal;">%</b></span>
+						<div id='unpack_price_origin' style="position: absolute;width: auto;height: 20px;right: 50%;color: #3E3D3D;text-decoration: line-through;top: -2px;">￥600.00</div>
+						<div id='unpack_price_current'style="position: absolute;width: auto;height: 20px;right: 50%;top: 20px;color: RGB(228,118,47);font-size: 17px;" >￥480.00</div>
+						<div id='unpack_vertical_line' style='width: 2px;background: url("http://localhost:3000/images/vertical-line.png") repeat;height: 40px;position: absolute;left: 60%;'></div>
+						<div id='unpack_span' style="position: absolute;right: 30px;color: #3E3D3D;font-family: arial,微软雅黑;font-weight: bold;">拼购打折<span style="font-size: xx-small;font-weight:normal;">(最低)</span></div>
+						<div id='unpack_price_unpack' style="position: absolute;color: #3E3D3D;right: 30px;top: 20px;height: 25px;">￥400.00</div>
+					</div> 
+				</div>
+				<div class="pre_temp sync-hide" >
+					<label style='display:block;margin-top:10px;margin-left:10px;'>折扣：<input style='width: 235px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>原价：<input style='width: 235px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>现价：<input style='width: 235px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>拼购价：<input style='width: 235px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>标题占宽度百分比：<input style='width: 235px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>标题距左侧百分比：<input style='width: 235px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>图片名称：<input style='width: 270px;' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>宽度：<input id='unpack_custom_w' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>高度：<input id='unpack_custom_h' type="text"></label>
+					<label style='display:block;margin-top:10px;margin-left:10px;'>默认宽高<input id='unpack_default_wh' type="checkbox"></label>
+					<button id='pre_unpack_bt' class="button" style="left: 100px;margin-left:10px;padding: 0 10px;height: 28px;line-height: 28px;margin-top:10px;margin-bottom:10px;position:relative;" >Preview</button>
+				</div>
+			</li>
+		</ul>
+		<div style="position: relative;margin-top: 10px;margin-bottom: 30px;display:block;">
+			<input class="button" id="submit" type="submit" value="提交">
+		</div>
+		<div class="thumb" style='position: relative;margin-top: 10px;display:block;'></div>
+		<script src="/javascripts/picturefill.js"></script>
+		<script type="text/javascript">window.picturefill.resolveLast();</script>
+		<script src="/javascripts/hidpi-canvas.js"></script>
+		<script src="/javascripts/canvas2image.js"></script>
+		<script src="/javascripts/html2canvas.js"></script>
+		<script src="//code.jquery.com/jquery-1.11.3.min.js" ></script>
+		<script src="/javascripts/FileSaver.js"></script>
+		<script src="/javascripts/canvas-toBlob.js"></script>
+		<script src="/javascripts/blob-util.js"></script>
+		<script src="/javascripts/shop.js" type="text/javascript"></script>
+	</body>
+</html>
