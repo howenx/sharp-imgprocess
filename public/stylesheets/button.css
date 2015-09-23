@@ -38,7 +38,10 @@ button::-moz-focus-inner {
 	-moz-transform: translateY(1px);
 }
 .small.button {
-	font-size: 11px;
+    font-size: 5px;
+    font-weight: normal;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 .large.button {
 	font-size: 14px;
@@ -64,6 +67,13 @@ button::-moz-focus-inner {
 .green.button:hover {
 	background-color: #749a02;
 	text-decoration: none;
+}
+.prev.button{
+    
+	background-color: #88BD8D;
+}
+.prev.button:hover{
+	background-color: #0A9A18;
 }
 .red.button {
 	background-color: #e33100;
@@ -106,9 +116,8 @@ button::-moz-focus-inner {
 	
 .icon-circle-close {
 	background: url(/images/close-icon.png) no-repeat;
-	/*		 background-size:50% 50%;*/
 	background-size:cover;
-	/*		 background-size:12% 12%;*/
 	width: 30.72px;
 	height: 30.72px;
 }
+

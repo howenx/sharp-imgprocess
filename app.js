@@ -14,6 +14,7 @@ var upload = require('./routes/upload');
 var split = require('./routes/split');
 var screenshot = require('./routes/screenshot');
 /****** Global variable ************/
+url = 'http://172.28.3.51:3002';
 path = require('path');
 colors = require('colors');
 fs = require("fs");
@@ -102,6 +103,6 @@ app.use(function(err, req, res, next) {
 
 
 /************* set port *******************/
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3002);
 
 module.exports = app;

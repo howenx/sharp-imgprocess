@@ -172,7 +172,7 @@ router.get('/thumb/:id', function(req, res, next) {
 });
 
 /* get File listing. */
-router.get(['/uploads/minify/:image', '/uploads/crop/:image', '/uploads/fullsize/:image', '/uploads/thumb/:image'], function(req, res, next) {
+router.get(['/uploads/minify/:image', '/uploads/split/:image', '/uploads/fullsize/:image', '/uploads/thumb/:image'], function(req, res, next) {
     try {
         var file = req.params.image;
         //check param image.

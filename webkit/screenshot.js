@@ -39,8 +39,8 @@ var win = gui.Window.open(url, {
 // When all the assets load (e.g. images, CSS, JS)
 win.on('loaded', function handleLoad() {
 	var window = win.window;
-	var document = window.document;
-	$("body", document).html('123');
+	var document = window.document; 
+	
 	// Calculate how of the much window dimensions are padding
 	var viewportWidth = Math.max(
 		win.window.document.documentElement.clientWidth,
@@ -68,6 +68,9 @@ win.on('loaded', function handleLoad() {
 			setTimeout(cb, 200);
 		},
 		function(err) {
+			var div = document.createElement("div"); 
+			div.innerHTML = "网页教学网：http://www.ffasp.com/"; 
+			document.body.appendChild(div); 
 			console.log(process.cwd());
 			console.log('paddingWidth: ' + paddingWidth + ' paddingHeight: ' + paddingHeight+ ' scrollWidth: '+win.window.document.body.scrollWidth+' scrollHeight: '+win.window.document.body.scrollHeight);
 			// Hide all <canvas> elements
