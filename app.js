@@ -77,9 +77,11 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 app.use(function(err, req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    res.status(404);
+	console.log(colors.blue(err.message));
+	if(err.status !== 404) {
+	    return next();
+	}
+	res.status(404);
     res.jsonp({
         message: err.message,
         error: '404'

@@ -24,27 +24,29 @@
 			<div class='compress-div'>
 				<ul class="rec_sku-title">
 					<li>
-						<p><label class="radio"><input type="radio"  class="set-main temp_radio_class shop-price" name="setMain">底部价格</label></p>
+						<p><label class="radio"><input type="radio" data-xr='shop_price' class="set-main temp_radio_class" name="setMain">底部价格</label></p>
 					</li>
 					<li>
-						<p><label class="radio"><input type="radio"  class="set-main temp_radio_class shop-gray" name="setMain"> 底部灰色</label></p>
+						<p><label class="radio"><input type="radio" data-xr='shop_gray' class="set-main temp_radio_class" name="setMain"> 底部灰色</label></p>
 					</li>
 					<li>
-						<p><label class="radio"><input type="radio" class="set-main temp_radio_class shop-poster" name="setMain"> 简约风格</label></p>
+						<p><label class="radio"><input type="radio" data-xr='shop_poster' class="set-main temp_radio_class" name="setMain"> 简约风格</label></p>
 					</li>
 					<li>
-						<p><label class="radio"><input type="radio"  class="set-main temp_radio_class shop-unpack" name="setMain"> 拼购打折</label></p>
+						<p><label class="radio"><input type="radio" data-xr='shop_unpack' class="set-main temp_radio_class " name="setMain"> 拼购打折</label></p>
 					</li>
 					<li>
-						<p><label class="radio"><input type="radio"  class="set-main temp_radio_class deal-wide" name="setMain"> 宽版</label></p>
+						<p><label class="radio"><input type="radio" data-xr='deal_wide' class="set-main temp_radio_class" name="setMain"> 宽版</label></p>
 					</li>
 					<li>
-						<p><label class="radio"><input type="radio"  class="set-main temp_radio_class hmm-collections" name="setMain">打包品</label></p>
+						<p><label class="radio"><input type="radio" data-xr='hmm_collections' class="set-main temp_radio_class" name="setMain">打包品</label></p>
+					</li>
+					<li>
+						<p><label class="radio"><input type="radio" data-xr='u_youjipin' class="set-main temp_radio_class" name="setMain">优集品</label></p>
 					</li>
 				</ul>
-				<ul class="rec_sku">
 					<!--bottom price template-->
-					<li>
+					<div class='li-dv'>
 						<div id='shop_price' class='sync-hide' name='temp_price' style='display: inline-block;'>
 							<div class='li bottom-price-temp' id='price_img'>
 								<img src="/images/59162b78.jpg">
@@ -73,9 +75,9 @@
 							<label>默认宽高<input id='price_default_wh' type="checkbox"></label>
 							<a class="preview-botton small prev button" id='pre_price_bt'>Preview</a>
 						</div>
-					</li>
+					</div>
 					<!--bottom gray template-->
-					<li>
+					<div class='li-dv'>
 						<div id='shop_gray' name="temp_gray" class="li sync-hide" style='display: inline-block;width:auto;height:auto;'>
 							<div class='li bottom-gray-temp' id='gray_img'>
 								<img src="/images/59162b78.jpg">
@@ -90,9 +92,9 @@
 							<label>默认宽高<input id='gray_default_wh' type="checkbox"></label>
 							<a class="preview-botton small prev button" id='pre_gray_bt'>Preview</a>
 						</div>
-					</li>
+					</div>
 					<!--simple template-->
-					<li>
+					<div class='li-dv'>
 						<div id='shop_poster' name="temp_poster" class="new_poster sync-hide">
 							<div class="np_pic hover_pic">
 								<div id='poster_price' class="price">￥108.00</div>
@@ -125,9 +127,9 @@
 							<label>默认宽高<input id='poster_default_wh' type="checkbox"></label>
 							<a class="preview-botton small prev button" id='pre_poster_bt'>Preview</a>
 						</div>
-					</li>
+					</div>
 					<!-- unpack template -->
-					<li>
+					<div class='li-dv'>
 						<div id='shop_unpack' name="temp_unpack" class="li sync-hide auto">
 							<div class='li unpack-temp-img' id='unpack_img'>
 							</div>
@@ -156,10 +158,10 @@
 							<label>默认宽高<input id='unpack_default_wh' type="checkbox"></label>
 							<a class="preview-botton small prev button" id='pre_unpack_bt'>Preview</a>
 						</div>
-					</li>
+					</div>
 					<!-- Wide version -->
-					<li>
-						<div id="deal-wide" class="deal liked sharing">
+					<div class='li-dv'>
+						<div id="deal_wide" class="deal liked sharing">
 								<div class="deal-image">
 									<a><img src="https://d2ilfdg091sfom.cloudfront.net/img/deals/91579_thumb.jpg"></a>
 								</div>
@@ -204,9 +206,9 @@
 									</div>
 								</div>
 							</div>
-					</li>
-					<li>
-						<div id='hmm-collections' class='collections'>
+					</div>
+					<div class='li-dv'>
+						<div id='hmm_collections' class='collections'>
 							<figure class='collections-figure'>
 								<span class='collections-logo'></span>
 								<img src="/images/750/idid_ie2tam3egbswmoldgmzdambqhayde_750x316.jpg" width='100%'>
@@ -227,8 +229,20 @@
 								<span class='collection-click'>....</span>
 							</figcaption>
 						</div>
-					</li>
-				</ul>
+					</div>
+					<div class='li-dv'>
+						<div id='u_youjipin' class="goods_list_img">
+							<div class="img">
+								<a class="track">
+									<img src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8">
+								</a>
+								<span>仅剩10天</span>
+							</div>
+							<div class="text">
+								<span><b>6</b>元起</span>★以思念为料，享受烘焙的甜蜜★
+							</div>
+						</div>
+					</div>
 			</div>
 			<div style="position: relative;margin-top: 10px;margin-bottom: 30px;display:block;">
 				<a class="large blue-light button" id='submit'>Submit</a>

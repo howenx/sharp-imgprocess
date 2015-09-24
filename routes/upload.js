@@ -172,14 +172,14 @@ router.get('/thumb/:id', function(req, res, next) {
 });
 
 /* get File listing. */
-router.get(['/uploads/minify/:image', '/uploads/split/:image', '/uploads/fullsize/:image', '/uploads/thumb/:image'], function(req, res, next) {
+router.get(['/uploads/shot/:image','/uploads/minify/:image', '/uploads/split/:image', '/uploads/fullsize/:image', '/uploads/thumb/:image'], function(req, res, next) {
     try {
         var file = req.params.image;
         //check param image.
         if (file.match(/[^\/]+(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/g) != null && typeof file.match(/[^\/]+(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/g) != 'undefined') {
             //grab the request path.
-            if (req.path.match(/\/fullsize|crop|minify|thumb\//) != null && typeof req.path.match(/\/fullsize|crop|minify|thumb\//) != 'undefined') {
-                var reqpath = req.path.match(/\/fullsize|crop|minify|thumb\//).toString().replace(/\//, '');
+            if (req.path.match(/\/shot|fullsize|crop|minify|thumb\//) != null && typeof req.path.match(/\/shot|fullsize|crop|minify|thumb\//) != 'undefined') {
+                var reqpath = req.path.match(/\/shot|fullsize|crop|minify|thumb\//).toString().replace(/\//, '');
                 var localpath = process.cwd() + '/uploads/' + reqpath + '/' + file;
                 //check the loacl file exist.
                 fs.lstat(localpath, function(err, stats) {

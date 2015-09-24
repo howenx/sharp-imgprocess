@@ -5,67 +5,54 @@ var fs = require("fs");
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
 var util = require("util");
+var uuid = require('uuid');
 
 /* screenshot page*/
 router.get('/screenshot', function(req, res, next) {
-  res.render('screenshot.html');
+	res.render('screenshot.html');
 });
 
-/* screenshot shell */
-router.post('/nw',function(req, res) {
-	if (req.body.data) {
-		var pngreplace='';
-		var png = '';
-        fs.readFile(process.cwd() + "/webkit/index.html",function(err,index){
-            $ = cheerio.load(index);
-    		$('body').empty();
-    		$('body').html(req.body.data);
-			$('#unpack_img').css({
-			                    background: 'url('+ process.cwd() + '/uploads/thumb/' + req.body.imgsrc+')'
-			                });
-			$('#unpack_vertical_line').css({
-								background: 'url('+ process.cwd() + '/public/images/vertical-line.png)'
-							});
-    		$('img').attr('src', process.cwd() + '/uploads/thumb/' + req.body.imgsrc);
-            fs.writeFile(process.cwd() + "/webkit/index.html", $.html(), function(err){
-        		var nw = spawn(process.cwd() +'/node_modules/nw/bin/nw', [process.cwd() + '/webkit/']);
-        		nw.stdout.on('data', function(data){
-        		    console.log('stdout:'+data);
-        			png =data+'';
-        			if(png.match(/[|][|].*[|][|]/g)!=null && png.match(/[|][|].*[|][|]/g)!=''){
-        				pngreplace = png.match(/[|][|].*[|][|]/g).toString().replace(/[|]/gi, '') + '';
-        				//console.log('this is canvas image:'+pngreplace);
-        				if(pngreplace!=null && pngreplace!='' && typeof pngreplace!='undefined'){
-        					res.jsonp({
-        						error: 'Canvas success.',
-        						png: pngreplace
-        					});
-        					nw.kill();
-        				}
-        			}
-        		});
-            });
-        });
+/**********screen shot cut *******************/
+router.get('/shotcut/:tempid', function(req, res, next) {
+	if (req.params.tempid) {
+		res.render("shotcut.html", {
+			tempid: req.params.tempid
+		});
 	} else {
-		//
-		var body = '',
-			jsonStr;
-		req.on('data', function(chunk) {
-			body += chunk; //
+		var notFound = new Error('not found tempid.');
+		notFound.status = 404;
+		return next(notFound);
+	}
+})
+
+/* screenshot shell */
+router.post('/nw', function(req, res) {
+	
+	if (req.body.tempid) {
+		var uu_name =uuid.v4().replace(/-/g, '');
+		var filename = process.cwd() +'/uploads/shot/'+uu_name+'.png';
+		console.log(colors.red(process.cwd() + '/webkit/'+' || '+ filename+' || '+  url+' || '+ '/shotcut/'+req.body.tempid+' || '+  req.body.xr_width+' || '+  req.body.xr_height));
+		var nw = spawn(process.cwd() + '/node_modules/nw/bin/nw', [process.cwd() + '/webkit/', filename, url+'/shotcut/'+req.body.tempid, req.body.xr_width, req.body.xr_height]);
+		nw.stdout.on('data', function(data) {
+			console.log('stdout: ' + data);
 		});
-		req.on('end', function() {
-			//
-			try {
-				jsonStr = JSON.parse(body);
-			} catch (err) {
-				jsonStr = null;
-			}
-			console.log(jsonStr);
-			//jsonStr ? res.send({"status":"success", "name": jsonStr.data.name, "age": jsonStr.data.age}) : res.send({"status":"error"});
-			res.jsonp({
-				error: 'Canvas success.'
-			});
+
+		nw.stderr.on('data', function(data) {
+			console.log('stderr: ' + data);
 		});
+
+		nw.on('exit', function(code) {
+			console.log('child process exited with code ' + code);
+            res.jsonp({
+                message: "screen shot sucess.",
+                fileurl: '/uploads/shot/'+uu_name+'.png',
+				error:'000'
+            });
+		});
+	} else {
+		var notFound = new Error('not found tempid.');
+		notFound.status = 404;
+		return next(notFound);
 	}
 });
 module.exports = router;

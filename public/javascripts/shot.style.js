@@ -1,15 +1,14 @@
 $(function() {
-    var imgname;
-    var imgwidth;
-    var imgheight;
-    //request for thumb image name.
-    var thumb;
-    //preview flag for firstly click preview button when choose a radio button.
-    var preflag = false;
-    $('.rec_sku li').hide();
-    $('#upbn').on("click", function() {
-        $('#fileinput').click();
-    });
+	var imgname;
+	var imgwidth;
+	var imgheight;
+	//request for thumb image name.
+	var thumb;
+	//preview flag for firstly click preview button when choose a radio button.
+	var preflag = false;
+	$('#upbn').on("click", function() {
+		$('#fileinput').click();
+	});
 
 	function upload(file, imguid) {
 		//console.info(file);
@@ -51,7 +50,7 @@ $(function() {
 			return function(e) {
 				$('#gallery-ch').append("<div class='thumbnail' style='position: relative;'>" +
 					"<img class='thumb-roll-image' id='" + imguid + "' src='" + e.target.result + "'>" +
-				"</div>");
+					"</div>");
 			};
 		})(img);
 		reader.readAsDataURL(file);
@@ -66,466 +65,420 @@ $(function() {
 		}
 	}, false);
 
-    $(':radio[name=setMain]').on("click", function() {
-        if ($(this).prop('checked')) {
-			if($(this).hasClass('shop-price') && $('#shop_price').parent().css('display')==='none'){
-				$('.rec_sku li').hide();
-				$('#shop_price').parent().fadeIn();
+	$(':radio[name=setMain]').on("click", function() {
+		if ($(this).prop('checked')) {
+			$('.li-dv').hide();
+			$('#'+$(this).attr('data-xr')).parent().css('display', 'table');
+		}
+	});
+
+	$('#submit').on("click", function() {
+		$(':radio[name=setMain]').each(function(index, element) {
+			if ($(this).prop('checked')) {
+				// location.href = '/shotcut/' + $(this).attr('data-xr');
+				$.ajax({
+				    url: '/nw', //Server script to process data
+				    type: 'POST',
+				    data: {
+				        tempid: '' + $(this).attr('data-xr'),
+				        xr_width: $('#'+$(this).attr('data-xr')).parent().width(),
+						xr_height: $('#'+$(this).attr('data-xr')).parent().height()
+				    },
+				    success: function(data) {
+				        alert(data.error+' '+ data.message + ' ' + data.fileurl);
+						window.open(data.fileurl);
+				        return false;
+				    }
+				});
 			}
-			else if($(this).hasClass('shop-gray') && $('#shop_gray').parent().css('display')==='none'){
-				$('.rec_sku li').hide();
-				$('#shop_gray').parent().fadeIn();
-			}
-			else if($(this).hasClass('shop-poster') && $('#shop_poster').parent().css('display')==='none'){
-				$('.rec_sku li').hide();
-				$('#shop_poster').parent().fadeIn();
-			}
-			else if($(this).hasClass('shop-unpack') && $('#shop_unpack').parent().css('display')==='none'){
-				$('.rec_sku li').hide();
-				$('#shop_unpack').parent().fadeIn();
-			}
-			else if($(this).hasClass('deal-wide') && $('#deal-wide').parent().css('display')==='none'){
-				$('.rec_sku li').hide();
-				$('#deal-wide').parent().fadeIn();
-			}
-			else if($(this).hasClass('hmm-collections') && $('#hmm-collections').parent().css('display')==='none'){
-				$('.rec_sku li').hide();
-				$('#hmm-collections').parent().fadeIn();
-			}
-        }
-    });
-
-
-    $('#submit').on("click", function() {
-        var flag = false;
-        $(':radio[name=setMain]').each(function(index, element) {
-            if ($(this).prop('checked')) {
-                flag = true;
-                if (preflag) {
-                    var html = $(this).parent().parent().next();
-                    //set has a radio button be choosed flag.
-
-                    //set width and height.
-                    var selector = '#' + html.prop('id');
-                    imgwidth = $(selector).width();
-                    imgheight = $(selector).height();
-                    $(selector).width(imgwidth);
-                    $(selector).height(imgheight);
-                    //$(selector).next().width(imgwidth);
-
-                    //console.log(imgwidth + ' ' + imgheight);
-                    //return false;
-                    if (thumb != null && thumb != '') {
-                        $.ajax({
-                            url: '/canvas', //Server script to process data
-                            type: 'POST',
-                            data: {
-                                data: '' + html[0].outerHTML,
-                                imgsrc: '' + thumb
-                            },
-                            success: function(data) {
-                                alert(data.error + ' ' + data.png);
-                                return false;
-                            }
-                        });
-                    } else {
-                        alert('Image name is must be input.');
-                        return false;
-                    }
-                } else {
-                    alert('Please preview,firstly.');
-                    return false;
-                }
-            }
-        });
-        if (!flag) {
-            alert('Please choose radio button.');
-        }
-    });
-    $('#price_default_wh').bind("click", function() {
-        //console.log($('#price_img').width() + ' ' + $('#price_img').height() + ' ' + $('#price_img').next().width());
-        if ($(this).prop("checked")) {
-            $('#price_custom_h').prop("disabled", "disabled");
-            $('#price_custom_w').prop("disabled", "disabled");
-            imgwidth = 180;
-            imgheight = 254;
-
-        } else {
-            $('#price_custom_h').removeAttr("disabled");
-            $('#price_custom_w').removeAttr("disabled");
-        }
-    });
-
-    $('#pre_price_bt').on("click", function() {
-        imgwidth = '';
-        imgheight = '';
-
-        $('#shop_price').css({
-            width: 'auto'
-        });
-        $('#shop_price').css({
-            height: 'auto'
-        });
-
-        $('#pre_price_bt').parent().find('input').each(function(index, element) {
-
-            if (index === 0) {
-                if ($(element).val() != '') {
-                    $('#price_title').text($(element).val());
-                } else {
-                    alert('The title must be input');
-                    return false;
-                }
-            }
-            if (index === 1) {
-                if ($(element).val() != '')
-                    $('#price_current_price').text('￥' + $(element).val());
-                else {
-                    alert('The current price must be input');
-                    return false;
-                }
-            }
-            if (index === 2) {
-                if ($(element).val() != '')
-                    $('#price_origin_price').text('￥' + $(element).val());
-                else {
-                    alert('The origin price must be input');
-                    return false;
-                }
-            }
-            if (index === 3) {
-                if ($(element).val() != '')
-                    $('#price_discount').text($(element).val() + '折');
-                else {
-                    alert('The discount must be input');
-                    return false;
-                }
-            }
-            if (index === 4) {
-                if ($(element).val() != '')
-                    imgname = $(element).val();
-                else {
-                    alert('The image name must be input');
-                    return false;
-                }
-            }
-            if (index === 5) {
-                if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-                    imgwidth = $(element).val();
-                else {
-                    alert('The image width must be input');
-                    return false;
-                }
-            }
-            if (index === 6) {
-                if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-                    imgheight = $(element).val();
-                else {
-                    alert('The image height must be input');
-                    return false;
-                }
-            }
-        });
-        getimg('price_img');
-    });
-
-    $('#pre_gray_bt').on("click", function() {
-        imgwidth = '';
-        imgheight = '';
-
-        $('#shop_gray').css({
-            width: 'auto'
-        });
-        $('#shop_gray').css({
-            height: 'auto'
-        });
-
-        $('#pre_gray_bt').parent().find('input').each(function(index, element) {
-
-            if (index === 0) {
-                if ($(element).val() != '') {
-                    $('#gray_title').text($(element).val());
-                } else {
-                    alert('The title must be input');
-                    return false;
-                }
-            }
-
-            if (index === 1) {
-                if ($(element).val() != '')
-                    imgname = $(element).val();
-                else {
-                    alert('The image name must be input');
-                    return false;
-                }
-            }
-            if (index === 2) {
-                if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-                    imgwidth = $(element).val();
-                else {
-                    alert('The image width must be input');
-                    return false;
-                }
-            }
-            if (index === 3) {
-                if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-                    imgheight = $(element).val();
-                else {
-                    alert('The image height must be input');
-                    return false;
-                }
-            }
-        });
-        getimg('gray_img');
-    });
-
-    $('#pre_poster_bt').on("click", function() {
-        imgwidth = '';
-        imgheight = '';
-
-        $('#shop_poster').css({
-            width: 'auto'
-        });
-        $('#shop_poster').css({
-            height: 'auto'
-        });
-
-        $('#pre_poster_bt').parent().find('input').each(function(index, element) {
-
-            if (index === 0) {
-                if ($(element).val() != '') {
-                    $('#poster_title').text($(element).val());
-                } else {
-                    alert('The title must be input');
-                    return false;
-                }
-            }
-            if (index === 1) {
-                if ($(element).val() != '')
-                    $('#poster_price').text('￥' + $(element).val());
-                else {
-                    alert('The price must be input');
-                    return false;
-                }
-            }
-            if (index === 2) {
-                if ($(element).val() != '')
-                    $('#poster_sale_num').text($(element).val());
-                else {
-                    alert('The sale num must be input');
-                    return false;
-                }
-            }
-            if (index === 3) {
-                if ($(element).val() != '')
-                    $('#poster_like_num').text($(element).val());
-                else {
-                    alert('The like num must be input');
-                    return false;
-                }
-            }
-            if (index === 4) {
-                if ($(element).val() != '')
-                    imgname = $(element).val();
-                else {
-                    alert('The image name must be input');
-                    return false;
-                }
-            }
-            if (index === 5) {
-                if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-                    imgwidth = $(element).val();
-                else {
-                    alert('The image width must be input');
-                    return false;
-                }
-            }
-            if (index === 6) {
-                if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-                    imgheight = $(element).val();
-                else {
-                    alert('The image height must be input');
-                    return false;
-                }
-            }
-        });
-        getimg('poster_img');
-
-    });
+		})
+	});
 	
-    $('#pre_unpack_bt').on("click", function() {
-        imgwidth = '';
-        imgheight = '';
+	$('#price_default_wh').bind("click", function() {
+		if ($(this).prop("checked")) {
+			$('#price_custom_h').prop("disabled", "disabled");
+			$('#price_custom_w').prop("disabled", "disabled");
+			imgwidth = 180;
+			imgheight = 254;
 
-        $('#shop_unpack').css({
-            width: 'auto'
-        });
-        $('#shop_unpack').css({
-            height: 'auto'
-        });
+		} else {
+			$('#price_custom_h').removeAttr("disabled");
+			$('#price_custom_w').removeAttr("disabled");
+		}
+	});
+
+	$('#pre_price_bt').on("click", function() {
+		imgwidth = '';
+		imgheight = '';
+
+		$('#shop_price').css({
+			width: 'auto'
+		});
+		$('#shop_price').css({
+			height: 'auto'
+		});
+
+		$('#pre_price_bt').parent().find('input').each(function(index, element) {
+
+			if (index === 0) {
+				if ($(element).val() != '') {
+					$('#price_title').text($(element).val());
+				} else {
+					alert('The title must be input');
+					return false;
+				}
+			}
+			if (index === 1) {
+				if ($(element).val() != '')
+					$('#price_current_price').text('￥' + $(element).val());
+				else {
+					alert('The current price must be input');
+					return false;
+				}
+			}
+			if (index === 2) {
+				if ($(element).val() != '')
+					$('#price_origin_price').text('￥' + $(element).val());
+				else {
+					alert('The origin price must be input');
+					return false;
+				}
+			}
+			if (index === 3) {
+				if ($(element).val() != '')
+					$('#price_discount').text($(element).val() + '折');
+				else {
+					alert('The discount must be input');
+					return false;
+				}
+			}
+			if (index === 4) {
+				if ($(element).val() != '')
+					imgname = $(element).val();
+				else {
+					alert('The image name must be input');
+					return false;
+				}
+			}
+			if (index === 5) {
+				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
+					imgwidth = $(element).val();
+				else {
+					alert('The image width must be input');
+					return false;
+				}
+			}
+			if (index === 6) {
+				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
+					imgheight = $(element).val();
+				else {
+					alert('The image height must be input');
+					return false;
+				}
+			}
+		});
+		getimg('price_img');
+	});
+
+	$('#pre_gray_bt').on("click", function() {
+		imgwidth = '';
+		imgheight = '';
+
+		$('#shop_gray').css({
+			width: 'auto'
+		});
+		$('#shop_gray').css({
+			height: 'auto'
+		});
+
+		$('#pre_gray_bt').parent().find('input').each(function(index, element) {
+
+			if (index === 0) {
+				if ($(element).val() != '') {
+					$('#gray_title').text($(element).val());
+				} else {
+					alert('The title must be input');
+					return false;
+				}
+			}
+
+			if (index === 1) {
+				if ($(element).val() != '')
+					imgname = $(element).val();
+				else {
+					alert('The image name must be input');
+					return false;
+				}
+			}
+			if (index === 2) {
+				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
+					imgwidth = $(element).val();
+				else {
+					alert('The image width must be input');
+					return false;
+				}
+			}
+			if (index === 3) {
+				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
+					imgheight = $(element).val();
+				else {
+					alert('The image height must be input');
+					return false;
+				}
+			}
+		});
+		getimg('gray_img');
+	});
+
+	$('#pre_poster_bt').on("click", function() {
+		imgwidth = '';
+		imgheight = '';
+
+		$('#shop_poster').css({
+			width: 'auto'
+		});
+		$('#shop_poster').css({
+			height: 'auto'
+		});
+
+		$('#pre_poster_bt').parent().find('input').each(function(index, element) {
+
+			if (index === 0) {
+				if ($(element).val() != '') {
+					$('#poster_title').text($(element).val());
+				} else {
+					alert('The title must be input');
+					return false;
+				}
+			}
+			if (index === 1) {
+				if ($(element).val() != '')
+					$('#poster_price').text('￥' + $(element).val());
+				else {
+					alert('The price must be input');
+					return false;
+				}
+			}
+			if (index === 2) {
+				if ($(element).val() != '')
+					$('#poster_sale_num').text($(element).val());
+				else {
+					alert('The sale num must be input');
+					return false;
+				}
+			}
+			if (index === 3) {
+				if ($(element).val() != '')
+					$('#poster_like_num').text($(element).val());
+				else {
+					alert('The like num must be input');
+					return false;
+				}
+			}
+			if (index === 4) {
+				if ($(element).val() != '')
+					imgname = $(element).val();
+				else {
+					alert('The image name must be input');
+					return false;
+				}
+			}
+			if (index === 5) {
+				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
+					imgwidth = $(element).val();
+				else {
+					alert('The image width must be input');
+					return false;
+				}
+			}
+			if (index === 6) {
+				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
+					imgheight = $(element).val();
+				else {
+					alert('The image height must be input');
+					return false;
+				}
+			}
+		});
+		getimg('poster_img');
+
+	});
+
+	$('#pre_unpack_bt').on("click", function() {
+		imgwidth = '';
+		imgheight = '';
+
+		$('#shop_unpack').css({
+			width: 'auto'
+		});
+		$('#shop_unpack').css({
+			height: 'auto'
+		});
 		var re_flag = true;
-        $('#pre_unpack_bt').parent().find('input').each(function(index, element) {
-			
-            if (index === 0) {
-                if ($(element).val() != '') {
-                    $('#unpack_discount').text($(element).val());
-                } else {
-					re_flag=false;
-                    alert('The unpack discount must be input');
-                    return false;
-                }
-            }
-            if (index === 1) {
-                if ($(element).val() != '')
-                    $('#unpack_price_origin').text('￥' + $(element).val());
-                else {
-					re_flag=false;
-                    alert('The original price must be input');
-                    return false;
-                }
-            }
-            if (index === 2) {
-                if ($(element).val() != '')
-                    $('#unpack_price_current').text('￥' +$(element).val());
-                else {
-					re_flag=false;
-                    alert('The current price num must be input');
-                    return false;
-                }
-            }
-            if (index === 3) {
-                if ($(element).val() != '')
-                    $('#unpack_price_unpack').text('￥' +$(element).val());
-                else {
-					re_flag=false;
-                    alert('The unpack price num must be input');
-                    return false;
-                }
-            }
-            if (index === 4) {
-                if ($(element).val() != '')
-                    $('#unpack_title').css({
-						width: $(element).val()+'%'
-        			});
-                else {
-					re_flag=false;
-                    alert('The unpack title width percent num must be input');
-                    return false;
-                }
-            }
-            if (index === 5) {
-                if ($(element).val() != '')
-                    $('#unpack_title').css({
-						left: $(element).val()+'%'
-        			});
-                else {
-					re_flag=false;
-                    alert('The unpack title left percent num must be input');
-                    return false;
-                }
-            }
-            if (index === 6) {
-                if ($(element).val() != '')
-                    imgname = $(element).val();
-                else {
-					re_flag=false;
-                    alert('The image name must be input');
-                    return false;
-                }
-            }
-            if (index === 7) {
-                if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-                    imgwidth = $(element).val();
-                else {
-					re_flag=false;
-                    alert('The image width must be input');
-                    return false;
-                }
-            }
-            if (index === 8) {
-                if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-                    imgheight = $(element).val();
-                else {
-					re_flag=false;
-                    alert('The image height must be input');
-                    return false;
-                }
-            }
-        });
-		if(re_flag){
+		$('#pre_unpack_bt').parent().find('input').each(function(index, element) {
+
+			if (index === 0) {
+				if ($(element).val() != '') {
+					$('#unpack_discount').text($(element).val());
+				} else {
+					re_flag = false;
+					alert('The unpack discount must be input');
+					return false;
+				}
+			}
+			if (index === 1) {
+				if ($(element).val() != '')
+					$('#unpack_price_origin').text('￥' + $(element).val());
+				else {
+					re_flag = false;
+					alert('The original price must be input');
+					return false;
+				}
+			}
+			if (index === 2) {
+				if ($(element).val() != '')
+					$('#unpack_price_current').text('￥' + $(element).val());
+				else {
+					re_flag = false;
+					alert('The current price num must be input');
+					return false;
+				}
+			}
+			if (index === 3) {
+				if ($(element).val() != '')
+					$('#unpack_price_unpack').text('￥' + $(element).val());
+				else {
+					re_flag = false;
+					alert('The unpack price num must be input');
+					return false;
+				}
+			}
+			if (index === 4) {
+				if ($(element).val() != '')
+					$('#unpack_title').css({
+						width: $(element).val() + '%'
+					});
+				else {
+					re_flag = false;
+					alert('The unpack title width percent num must be input');
+					return false;
+				}
+			}
+			if (index === 5) {
+				if ($(element).val() != '')
+					$('#unpack_title').css({
+						left: $(element).val() + '%'
+					});
+				else {
+					re_flag = false;
+					alert('The unpack title left percent num must be input');
+					return false;
+				}
+			}
+			if (index === 6) {
+				if ($(element).val() != '')
+					imgname = $(element).val();
+				else {
+					re_flag = false;
+					alert('The image name must be input');
+					return false;
+				}
+			}
+			if (index === 7) {
+				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
+					imgwidth = $(element).val();
+				else {
+					re_flag = false;
+					alert('The image width must be input');
+					return false;
+				}
+			}
+			if (index === 8) {
+				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
+					imgheight = $(element).val();
+				else {
+					re_flag = false;
+					alert('The image height must be input');
+					return false;
+				}
+			}
+		});
+		if (re_flag) {
 			background_img('unpack_img');
 		}
-    });
-    function background_img(id) {
-        if (imgwidth != null && imgname != null && imgheight != null) {
-            if (imgname.match(/^(.*)(\.)(.{1,8})$/) != null) {
-                thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + imgname.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
-                $('#' + id).empty();
-                $('#' + id).css({
-                    width: imgwidth+'px'
-                });
-                $('#' + id).css({
-                    height: imgheight+'px'
-                });
-                // 
-                //set preview flag.
-                $.ajax({
-                    url: '/thumb/' + thumb, //Server script to process data
-                    type: 'get',
-                    success: function(data) {
-                        alert(data.error);
-                        if (typeof data.thumb_url != 'undefined' && data.thumb_url != null) {
-                            // $('#' + id).append('<img src="' + data.thumb_url + '">');
-			                $('#' + id).css({
-			                    background: 'url('+ data.thumb_url+')'
-			                });
-                        }
-                    }
-                });
-                preflag = true;
-            } else {
-                alert('Image type is not matched.');
-                return;
-            }
-        } else {
-            alert('No refer to the image width and height.');
-            return;
-        }
-    }
-    function getimg(id) {
-        if (imgwidth != null && imgname != null && imgheight != null) {
-            if (imgname.match(/^(.*)(\.)(.{1,8})$/) != null) {
-                thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + imgname.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
-                $('#' + id).empty();
-                $('#' + id).css({
-                    width: 'auto'
-                });
-                $('#' + id).css({
-                    height: 'auto'
-                });
-                $('#' + id).next().css({
-                    width: '100%'
-                });
-                // 
-                //set preview flag.
-                $.ajax({
-                    url: '/thumb/' + thumb, //Server script to process data
-                    type: 'get',
-                    success: function(data) {
-                        alert(data.error);
-                        if (typeof data.thumb_url != 'undefined' && data.thumb_url != null) {
-                            $('#' + id).append('<img src="' + data.thumb_url + '">');
-                        }
-                    }
-                });
-                preflag = true;
-            } else {
-                alert('Image type is not matched.');
-                return;
-            }
-        } else {
-            alert('No refer to the image width and height.');
-            return;
-        }
-    }
+	});
+
+	function background_img(id) {
+		if (imgwidth != null && imgname != null && imgheight != null) {
+			if (imgname.match(/^(.*)(\.)(.{1,8})$/) != null) {
+				thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + imgname.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
+				$('#' + id).empty();
+				$('#' + id).css({
+					width: imgwidth + 'px'
+				});
+				$('#' + id).css({
+					height: imgheight + 'px'
+				});
+				// 
+				//set preview flag.
+				$.ajax({
+					url: '/thumb/' + thumb, //Server script to process data
+					type: 'get',
+					success: function(data) {
+						alert(data.error);
+						if (typeof data.thumb_url != 'undefined' && data.thumb_url != null) {
+							// $('#' + id).append('<img src="' + data.thumb_url + '">');
+							$('#' + id).css({
+								background: 'url(' + data.thumb_url + ')'
+							});
+						}
+					}
+				});
+				preflag = true;
+			} else {
+				alert('Image type is not matched.');
+				return;
+			}
+		} else {
+			alert('No refer to the image width and height.');
+			return;
+		}
+	}
+
+	function getimg(id) {
+		if (imgwidth != null && imgname != null && imgheight != null) {
+			if (imgname.match(/^(.*)(\.)(.{1,8})$/) != null) {
+				thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + imgname.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
+				$('#' + id).empty();
+				$('#' + id).css({
+					width: 'auto'
+				});
+				$('#' + id).css({
+					height: 'auto'
+				});
+				$('#' + id).next().css({
+					width: '100%'
+				});
+				// 
+				//set preview flag.
+				$.ajax({
+					url: '/thumb/' + thumb, //Server script to process data
+					type: 'get',
+					success: function(data) {
+						alert(data.error);
+						if (typeof data.thumb_url != 'undefined' && data.thumb_url != null) {
+							$('#' + id).append('<img src="' + data.thumb_url + '">');
+						}
+					}
+				});
+				preflag = true;
+			} else {
+				alert('Image type is not matched.');
+				return;
+			}
+		} else {
+			alert('No refer to the image width and height.');
+			return;
+		}
+	}
 });

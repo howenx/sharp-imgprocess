@@ -827,3 +827,61 @@ figure {
     font-style: normal;
     font-weight: normal;
 }
+/******************************优集品***********************************/
+.goods_list_img {
+    width: 100%;
+    text-align: center;
+    margin: 0px auto 0px auto;
+/*    box-shadow: 0 0 5px #ccc;*/
+/*    -moz-box-shadow: 0 0 5px #ccc;*/
+/*    -webkit-box-shadow: 0 0 5px #ccc;*/
+    overflow: hidden;
+}
+.goods_list_img .img {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+.goods_list_img  a {
+    color: #717171;
+    font-family: arial;
+    text-decoration: none;
+}
+.goods_list_img img {
+    vertical-align: top;
+    border: 0;
+}
+.goods_list_img .img span {
+    display: block;
+    color: #d0d0d0;
+    font-size: 12px;
+    padding: 2px 3px;
+    background: #000;
+    opacity: 0.5;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.goods_list_img .text {
+    height: 35px;
+    line-height: 35px;
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+    padding: 0 8px;
+    overflow: hidden;
+}
+.goods_list_img .text span {
+    color: #858585;
+    font-size: 12px;
+    float: right;
+}
+.goods_list_img .text span b {
+    color: #f76b42;
+    font-size: 14px;
+}
+/*******************************************/
+.li-dv{
+	display:none;
+	overflow: auto;
+}
