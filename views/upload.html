@@ -5,10 +5,13 @@
     <title>Preview images</title>
 	<link rel="stylesheet" href="/stylesheets/button.css">
 	<link rel="stylesheet" href="/stylesheets/upload.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 </head>
 <body>
 <h1><%= title %></h1>
 <a class="large orangellow button" style="margin-bottom:10px;position:relative;" id='upbn'>Upload</a>
+<label class="radio"><input type="radio" data-xf = 'minify'   name="select-minify">压缩图片</label>
+<label class="radio"><input type="radio" data-xf = 'unminify' name="select-minify">原图上传</label>
 <input style="display:none;" type="file" id="fileinput" name="displayImage" accept="image/gif, image/jpeg, image/webp, image/png" />
 <div id="gallery" style="display: table;border: 1px solid #ddd;"></div>
 <h3>压缩后图片</h3>
@@ -55,6 +58,7 @@
 
 <!--reference script region-->
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="/javascripts/upload.style.js"></script>
 </body>
 </html>

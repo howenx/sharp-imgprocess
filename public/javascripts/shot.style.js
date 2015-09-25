@@ -69,6 +69,9 @@ $(function() {
 		if ($(this).prop('checked')) {
 			$('.li-dv').hide();
 			$('#'+$(this).attr('data-xr')).parent().css('display', 'table');
+			if($(this).attr('data-xr') === 'shop_unpack'){
+				$('#'+$(this).attr('data-xr')).parent().css('display', 'block');
+			}
 		}
 	});
 

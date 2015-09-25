@@ -17,6 +17,7 @@
   $(function() {
 
   	$(document).on("click", "p.dragon-p", function() {
+		console.log('1');
   		//if the icon-circle-close exists,then remove it
   		if ($(this).parent().parent().next().has('div.icon-circle-close').length === 0) {
   			$(this).parent().parent().next().empty();
@@ -69,7 +70,7 @@
   					$('div.dragon-contained').draggable({
   						containment: "parent"
   					});
-  				} else if(rotate === '0' || rotate === '45'){
+  				} else if (rotate === '0' || rotate === '45') {
   					var ch_graph = ch_drag.parent().parent().parent().css({
   						'transform': 'rotate(' + rotate + 'deg)',
   						'-ms-transform': 'rotate(' + rotate + 'deg)',
@@ -81,7 +82,7 @@
   					$('div.dragon-contained').draggable({
   						containment: "parent"
   					});
-  				} else{
+  				} else {
   					alert('Please do not modify rotate degree.');
   				}
   			} else {
@@ -91,7 +92,19 @@
   	});
   	//thumb modules
   	$('#upbn').on("click", function() {
-  		$('#fileinput').click();
+  		var params = '';
+
+  		$(':radio[name=select-minify]').each(function(index, element) {
+  			if ($(this).prop('checked')) {
+  				params = $(this).attr('data-xf');
+  			}
+  		})
+  		if (params != '') {
+  			$('#fileinput').click();
+  		} else {
+  			alert('Please select minify radio.');
+  			return false;
+  		}
   	});
   	$('#submit').on("click", function() {
   		var imgname = $('#imgname').val();
@@ -135,24 +148,38 @@
   	});
 
   	function upload(thumb, file) {
-  		//console.info(file);
-  		var formdata = new FormData();
-  		formdata.append("displayImage", file);
-  		//console.info(formdata);
-  		$.ajax({
-  			url: '/upload', //Server script to process data
-  			type: 'POST',
-  			data: formdata,
-  			processData: false,
-  			contentType: false,
-  			success: function(data) {
-  				// console.log(data);
-  				alert(data.error);
-  				if (typeof data.compress != 'undefined' && data.compress != null) {
-  					$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;">第' + ($('#gallery').children().length) + '张图片名称：<b>' + data.imgid + '</b><br><b>压缩前大小:' + data.compress.before + ' 压缩后大小:' + data.compress.after + ' 用时:' + data.compress.time + ' 压缩率:' + data.compress.rate + '</b></span>');
-  				}
+  		var params = '';
+  		$(':radio[name=select-minify]').each(function(index, element) {
+  			if ($(this).prop('checked')) {
+  				params = $(this).attr('data-xf');
   			}
-  		});
+  		})
+  		if (params != '' && file != null) {
+  			var formdata = new FormData();
+  			formdata.append("displayImage", file);
+  			formdata.append("params", params);
+  			//console.info(formdata);
+  			$.ajax({
+  				url: '/upload', //Server script to process data
+  				type: 'POST',
+  				data: formdata,
+  				processData: false,
+  				contentType: false,
+  				success: function(data) {
+  					// console.log(data);
+  					alert(data.error);
+  					if (typeof data.compress != 'undefined' && data.compress != null) {
+  						$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;">第' + ($('#gallery').children().length) + '张图片名称：<b>' + data.imgid + '</b><br><b>压缩前大小:' + data.compress.before + ' 压缩后大小:' + data.compress.after + ' 用时:' + data.compress.time + ' 压缩率:' + data.compress.rate + '</b></span>');
+  					}
+  					$(':radio[name=select-minify]').each(function(index, element) {
+  						$(this).prop('checked', false);
+  					})
+  				}
+  			});
+  		} else {
+  			alert('Please select minify radio.');
+  			return false;
+  		}
   	}
 
 

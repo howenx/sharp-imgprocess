@@ -155,3 +155,18 @@ li b{
     top: 1.8px;
     position: relative;
 }
+.radio {
+	position: relative;
+	display: inline-block;
+	/* margin-bottom: 10px; */
+	margin-right: 10px;
+	cursor: pointer;
+	color: #3367cc;
+	font-size: smaller;
+}
+.icon-circle-close {
+    background: url(/images/close-icon.png) no-repeat;
+    background-size: contain;
+    width: 30.72px;
+    height: 30.72px;
+}
