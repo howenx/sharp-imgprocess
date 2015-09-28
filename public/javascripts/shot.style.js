@@ -68,35 +68,44 @@ $(function() {
 	$(':radio[name=setMain]').on("click", function() {
 		if ($(this).prop('checked')) {
 			$('.li-dv').hide();
-			$('#'+$(this).attr('data-xr')).parent().css('display', 'table');
-			if($(this).attr('data-xr') === 'shop_unpack'){
-				$('#'+$(this).attr('data-xr')).parent().css('display', 'block');
+			$('#' + $(this).attr('data-xr')).parent().css('display', 'table');
+			if ($(this).attr('data-xr') === 'shop_unpack') {
+				$('#' + $(this).attr('data-xr')).parent().css('display', 'block');
 			}
 		}
 	});
 
-	$('#submit').on("click", function() {
-		$(':radio[name=setMain]').each(function(index, element) {
-			if ($(this).prop('checked')) {
-				// location.href = '/shotcut/' + $(this).attr('data-xr');
-				$.ajax({
-				    url: '/nw', //Server script to process data
-				    type: 'POST',
-				    data: {
-				        tempid: '' + $(this).attr('data-xr'),
-				        xr_width: $('#'+$(this).attr('data-xr')).parent().width(),
-						xr_height: $('#'+$(this).attr('data-xr')).parent().height()
-				    },
-				    success: function(data) {
-				        alert(data.error+' '+ data.message + ' ' + data.fileurl);
-						window.open(data.fileurl);
-				        return false;
-				    }
-				});
-			}
-		})
+	$(document).ajaxStart(function() {
+		$('#mask').show();
 	});
-	
+	$(document).ajaxStop(function() {
+		$('#mask').hide();
+	});
+
+	$('#submit').on("click", function() {
+		$check = $('input[name=setMain]:checked');
+		if ($check.length === 1) {
+			$.ajax({
+				url: '/nw', //Server script to process data
+				type: 'POST',
+				data: {
+					tempid: '' + $check.attr('data-xr'),
+					xr_width: $('#' + $check.attr('data-xr')).parent().width(),
+					xr_height: $('#' + $check.attr('data-xr')).parent().height()
+				},
+				success: function(data) {
+					$('#mask').hide();
+					alert(data.error + ' ' + data.message + ' ' + data.fileurl);
+					$check.prop('checked', false);
+					window.open(data.fileurl);
+					return false;
+				}
+			})
+		} else {
+			alert('Please check the templates.');
+		}
+	});
+
 	$('#price_default_wh').bind("click", function() {
 		if ($(this).prop("checked")) {
 			$('#price_custom_h').prop("disabled", "disabled");
