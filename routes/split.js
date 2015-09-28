@@ -5,11 +5,11 @@ var cheerio = require('cheerio');
 
 
 /* split results display page. */
-router.get('/split/:id',function(req, res) {
+router.get('/splithtml/:id',function(req, res) {
 	res.render("splithtml/"+req.params.id);
 });
 /* split image for 3 pices. */
-router.route('/split/:id').get(function(req, res, next) {
+router.get('/split/:id',function(req, res, next) {
 
     file = req.params.id;
     try {
@@ -38,7 +38,7 @@ router.route('/split/:id').get(function(req, res, next) {
                                     gm_height = data.size.height;
                                     for (var i = 0; i < 3; i++) {
                                         var crop_path = process.cwd() + "/uploads/split/" + file + '_split_' + i + '.' + gm_format;
-                                        var crop_nm = file + '_crop_' + i + '.' + gm_format;
+                                        var crop_nm = file + '_split_' + i + '.' + gm_format;
                                         gm(path)
                                             .crop(gm_width, gm_height / 3, 0, (gm_height / 3) * i)
                                             .quality(100)

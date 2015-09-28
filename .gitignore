@@ -3,6 +3,9 @@ uploads/fullsize/
 uploads/minify/
 uploads/thumb/
 uploads/crop/
+uploads/split/
+views/splithtml/
+!/views/splithtml/split_temp.html
 **/.DS_Store
 **/*.log
 *.log

@@ -23,122 +23,134 @@ router.post('/upload', function(req, res, next) {
 	/** minify:'minify',unminify:'unminify' **/
 	var minify_flag = req.body.params;
 	try {
-		//check the post file type (jpeg,gif,webp,png).
-		if (mimetype === 'image/png' || mimetype === 'image/jpeg' || mimetype === 'image/gif' || mimetype === 'image/webp') {
-			fs.readFile(req.files.displayImage.path, function(err, data) {
-				if (!req.files.displayImage.name) {
-					console.log(colors.magenta("The image file transfer has an error."));
-					res.jsonp({
-						error: 'The image file transfer has an error.'
-					});
-				} else {
+		if(minify_flag!='undefined' && req.body.params){
+			//check the post file type (jpeg,gif,webp,png).
+			if (mimetype === 'image/png' || mimetype === 'image/jpeg' || mimetype === 'image/gif' || mimetype === 'image/webp') {
+				fs.readFile(req.files.displayImage.path, function(err, data) {
+					if (!req.files.displayImage.name) {
+						console.log(colors.magenta("The image file transfer has an error."));
+						res.jsonp({
+							error: 444,
+							message:'The image file transfer has an error.'
+						});
+					} else {
 
-					var fullPath = process.cwd() + "/uploads/fullsize/" + imageName;
-					var minifyPath = process.cwd() + "/uploads/minify/" + imageName;
-					/// write file to uploads/fullsize folder
-					fs.writeFile(fullPath, data, function(err) {
-						if (err) {
-							console.log(colors.magenta("Write fullsize image found an error."));
-							res.jsonp({
-								error: 'Write fullsize image found an error.'
-							});
-						} else {
-							console.log(colors.grey('Write fullsize image success.'));
-							if (mimetype === 'image/png' || mimetype === 'image/jpeg') {
-								//when image size more than 1M,Compress it. or copy it to minify.
-								if (imageSize >= 1048576 && minify_flag === 'minify') {
-									//If the image type is png or jpeg, minify it.
-									process.nextTick(function() {
-										my.minify(process.cwd() + "/uploads/fullsize/", imageName, process.cwd() + "/uploads/minify", imageName, function(compress) {
-											res.jsonp({
-												error: 'Image Uploaded.',
-												imgid: imageName,
-												compress: compress,
-												minify_url: url + '/uploads/minify/' + imageName
+						var fullPath = process.cwd() + "/uploads/fullsize/" + imageName;
+						var minifyPath = process.cwd() + "/uploads/minify/" + imageName;
+						/// write file to uploads/fullsize folder
+						fs.writeFile(fullPath, data, function(err) {
+							if (err) {
+								console.log(colors.magenta("Write fullsize image found an error."));
+								res.jsonp({
+									error: 445,
+									message:'Write fullsize image found an error.'
+								});
+							} else {
+								console.log(colors.grey('Write fullsize image success.'));
+								if (mimetype === 'image/png' || mimetype === 'image/jpeg') {
+									//when image size more than 1M,Compress it. or copy it to minify.
+									if (imageSize >= 1048576 && minify_flag === 'minify') {
+										//If the image type is png or jpeg, minify it.
+										process.nextTick(function() {
+											my.minify(process.cwd() + "/uploads/fullsize/", imageName, process.cwd() + "/uploads/minify", imageName, function(compress) {
+												res.jsonp({
+													error: 'Image Uploaded.',
+													imgid: imageName,
+													compress: compress,
+													minify_url: url + '/uploads/minify/' + imageName
+												});
 											});
 										});
-									});
-								} else if (imageSize < 1048576 && minify_flag === 'minify') {
-									//less than 1M copy it to minify directory.
-									fs.writeFile(minifyPath, data, function(err) {
-										if (err) {
-											console.log(colors.magenta("Copy minify image found an error."));
-											res.jsonp({
-												error: 'Copy minify image found an error.'
-											});
-										} else {
+									} else if (imageSize < 1048576 && minify_flag === 'minify') {
+										//less than 1M copy it to minify directory.
+										fs.writeFile(minifyPath, data, function(err) {
+											if (err) {
+												console.log(colors.magenta("Copy minify image found an error."));
+												res.jsonp({
+													error: 'Copy minify image found an error.'
+												});
+											} else {
 
-											console.log(colors.grey('Copy minify image success.'));
-											var compress = {
-												error: 'ok',
-												before: (imageSize / 1048576).toFixed(2) + "M",
-												after: (imageSize / 1048576).toFixed(2) + "M",
-												rate: '0%',
-												time: '0mm0ss'
-											};
-											res.jsonp({
-												error: "Image Uploaded, But it's size less than 1M and no compression.",
-												imgid: imageName,
-												compress: compress,
-												minify_url: url + '/uploads/minify/' + imageName
-											});
-										}
-									});
-								} else if (minify_flag == 'unminify') {
-									//less than 1M copy it to minify directory.
-									fs.writeFile(minifyPath, data, function(err) {
-										if (err) {
-											console.log(colors.magenta("Unminify upload images found an error."));
-											res.jsonp({
-												error: 'Unminify upload images found an error.'
-											});
-										} else {
+												console.log(colors.grey("Image Uploaded, But it's size less than 1M and no compression."));
+												var compress = {
+													error: 'ok',
+													before: (imageSize / 1048576).toFixed(2) + "M",
+													after: (imageSize / 1048576).toFixed(2) + "M",
+													rate: '0%',
+													time: '0mm0ss'
+												};
+												res.jsonp({
+													error: "Image Uploaded, But it's size less than 1M and no compression.",
+													imgid: imageName,
+													compress: compress,
+													minify_url: url + '/uploads/minify/' + imageName
+												});
+											}
+										});
+									} else if (minify_flag == 'unminify') {
+										//less than 1M copy it to minify directory.
+										fs.writeFile(minifyPath, data, function(err) {
+											if (err) {
+												console.log(colors.magenta("Unminify upload images found an error."));
+												res.jsonp({
+													error: 'Unminify upload images found an error.'
+												});
+											} else {
 
-											console.log(colors.grey('Unminify upload images success.'));
-											var compress = {
-												error: 'ok',
-												before: (imageSize / 1048576).toFixed(2) + "M",
-												after: (imageSize / 1048576).toFixed(2) + "M",
-												rate: '0%',
-												time: '0mm0ss'
-											};
-											res.jsonp({
-												error: "Unminify upload images success.",
-												imgid: imageName,
-												compress: compress,
-												minify_url: url + '/uploads/fullsize/' + imageName
-											});
-										}
+												console.log(colors.grey('Unminify upload images success.'));
+												var compress = {
+													error: 'ok',
+													before: (imageSize / 1048576).toFixed(2) + "M",
+													after: (imageSize / 1048576).toFixed(2) + "M",
+													rate: '0%',
+													time: '0mm0ss'
+												};
+												res.jsonp({
+													error: "Unminify upload images success.",
+													imgid: imageName,
+													compress: compress,
+													minify_url: url + '/uploads/fullsize/' + imageName
+												});
+											}
+										});
+									}
+
+								}
+								//file mismatch return fullsize url
+								else {
+									console.log("Image Uploaded, But No Compression.The image type can't be compressed.");
+									var compress = {
+										error: 'ok',
+										before: (imageSize / 1048576).toFixed(2) + "M",
+										after: (imageSize / 1048576).toFixed(2) + "M",
+										rate: '0%',
+										time: '0mm0ss'
+									};
+									res.jsonp({
+										error: "Image Uploaded, But the image type can't be compressed.",
+										imgid: imageName,
+										compress: compress,
+										minify_url: url + '/uploads/fullsize/' + imageName
 									});
 								}
-
 							}
-							//file mismatch return fullsize url
-							else {
-								console.log("Image Uploaded, But No Compression.The image type can't be compressed.");
-								var compress = {
-									error: 'ok',
-									before: (imageSize / 1048576).toFixed(2) + "M",
-									after: (imageSize / 1048576).toFixed(2) + "M",
-									rate: '0%',
-									time: '0mm0ss'
-								};
-								res.jsonp({
-									error: "Image Uploaded, But the image type can't be compressed.",
-									imgid: imageName,
-									compress: compress,
-									minify_url: url + '/uploads/fullsize/' + imageName
-								});
-							}
-						}
-					});
-				}
-			});
-		} else {
+						});
+					}
+				});
+			} else {
+				console.log("Image type mismatch.");
+				res.jsonp({
+					error: 'Image type mismatch.'
+				});
+			}
+		}
+		else {
+			console.log("No minify flag parameter.");
 			res.jsonp({
-				error: 'Image type mismatch.'
+				error: 'No minify flag parameter.'
 			});
 		}
+		
 	} catch (e) {
 		next(e);
 	}
@@ -220,24 +232,34 @@ router.get('/thumb/:id', function(req, res, next) {
 router.get(['/uploads/shot/:image', '/uploads/minify/:image', '/uploads/split/:image', '/uploads/fullsize/:image', '/uploads/thumb/:image'], function(req, res, next) {
 	try {
 		var file = req.params.image;
+		var file_match = file.match(/[^\/]+(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/g);
 		//check param image.
-		if (file.match(/[^\/]+(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/g) != null && typeof file.match(/[^\/]+(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/g) != 'undefined') {
+		if (file_match != null && typeof file_match != 'undefined') {
 			//grab the request path.
-			if (req.path.match(/\/shot|fullsize|crop|minify|thumb\//) != null && typeof req.path.match(/\/shot|fullsize|crop|minify|thumb\//) != 'undefined') {
-				var reqpath = req.path.match(/\/shot|fullsize|crop|minify|thumb\//).toString().replace(/\//, '');
+			var match  = req.path.match(/\/split|shot|fullsize|crop|minify|thumb\//);
+			if (match!= null && typeof match!= 'undefined') {
+				var reqpath = match.toString().replace(/\//, '');
 				var localpath = process.cwd() + '/uploads/' + reqpath + '/' + file;
 				//check the loacl file exist.
 				fs.lstat(localpath, function(err, stats) {
 					//if not exist,404.
 					if (err) {
+						console.log(colors.red('the request file not found.'));
 						next();
 					} else {
 						res.sendFile(localpath);
 					}
 				});
-			} else next();
-		} else next();
+			} else {
+				console.log(colors.red('Not match the request path.'));
+				next();
+			}
+		} else {
+			console.log(colors.red('File type not match.'));
+			next();
+		}
 	} catch (e) {
+		console.log(colors.red('catch exception:'+e));
 		next(e);
 	}
 });
