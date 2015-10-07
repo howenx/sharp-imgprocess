@@ -18,15 +18,7 @@ var upload = require('./routes/upload');
 var split = require('./routes/split');
 var screenshot = require('./routes/screenshot');
 
-/************* set port *******************/
-app.set('port', process.env.PORT || 3002);
-
-var server = app.listen(app.get('port'), function() {
-  console.log('Express server listening on ' + ip.address()+':'+server.address().port);
-});
-
 /****** Global variable ************/
-url = 'http://'+ip.address()+':'+server.address().port;
 path = require('path');
 colors = require('colors');
 fs = require("fs");
@@ -51,8 +43,8 @@ app.set("view options", {
     layout: false
 });
 app.set('views', path.join(__dirname, 'views'));
-app.settings.env === 'dev';
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(methodOverride());
 
 /***** Log area *****/
 morgan.token('date', function gedate(req) {
@@ -111,5 +103,12 @@ app.use(function(err, req, res, next) {
         console.error(colors.error(err.stack));
     }
 });
+/************* set port *******************/
+app.set('port', process.env.PORT || 3002);
+
+var server = app.listen(app.get('port'), function() {
+  console.log('Express server listening on ' + ip.address()+':'+server.address().port);
+});
+url = 'http://'+ip.address()+':'+server.address().port;
 // console.log(colors.red(JSON.stringify(server.address())));
-module.exports = app;
+// module.exports = app;
