@@ -44,9 +44,9 @@ router.post('/nw', function(req, res) {
 		nw.on('exit', function(code) {
 			console.log('child process exited with code ' + code);
             res.jsonp({
-                message: "screen shot sucess.",
-                fileurl: '/uploads/shot/'+uu_name+'.png',
-				error:'000'
+                error:'000',
+                message: "ok.",
+                shot_url: url+'/uploads/shot/'+uu_name+'.png'
             });
 		});
 	} else {

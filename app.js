@@ -7,14 +7,26 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var dateformat = require('console-stamp/node_modules/dateformat');
 var multer = require('multer');
+var ip = require('ip');
+var app = express();
+var methodOverride = require('method-override');
+var session = require('express-session');
+var errorHandler = require('errorhandler');
 
 /********** modules config *************/
-var app = express();
 var upload = require('./routes/upload');
 var split = require('./routes/split');
 var screenshot = require('./routes/screenshot');
+
+/************* set port *******************/
+app.set('port', process.env.PORT || 3002);
+
+var server = app.listen(app.get('port'), function() {
+  console.log('Express server listening on ' + ip.address()+':'+server.address().port);
+});
+
 /****** Global variable ************/
-url = 'http://172.28.3.51:3002';
+url = 'http://'+ip.address()+':'+server.address().port;
 path = require('path');
 colors = require('colors');
 fs = require("fs");
@@ -73,9 +85,6 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
-
-// development error handler
-// will print stacktrace
 app.use(function(err, req, res, next) {
 	console.log(colors.blue(err.message));
 	if(err.status !== 404) {
@@ -102,9 +111,5 @@ app.use(function(err, req, res, next) {
         console.error(colors.error(err.stack));
     }
 });
-
-
-/************* set port *******************/
-app.set('port', process.env.PORT || 3002);
-
+// console.log(colors.red(JSON.stringify(server.address())));
 module.exports = app;
