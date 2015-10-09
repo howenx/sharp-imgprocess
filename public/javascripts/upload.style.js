@@ -156,18 +156,21 @@
   		})
   		if (params != '' && file != null) {
   			var formdata = new FormData();
-  			formdata.append("displayImage", file);
+  			formdata.append("photo", file);
   			formdata.append("params", params);
   			//console.info(formdata);
   			$.ajax({
   				url: '/upload', //Server script to process data
   				type: 'POST',
   				data: formdata,
-  				processData: false,
-  				contentType: false,
+            	// mimeType:"multipart/form-data",
+            	contentType: false,
+            	// cache: false,
+            	processData:false,
+				dataType: "jsonp",
   				success: function(data) {
-  					console.log(data);
-  					alert(data.error);
+  					console.log(data.message);
+  					alert(data.message);
   					if (typeof data.compress != 'undefined' && data.compress != null) {
   						$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;">第' + ($('#gallery').children().length) + '张图片名称：<b>' + data.imgid + '</b><br><b>压缩前大小:' + data.compress.before + ' 压缩后大小:' + data.compress.after + ' 用时:' + data.compress.time + ' 压缩率:' + data.compress.rate + '</b></span>');
   					}
