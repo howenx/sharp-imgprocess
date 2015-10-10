@@ -18,6 +18,8 @@ var split = require('./routes/split');
 var screenshot = require('./routes/screenshot');
 
 /****** Global variable ************/
+https = require('https');
+http = require('http');
 dateformat = require('console-stamp/node_modules/dateformat');
 path = require('path');
 colors = require('colors');
@@ -35,7 +37,7 @@ colors.setTheme({
     debug: 'blue',
     error: 'red'
 });
-
+app.set('port', process.env.PORT || 3008);
 /*** view engine setup ****/
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
@@ -101,11 +103,8 @@ app.use(function(err, req, res, next) {
     }
 });
 /************* set port *******************/
-app.set('port', process.env.PORT || 3008);
-
-// var server = app.listen(app.get('port'), function() {
-  console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+colors.gray('\tNodejs server listening on ' + colors.magenta(ip.address()+':'+process.env.PORT)));
-  console.log(colors.cyan('\n····························Server Started····························\n'));
-// });
-url = 'http://'+ip.address()+':'+process.env.PORT;
-module.exports = app;
+var server = app.listen(app.get('port'), function() {
+  console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+colors.gray('\tNodejs server listening on ') + colors.magenta(ip.address()+':'+server.address().port));
+  console.log(colors.cyan('\n····························style-imgprocess server started····························\n'));
+});
+url = 'http://'+ip.address()+':'+server.address().port;
