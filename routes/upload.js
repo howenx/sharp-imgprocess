@@ -17,7 +17,7 @@ var storage = multer.diskStorage({
 	},
 	filename: function(req, file, cb) {
 		var getFileExt = function(fileName) {
-			var fileExt ="";
+			var fileExt = "";
 			if (fileName.match(/(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/) != null && fileName.match(/(.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/) != 'undefined') {
 				fileExt = fileName.match(/(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/g).toString().replace(/\./gi, '').toLowerCase();
 			}
@@ -54,7 +54,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 			if (mimetype === 'image/png' || mimetype === 'image/jpeg' || mimetype === 'image/gif' || mimetype === 'image/webp') {
 				fs.readFile(path, function(err, data) {
 					if (!imageName) {
-						console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("The image file transfer has an error."));
+						console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("The image file transfer has an error."));
 						res.jsonp({
 							error: '444',
 							message: 'The image file transfer has an error.'
@@ -80,14 +80,14 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 								//less than 1M copy it to minify directory.
 								fs.writeFile(minifyPath, data, function(err) {
 									if (err) {
-										console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("Copy minify image found an error."));
+										console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Copy minify image found an error."));
 										res.jsonp({
 											error: '445',
 											message: 'Copy minify image found an error.'
 										});
 									} else {
 
-										console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("Image Uploaded, But it's size less than 1M and no compression."));
+										console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Image Uploaded, But it's size less than 1M and no compression."));
 										var compress = {
 											error: 'ok',
 											before: (imageSize / 1048576).toFixed(2) + "M",
@@ -108,14 +108,14 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 								//unminify copy to minify directory.
 								fs.writeFile(minifyPath, data, function(err) {
 									if (err) {
-										console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("Unminify upload images found an error."));
+										console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Unminify upload images found an error."));
 										res.jsonp({
 											error: '445',
 											message: 'Unminify upload images found an error.'
 										});
 									} else {
 
-										console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray('Unminify upload images success.'));
+										console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray('Unminify upload images success.'));
 										var compress = {
 											error: 'ok',
 											before: (imageSize / 1048576).toFixed(2) + "M",
@@ -134,7 +134,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 								});
 							}
 						} else {
-							console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("Image Uploaded, But No Compression.The image type can't be compressed."));
+							console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Image Uploaded, But No Compression.The image type can't be compressed."));
 							var compress = {
 								error: 'ok',
 								before: (imageSize / 1048576).toFixed(2) + "M",
@@ -153,14 +153,14 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 					}
 				});
 			} else {
-				console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("Image type mismatch."));
+				console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Image type mismatch."));
 				res.jsonp({
 					error: '445',
 					message: 'Image type mismatch.'
 				});
 			}
 		} else {
-			console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("No minify flag parameter."));
+			console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("No minify flag parameter."));
 			res.jsonp({
 				error: '445',
 				message: 'No minify flag parameter.'
@@ -201,16 +201,20 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 								if (err) {
 									fs.lstat(process.cwd() + "/uploads/minify/" + file_nm, function(err, stats) {
 										if (err) {
-											console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("Please minify the image firstly."));
-											if (match != null && typeof match != 'undefined') {
-												res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
-											} else {
-												res.jsonp({
-													error: '445',
-													message: 'Please minify the image firstly.',
-													thumb_url: url + '/uploads/fullsize/' + file_nm
-												});
-											}
+											console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Please minify the image firstly."));
+											fs.lstat(process.cwd() + "/uploads/fullsize/" + file_nm, function(err, stats) {
+												if (!err) {
+													if (match != null && typeof match != 'undefined') {
+														res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
+													} else {
+														res.jsonp({
+															error: '445',
+															message: 'Please minify the image firstly.',
+															thumb_url: url + '/uploads/fullsize/' + file_nm
+														});
+													}
+												} else next();
+											})
 										} else {
 											//resize the image with the width and the height.
 											gm(process.cwd() + "/uploads/minify/" + file_nm)
@@ -256,7 +260,7 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 								}
 							});
 						} else {
-							console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("The original file can't be thumb because of the type."));
+							console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("The original file can't be thumb because of the type."));
 							if (match != null && typeof match != 'undefined') {
 								res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 							} else {
@@ -268,7 +272,7 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 							}
 						}
 					} else {
-						console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("The original image type not match the require."));
+						console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("The original image type not match the require."));
 						if (match != null && typeof match != 'undefined') {
 							res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 						} else {
@@ -279,7 +283,7 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 						}
 					}
 				} else {
-					console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("The thumbnail namme not match the require."));
+					console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("The thumbnail namme not match the require."));
 					if (match != null && typeof match != 'undefined') {
 						res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 					} else {
@@ -290,7 +294,7 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 					}
 				}
 			} else {
-				console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("Please assign the width and height."));
+				console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Please assign the width and height."));
 				if (match != null && typeof match != 'undefined') {
 					res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 				} else {
@@ -301,7 +305,7 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 				}
 			}
 		} else {
-			console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("Thumb image type mismatch."));
+			console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Thumb image type mismatch."));
 			if (match != null && typeof match != 'undefined') {
 				res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 			} else {
@@ -318,7 +322,7 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 
 /* get File listing. */
 router.get(['/uploads/shot/:image', '/uploads/minify/:image', '/uploads/split/:image', '/uploads/fullsize/:image', '/uploads/thumb/:image'], function(req, res, next) {
-	res.setHeader('Access-Control-Allow-Origin', '*');  //设置跨域访问 
+	res.setHeader('Access-Control-Allow-Origin', '*'); //设置跨域访问 
 	try {
 		var file = req.params.image;
 		var file_match = file.match(/[^\/]+(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/g);
@@ -333,22 +337,22 @@ router.get(['/uploads/shot/:image', '/uploads/minify/:image', '/uploads/split/:i
 				fs.lstat(localpath, function(err, stats) {
 					//if not exist,404.
 					if (err) {
-						console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray('the request file not found.'));
+						console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray('the request file not found.'));
 						next();
 					} else {
 						res.sendFile(localpath);
 					}
 				});
 			} else {
-				console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray('Not match the request path.'));
+				console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray('Not match the request path.'));
 				next();
 			}
 		} else {
-			console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray('File type not match.'));
+			console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray('File type not match.'));
 			next();
 		}
 	} catch (e) {
-		console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray('catch exception:' + e));
+		console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray('catch exception:' + e));
 		next(e);
 	}
 });

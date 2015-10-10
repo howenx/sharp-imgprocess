@@ -116,7 +116,7 @@
   				var type = imgname.match(/(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/g).toString().replace(/\./gi, '').toLowerCase();
   				thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + type;
   				$.ajax({
-  					url: '/thumb/' + thumb, //Server script to process data
+  					url: 'http://172.28.3.18:3008/thumb/' + thumb, //Server script to process data
   					type: 'get',
   					success: function(data) {
   						alert(data.error);
@@ -180,7 +180,7 @@
   			//   				}
   			//   			});
   			var http = new XMLHttpRequest();
-  			var url = "/upload";
+  			var url = "http://172.28.3.18:3008/upload";
   			http.open("POST", url, true);
   			http.onreadystatechange = function() {
   				if (http.readyState == 4 && http.status == 200) {
