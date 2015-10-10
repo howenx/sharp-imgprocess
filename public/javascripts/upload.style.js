@@ -160,7 +160,7 @@
   			formdata.append("params", params);
   			//console.info(formdata);
   			$.ajax({
-  				url: 'http://172.28.3.18:3008/upload', //Server script to process data
+  				url: '/upload', //Server script to process data
   				type: 'POST',
   				data: formdata,
             	// mimeType:"multipart/form-data",
