@@ -39,7 +39,7 @@ router.get('/', function(req, res, next) {
 
 /* Post Upload File listing. */
 router.post('/upload', upload.single('photo'), function(req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");   //设置跨域访问 
+	res.setHeader('Access-Control-Allow-Origin', '*');
 	var mimetype = req.file.mimetype;
 	var imageName = req.file.filename;
 	var imageSize = req.file.size;
@@ -318,7 +318,7 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 
 /* get File listing. */
 router.get(['/uploads/shot/:image', '/uploads/minify/:image', '/uploads/split/:image', '/uploads/fullsize/:image', '/uploads/thumb/:image'], function(req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");   //设置跨域访问 
+	res.header("Access-Control-Allow-Origin", "");   //设置跨域访问 
 	try {
 		var file = req.params.image;
 		var file_match = file.match(/[^\/]+(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/g);
