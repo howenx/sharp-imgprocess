@@ -17,7 +17,7 @@
   $(function() {
 
   	$(document).on("click", "p.dragon-p", function() {
-		console.log('1');
+  		console.log('1');
   		//if the icon-circle-close exists,then remove it
   		if ($(this).parent().parent().next().has('div.icon-circle-close').length === 0) {
   			$(this).parent().parent().next().empty();
@@ -159,17 +159,32 @@
   			formdata.append("photo", file);
   			formdata.append("params", params);
   			//console.info(formdata);
-  			$.ajax({
-  				url: '/upload', //Server script to process data
-  				type: 'POST',
-  				data: formdata,
-            	// mimeType:"multipart/form-data",
-            	contentType: false,
-            	// cache: false,
-            	processData:false,
-				dataType: "jsonp",
-  				success: function(data) {
-  					console.log(data.message);
+  			// $.ajax({
+  			//   				url: 'http://172.28.3.18:3008/upload', //Server script to process data
+  			//   				type: 'POST',
+  			//   				data: formdata,
+  			//             	// mimeType:"multipart/form-data",
+  			//             	contentType: false,
+  			//             	// cache: false,
+  			//             	processData:false,
+  			// 				dataType: "jsonp",
+  			//   				success: function(data) {
+  			//   					console.log(data.message);
+  			//   					alert(data.message);
+  			//   					if (typeof data.compress != 'undefined' && data.compress != null) {
+  			//   						$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;">第' + ($('#gallery').children().length) + '张图片名称：<b>' + data.imgid + '</b><br><b>压缩前大小:' + data.compress.before + ' 压缩后大小:' + data.compress.after + ' 用时:' + data.compress.time + ' 压缩率:' + data.compress.rate + '</b></span>');
+  			//   					}
+  			//   					$(':radio[name=select-minify]').each(function(index, element) {
+  			//   						$(this).prop('checked', false);
+  			//   					})
+  			//   				}
+  			//   			});
+  			var http = new XMLHttpRequest();
+  			var url = "/upload";
+  			http.open("POST", url, true);
+  			http.onreadystatechange = function() {
+  				if (http.readyState == 4 && http.status == 200) {
+  					var data = JSON.parse(http.responseText);
   					alert(data.message);
   					if (typeof data.compress != 'undefined' && data.compress != null) {
   						$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;">第' + ($('#gallery').children().length) + '张图片名称：<b>' + data.imgid + '</b><br><b>压缩前大小:' + data.compress.before + ' 压缩后大小:' + data.compress.after + ' 用时:' + data.compress.time + ' 压缩率:' + data.compress.rate + '</b></span>');
@@ -178,7 +193,8 @@
   						$(this).prop('checked', false);
   					})
   				}
-  			});
+  			}
+  			http.send(formdata);
   		} else {
   			alert('Please select minify radio.');
   			return false;
