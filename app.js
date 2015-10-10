@@ -102,7 +102,7 @@ app.use(function(err, req, res, next) {
         console.error(colors.error(err.stack));
     }
 });
-/************* set port *******************/
+/************* Listen Server *******************/
 var server = app.listen(app.get('port'), function() {
   console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+colors.gray('\tNodejs server listening on ') + colors.magenta(ip.address()+':'+server.address().port));
   console.log(colors.cyan('\n····························style-imgprocess server started····························\n'));
