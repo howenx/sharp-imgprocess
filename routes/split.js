@@ -10,7 +10,7 @@ router.get('/splithtml/:id', function(req, res) {
 });
 /* split image for 3 pices. */
 router.get('/split/:id', function(req, res, next) {
-
+	res.setHeader('Access-Control-Allow-Origin', '*');
     file = req.params.id;
     try {
         //load template crop_img.html
@@ -71,7 +71,7 @@ router.get('/split/:id', function(req, res, next) {
 });
 /* split image for 3 pices. */
 router.get('/split/file/:id', function(req, res, next) {
-
+	res.setHeader('Access-Control-Allow-Origin', '*');
     file = req.params.id;
     try {
         //load template crop_img.html

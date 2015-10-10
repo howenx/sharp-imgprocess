@@ -27,7 +27,7 @@ router.get('/shotcut/:tempid', function(req, res, next) {
 
 /* screenshot shell */
 router.post('/nw', function(req, res) {
-	
+	res.setHeader('Access-Control-Allow-Origin', '*');
 	if (req.body.tempid) {
 		var uu_name =uuid.v4().replace(/-/g, '');
 		var filename = process.cwd() +'/uploads/shot/'+uu_name+'.png';
