@@ -199,7 +199,7 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 								if (err) {
 									fs.lstat(process.cwd() + "/uploads/minify/" + file_nm, function(err, stats) {
 										if (err) {
-											console.log(colors.gray("Please minify the image firstly."));
+											console.log('> '+colors.grey('Time: '+dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT'))+'\t'+colors.gray("Please minify the image firstly."));
 											if (match != null && typeof match != 'undefined') {
 												res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 											} else {

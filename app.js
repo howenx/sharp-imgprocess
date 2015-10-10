@@ -102,7 +102,14 @@ app.use(function(err, req, res, next) {
 		console.error(colors.error(err.stack));
 	}
 });
-
+app.all('', function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "");
+	res.header("Access-Control-Allow-Headers", “Content - Type, Content - Length, Authorization, Accept, X - Requested - With”);
+	res.header("Access - Control - Allow - Methods ", "PUT, POST, GET, DELETE, OPTIONS");
+	res.header("X - Powered - By ", "3.2.1")
+	if (req.method == "OPTIONS") res.send(200);
+	else next();
+});
 /************* Listen Server *******************/
 var server = app.listen(app.get('port'), function() {
 	console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + colors.gray('\tNodejs server listening on ') + colors.magenta(ip.address() + ':' + server.address().port));
