@@ -95,9 +95,9 @@ $(function() {
 				},
 				success: function(data) {
 					$('#mask').hide();
-					alert(data.error + ' ' + data.message + ' ' + data.fileurl);
+					alert(data.error + ' ' + data.message + ' ' + data.shot_url);
 					$check.prop('checked', false);
-					window.open(data.fileurl);
+					window.open(data.shot_url);
 					return false;
 				}
 			})
