@@ -158,7 +158,7 @@ $(function() {
 
   	
 
-	/***upload images preview.****/
+	/***for mitilupload images foreach files for preview.****/
 	$(document).on("change", "#fileinput", function() {
 		
   		var files = $(this)[0].files;
@@ -167,7 +167,7 @@ $(function() {
   		}
 	})
 	
-	/*********/
+	/**** preview single image file.*****/
   	function previewImage(file) {
   		var galleryId = "gallery";
 
@@ -199,8 +199,11 @@ $(function() {
   	}
 	
   	function upload(thumb, file) {
+		
   		var params = '';
+		
   		$(':radio[name=select-minify]').each(function(index, element) {
+			
   			if ($(this).prop('checked')) {
   				params = $(this).attr('data-xf');
   			}
@@ -209,40 +212,27 @@ $(function() {
   			var formdata = new FormData();
   			formdata.append("photo", file);
   			formdata.append("params", params);
-  			//console.info(formdata);
-  			// $.ajax({
-  			//   				url: 'http://172.28.3.18:3008/upload', //Server script to process data
-  			//   				type: 'POST',
-  			//   				data: formdata,
-  			//             	// mimeType:"multipart/form-data",
-  			//             	contentType: false,
-  			//             	// cache: false,
-  			//             	processData:false,
-  			// 				dataType: "jsonp",
-  			//   				success: function(data) {
-  			//   					console.log(data.message);
-  			//   					alert(data.message);
-  			//   					if (typeof data.compress != 'undefined' && data.compress != null) {
-  			//   						$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;">第' + ($('#gallery').children().length) + '张图片名称：<b>' + data.imgid + '</b><br><b>压缩前大小:' + data.compress.before + ' 压缩后大小:' + data.compress.after + ' 用时:' + data.compress.time + ' 压缩率:' + data.compress.rate + '</b></span>');
-  			//   					}
-  			//   					$(':radio[name=select-minify]').each(function(index, element) {
-  			//   						$(this).prop('checked', false);
-  			//   					})
-  			//   				}
-  			//   			});
+			
   			var http = new XMLHttpRequest();
   			var url = window.url+"/upload";
+			
   			http.open("POST", url, true);
+			
   			http.onreadystatechange = function() {
+				
   				if (http.readyState == 4 && http.status == 200) {
+					
   					var data = JSON.parse(http.responseText);
+					
   					alert(data.message);
+					
   					if (typeof data.compress != 'undefined' && data.compress != null) {
   						$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;"><h4>第' + ($('#gallery').children().length) 
 						+ '张</h4>图片名称: <b>' + data.imgid + '</b><br>图片URL: <b>'
 						+data.minify_url+'</b><br>压缩数据: <b>压缩前大小 ' 
 						+ data.compress.before + ', 压缩后大小 ' + data.compress.after + ', 用时 ' + data.compress.time + ', 压缩率 ' + data.compress.rate + '</b></span>');
   					}
+					
   					$(':radio[name=select-minify]').each(function(index, element) {
   						$(this).prop('checked', false);
   					})

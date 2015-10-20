@@ -27,19 +27,13 @@ function b64_to_utf8(str) {
 router.get('/shotcut/:tempid/:xr_width/:xr_height/:array', function(req, res, next) {
 	if (req.params.tempid) {
 		
-		console.log(colors.cyan(b64_to_utf8(b64_to_utf8(req.params.array+'=='))));
 		var parsed = JSON.parse(b64_to_utf8(b64_to_utf8(req.params.array+'==')));
-		
-		console.log(JSON.parse(b64_to_utf8(b64_to_utf8(req.params.array+'=='))));
 		
 		var arr = [];
 
 		for(var x in parsed){
-			console.log(parsed[x]);
 		  	arr.push(parsed[x]);
 		}
-		
-		console.log(colors.red(JSON.stringify(arr)));
 		
 		res.render("shotcut.html", {
 			tempid: req.params.tempid,
@@ -57,14 +51,8 @@ router.get('/shotcut/:tempid/:xr_width/:xr_height/:array', function(req, res, ne
 
 /* screenshot shell */
 router.post('/nw', function(req, res) {
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	console.log(colors.red(JSON.stringify(req.body)));
-	console.log(colors.red(req.body.array));
 	
-	console.log(colors.blue(utf8_to_b64(utf8_to_b64(req.body.array)).replace(/=/g,'')));
-	console.log(colors.green(utf8_to_b64(utf8_to_b64(req.body.array)).toString('hex')));
-	console.log(colors.yellow(b64_to_utf8(b64_to_utf8(utf8_to_b64(utf8_to_b64(req.body.array))))));
-	
+	res.setHeader('Access-Control-Allow-Origin', '*');	
 	
 	if (req.body.tempid) {
 		var uu_name =uuid.v4().replace(/-/g, '');
