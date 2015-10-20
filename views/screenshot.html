@@ -11,16 +11,13 @@
 	<body>
 		<div class='container'>
 			<h2>Upload Images</h2>
-			<input style="display:none;" type="file" id="fileinput" name="displayImage" accept="image/gif, image/jpeg, image/webp, image/png">
-			<div id="gallery">
-				<div id="gallery-ch"></div>	
-				<div class="thumb" style="width: 100px;">
-					<img id="add_roll_image" style='width: auto;' src="/images/image_08af510.png">
-					<a class="small blue-light button" style="position:relative;" id="upbn">Upload</a>
-				</div>
-			</div>
-			<h3>Compressed Images</h3>
-			<div id='gpicnm' class='compress-div'></div>
+			<a class="large blue-light button" style="margin-bottom:10px;position:relative;" id='upbn'>Upload</a>
+			<label class="radio"><input type="radio" data-xf = 'minify'   name="select-minify">压缩图片</label>
+			<label class="radio"><input type="radio" data-xf = 'unminify' name="select-minify">原图上传</label>
+			<input style="display:none;" type="file" id="fileinput" name="displayImage" accept="image/gif, image/jpeg, image/webp, image/png" />
+			<div id="gallery"></div>
+			<h2>Compressed Images</h2>
+			<div id='gpicnm'></div>
 			<h2>Select Template</h2>
 			<div>
 				<ul class="rec_sku-title">
@@ -262,23 +259,58 @@
 								<span data-index='0'>仅剩10天</span>
 							</div>
 							<div class="text">
-								<i data-index='1' style='font-style: normal;'>★以思念为料，享受烘焙的甜蜜★</i><span ><b data-index='2'>6</b><i data-index='3' style='font-style: normal;'>元起</i></span>
+								<i data-index='1' style='font-style: normal;'>★以思念为料，享受烘焙的甜蜜★</i>
+								<span >
+									<b data-index='2'>6</b>
+									<i data-index='3' style='font-style: normal;'>元起</i>
+								</span>
 							</div>
 						</div>
-						<div class="pre_temp sync-hide" >
-							<label>仅剩：<input style='width: 235px;' class='input' type="text"></label>
-							<label>标题：<input style='width: 235px;' class='input' type="text"></label>
-							<label>多少元/折起：<input style='width: 235px;' class='input' type="text"></label>
-							<label>元/折起：<input style='width: 235px;' class='input' type="text"></label>
-							<label>图片URL：<input style='width: 270px;' class='input' type="text"></label>
-							<label>宽度：<input name='custom_w' class='size' type="text"></label>
-							<label>高度：<input name='custom_h' class='size' type="text"></label>
-							<label>原始宽高<input name='origin_wh' type="checkbox"></label>
-							<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>
-						</div>
+						<div class = "pre_temp">
+							<table>
+								<tbody>
+									<tr>
+										<th>仅剩：</th>
+										<td><input class='input-area' type="text"></td>
+									</tr>
+									<tr>
+										<th>标题：</th>
+										<td><input class='input-area' type="text"></td>
+									</tr>
+									<tr>
+										<th>价格/折扣：</th>
+										<td><input class='input-area' type="text"></td>
+									</tr>
+									<tr>
+										<th>元/折起：</th>
+										<td><input class='input-area' type="text"></td>
+									</tr>
+									<tr>
+										<th>图片URL：</th>
+										<td><input class='input-area' type="text"></td>
+									</tr>
+									<tr>
+										<th>原始宽高：</th>
+										<td><input name='origin_wh' type="checkbox"></td>
+									</tr>
+									<tr>
+										<th>宽度：</th>
+										<td><input name='custom_w' class='size' type="text"></td>
+									</tr>
+									<tr>
+										<th>高度：</th>
+										<td><input name='custom_h' class='size' type="text"></td>
+									</tr>
+									<tr>
+										<th></th>
+										<td><a name='pre_unpack_bt' class="small blue-light button">Preview</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>	
 					</div>
 			</div>
-			<div style="position: relative;margin-top: 10px;margin-bottom: 30px;display:block;">
+			<div class='submit-area'>
 				<a class="large blue-light button" id='submit'>Submit</a>
 			</div>
 	</div>

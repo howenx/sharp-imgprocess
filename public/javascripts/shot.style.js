@@ -1,11 +1,19 @@
 $(function() {
-	
+	/*** template params array.****/
 	var data_array = [];
 	
+	/***** replace file click event. *****/
 	$('#upbn').on("click", function() {
-		$('#fileinput').click();
+		if($(':radio[name=select-minify]').is(':checked')){
+			$('#fileinput').click();
+		}
+		else {
+  			alert('Please select minify radio.');
+  			return false;
+		}
 	});
 
+	/**** Template selected radio button click event. *****/
 	$(':radio[name=setMain]').on("click", function() {
 		if ($(this).prop('checked')) {
 			$('.li-dv').hide();
@@ -16,6 +24,7 @@ $(function() {
 		}
 	});
 
+	/***Loading..***/
 	$(document).ajaxStart(function() {
 		$('#mask').show();
 	});
@@ -23,54 +32,76 @@ $(function() {
 		$('#mask').hide();
 	});
 
+	/*** 默认宽度触发事件 ***/
 	$(document).on("change", "input[name='origin_wh']", function() {
 		if ($(this).is(':checked')) {
-			$(this).parent().prev().children().first().val('');
-			$(this).parent().prev().children().first().prop('disabled', true);
-			$(this).parent().prev().children().first().parent().prev().children().first().val('');
-			$(this).parent().prev().children().first().parent().prev().children().first().prop('disabled', true);
+			$(this).parent().parent().next().children().last().children().first().val('');
+			$(this).parent().parent().next().children().last().children().first().prop('disabled', true);
+			$(this).parent().parent().next().next().children().last().children().first().first().val('');
+			$(this).parent().parent().next().next().children().last().children().first().first().prop('disabled', true);
 		} else {
-			$(this).parent().prev().children().first().val('');
-			$(this).parent().prev().children().first().prop('disabled', false);
-			$(this).parent().prev().children().first().parent().prev().children().first().val('');
-			$(this).parent().prev().children().first().parent().prev().children().first().prop('disabled', false);
+			$(this).parent().parent().next().children().last().children().first().val('');
+			$(this).parent().parent().next().children().last().children().first().prop('disabled', false);
+			$(this).parent().parent().next().next().children().last().children().first().first().val('');
+			$(this).parent().parent().next().next().children().last().children().first().first().prop('disabled', false);
 		}
 	})
+	
+	/**** preview the template event.. ****/
 	$(document).on("click", "a[name='pre_unpack_bt']", function() {
 		data_array.length = 0;
 		/** u_youjipin ***/
-		if ($(this).parent().prev().attr('id') == 'u_youjipin') {
+		$temp_div = $(this).parent().parent().parent().parent().parent().prev();
+		
+		if ($temp_div.attr('id') == 'u_youjipin') {
 
-			$(this).parent().find(".input").each(function(index, element) {
-				if (index === 0) {
-					$(this).parent().parent().prev().find("[data-index='" + index + "']").text($(this).val());
+			$(this).parent().parent().parent().find(".input-area").each(function(index, element) {
+				
+				var imgwidth = $(this).parent().parent().parent().find('input[name="custom_w"]').val();
+				var imgheight = $(this).parent().parent().parent().find('input[name="custom_h"]').val();
+				
+				if (index === 0 && $(this).val()!=null && $(this).val()!='') {
+					
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
 					data_array.push($(this).val());
-				} else if (index === 1) {
-					$(this).parent().parent().prev().find("[data-index='" + index + "']").text($(this).val());
+					
+				} else if (index === 1 && $(this).val()!=null && $(this).val()!='') {
+					
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
 					data_array.push($(this).val());
-				} else if (index === 2) {
-					$(this).parent().parent().prev().find("[data-index='" + index + "']").text($(this).val());
+					
+				} else if (index === 2 && $(this).val()!=null && $(this).val()!='') {
+					
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
 					data_array.push($(this).val());
-				} else if (index === 3) {
-					$(this).parent().parent().prev().find("[data-index='" + index + "']").text($(this).val());
+					
+				} else if (index === 3 && $(this).val()!=null && $(this).val()!='') {
+					
+					$temp_div.find("[data-index='" + index + "']").text($(this).val());
 					data_array.push($(this).val());
-				} else if (index === 4) {
-					if ($(this).parent().parent().find("input[name='origin_wh']").is(':checked')) {
-						$(this).parent().parent().prev().find("[data-index='" + index + "']").attr('src', $(this).val());
+					
+				} else if (index === 4 && $(this).val()!=null && $(this).val()!='') {
+					
+					if ($(this).parent().parent().parent().find("input[name='origin_wh']").is(':checked')) {
+						
+						$temp_div.find("[data-index='" + index + "']").attr('src', $(this).val());
 						data_array.push($(this).val());
-					} else {
+						
+					} else if(imgwidth!=null && imgwidth!='' &&  imgheight!=null && imgheight!=''){
+						
 						var imgname = $(this).val().match(/[^\/]+\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP)/gi).toString();
-						var imgwidth = $(this).parent().parent().find('input[name="custom_w"]').val();
-						var imgheight = $(this).parent().parent().find('input[name="custom_h"]').val();
 						$imginput = $(this);
+						
 						if (imgname.match(/^(.*)(\.)(.{1,8})$/) != null) {
+							
 							thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + imgname.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
+							
 							$.ajax({
 								url: 'http://172.28.3.51:3008/thumb/' + thumb, //Server script to process data
 								type: 'get',
 								success: function(data) {
 									if (typeof data.thumb_url != 'undefined' && data.thumb_url != null) {
-										$imginput.parent().parent().prev().find("[data-index='" + index + "']").attr('src', data.thumb_url);
+										$temp_div.find("[data-index='" + index + "']").attr('src', data.thumb_url);
 										data_array.push(data.thumb_url);
 									}
 								},
@@ -82,23 +113,29 @@ $(function() {
 									}
 								}
 							});
+							
 						} else {
 							alert('Image type is not matched.');
 							return false;
 						}
+					} else {
+						alert('Please check exists null value.')
+						return false;
 					}
+				} else {
+					alert('Please check exists null value.')
+					return false;
 				}
 			})
 		}
 	})
 
+	/** submit to nwjs shootscreen. **/
 	$('#submit').on("click", function() {
 		$check = $('input[name=setMain]:checked');
-		// console.log(JSON.stringify(data_array));
-		// return false;
 		if ($check.length === 1) {
 			$.ajax({
-				url: '/nw', //Server script to process data
+				url: '/nw',
 				type: 'POST',
 				data: {
 					tempid: '' + $check.attr('data-xr'),
@@ -119,391 +156,105 @@ $(function() {
 		}
 	});
 
-	$('#price_default_wh').bind("click", function() {
-		if ($(this).prop("checked")) {
-			$('#price_custom_h').prop("disabled", "disabled");
-			$('#price_custom_w').prop("disabled", "disabled");
-			imgwidth = 180;
-			imgheight = 254;
+  	
 
-		} else {
-			$('#price_custom_h').removeAttr("disabled");
-			$('#price_custom_w').removeAttr("disabled");
-		}
-	});
+	/***upload images preview.****/
+	$(document).on("change", "#fileinput", function() {
+		
+  		var files = $(this)[0].files;
+  		for (var i = 0; i < files.length; i++) {
+  			previewImage(this.files[i]);
+  		}
+	})
+	
+	/*********/
+  	function previewImage(file) {
+  		var galleryId = "gallery";
 
-	$('#pre_price_bt').on("click", function() {
-		imgwidth = '';
-		imgheight = '';
+  		var gallery = document.getElementById(galleryId);
+  		var imageType = /image.*/;
 
-		$('#shop_price').css({
-			width: 'auto'
-		});
-		$('#shop_price').css({
-			height: 'auto'
-		});
+  		if (!file.type.match(imageType)) {
+  			throw "File Type must be an image";
+  		}
 
-		$('#pre_price_bt').parent().find('input').each(function(index, element) {
+  		var thumb = document.createElement("div");
+  		thumb.classList.add('thumbnail');
 
-			if (index === 0) {
-				if ($(element).val() != '') {
-					$('#price_title').text($(element).val());
-				} else {
-					alert('The title must be input');
-					return false;
-				}
-			}
-			if (index === 1) {
-				if ($(element).val() != '')
-					$('#price_current_price').text('￥' + $(element).val());
-				else {
-					alert('The current price must be input');
-					return false;
-				}
-			}
-			if (index === 2) {
-				if ($(element).val() != '')
-					$('#price_origin_price').text('￥' + $(element).val());
-				else {
-					alert('The origin price must be input');
-					return false;
-				}
-			}
-			if (index === 3) {
-				if ($(element).val() != '')
-					$('#price_discount').text($(element).val() + '折');
-				else {
-					alert('The discount must be input');
-					return false;
-				}
-			}
-			if (index === 4) {
-				if ($(element).val() != '')
-					imgname = $(element).val();
-				else {
-					alert('The image name must be input');
-					return false;
-				}
-			}
-			if (index === 5) {
-				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-					imgwidth = $(element).val();
-				else {
-					alert('The image width must be input');
-					return false;
-				}
-			}
-			if (index === 6) {
-				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-					imgheight = $(element).val();
-				else {
-					alert('The image height must be input');
-					return false;
-				}
-			}
-		});
-		getimg('price_img');
-	});
+  		var img = document.createElement("img");
+  		img.file = file;
+  		thumb.appendChild(img);
+  		gallery.appendChild(thumb);
 
-	$('#pre_gray_bt').on("click", function() {
-		imgwidth = '';
-		imgheight = '';
-
-		$('#shop_gray').css({
-			width: 'auto'
-		});
-		$('#shop_gray').css({
-			height: 'auto'
-		});
-
-		$('#pre_gray_bt').parent().find('input').each(function(index, element) {
-
-			if (index === 0) {
-				if ($(element).val() != '') {
-					$('#gray_title').text($(element).val());
-				} else {
-					alert('The title must be input');
-					return false;
-				}
-			}
-
-			if (index === 1) {
-				if ($(element).val() != '')
-					imgname = $(element).val();
-				else {
-					alert('The image name must be input');
-					return false;
-				}
-			}
-			if (index === 2) {
-				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-					imgwidth = $(element).val();
-				else {
-					alert('The image width must be input');
-					return false;
-				}
-			}
-			if (index === 3) {
-				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-					imgheight = $(element).val();
-				else {
-					alert('The image height must be input');
-					return false;
-				}
-			}
-		});
-		getimg('gray_img');
-	});
-
-	$('#pre_poster_bt').on("click", function() {
-		imgwidth = '';
-		imgheight = '';
-
-		$('#shop_poster').css({
-			width: 'auto'
-		});
-		$('#shop_poster').css({
-			height: 'auto'
-		});
-
-		$('#pre_poster_bt').parent().find('input').each(function(index, element) {
-
-			if (index === 0) {
-				if ($(element).val() != '') {
-					$('#poster_title').text($(element).val());
-				} else {
-					alert('The title must be input');
-					return false;
-				}
-			}
-			if (index === 1) {
-				if ($(element).val() != '')
-					$('#poster_price').text('￥' + $(element).val());
-				else {
-					alert('The price must be input');
-					return false;
-				}
-			}
-			if (index === 2) {
-				if ($(element).val() != '')
-					$('#poster_sale_num').text($(element).val());
-				else {
-					alert('The sale num must be input');
-					return false;
-				}
-			}
-			if (index === 3) {
-				if ($(element).val() != '')
-					$('#poster_like_num').text($(element).val());
-				else {
-					alert('The like num must be input');
-					return false;
-				}
-			}
-			if (index === 4) {
-				if ($(element).val() != '')
-					imgname = $(element).val();
-				else {
-					alert('The image name must be input');
-					return false;
-				}
-			}
-			if (index === 5) {
-				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-					imgwidth = $(element).val();
-				else {
-					alert('The image width must be input');
-					return false;
-				}
-			}
-			if (index === 6) {
-				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-					imgheight = $(element).val();
-				else {
-					alert('The image height must be input');
-					return false;
-				}
-			}
-		});
-		getimg('poster_img');
-
-	});
-
-	$('#pre_unpack_bt').on("click", function() {
-		imgwidth = '';
-		imgheight = '';
-
-		$('#shop_unpack').css({
-			width: 'auto'
-		});
-		$('#shop_unpack').css({
-			height: 'auto'
-		});
-		var re_flag = true;
-		$('#pre_unpack_bt').parent().find('input').each(function(index, element) {
-
-			if (index === 0) {
-				if ($(element).val() != '') {
-					$('#unpack_discount').text($(element).val());
-				} else {
-					re_flag = false;
-					alert('The unpack discount must be input');
-					return false;
-				}
-			}
-			if (index === 1) {
-				if ($(element).val() != '')
-					$('#unpack_price_origin').text('￥' + $(element).val());
-				else {
-					re_flag = false;
-					alert('The original price must be input');
-					return false;
-				}
-			}
-			if (index === 2) {
-				if ($(element).val() != '')
-					$('#unpack_price_current').text('￥' + $(element).val());
-				else {
-					re_flag = false;
-					alert('The current price num must be input');
-					return false;
-				}
-			}
-			if (index === 3) {
-				if ($(element).val() != '')
-					$('#unpack_price_unpack').text('￥' + $(element).val());
-				else {
-					re_flag = false;
-					alert('The unpack price num must be input');
-					return false;
-				}
-			}
-			if (index === 4) {
-				if ($(element).val() != '')
-					$('#unpack_title').css({
-						width: $(element).val() + '%'
-					});
-				else {
-					re_flag = false;
-					alert('The unpack title width percent num must be input');
-					return false;
-				}
-			}
-			if (index === 5) {
-				if ($(element).val() != '')
-					$('#unpack_title').css({
-						left: $(element).val() + '%'
-					});
-				else {
-					re_flag = false;
-					alert('The unpack title left percent num must be input');
-					return false;
-				}
-			}
-			if (index === 6) {
-				if ($(element).val() != '')
-					imgname = $(element).val();
-				else {
-					re_flag = false;
-					alert('The image name must be input');
-					return false;
-				}
-			}
-			if (index === 7) {
-				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-					imgwidth = $(element).val();
-				else {
-					re_flag = false;
-					alert('The image width must be input');
-					return false;
-				}
-			}
-			if (index === 8) {
-				if ($(element).val() != '' && $(element).prop("disabled") != 'disabled')
-					imgheight = $(element).val();
-				else {
-					re_flag = false;
-					alert('The image height must be input');
-					return false;
-				}
-			}
-		});
-		if (re_flag) {
-			background_img('unpack_img');
-		}
-	});
-
-	function background_img(id) {
-		if (imgwidth != null && imgname != null && imgheight != null) {
-			if (imgname.match(/^(.*)(\.)(.{1,8})$/) != null) {
-				thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + imgname.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
-				$('#' + id).empty();
-				$('#' + id).css({
-					width: imgwidth + 'px'
-				});
-				$('#' + id).css({
-					height: imgheight + 'px'
-				});
-				// 
-				//set preview flag.
-				$.ajax({
-					url: '/thumb/' + thumb, //Server script to process data
-					type: 'get',
-					success: function(data) {
-						alert(data.error);
-						if (typeof data.thumb_url != 'undefined' && data.thumb_url != null) {
-							// $('#' + id).append('<img src="' + data.thumb_url + '">');
-							$('#' + id).css({
-								background: 'url(' + data.thumb_url + ')'
-							});
-						}
-					}
-				});
-				preflag = true;
-			} else {
-				alert('Image type is not matched.');
-				return;
-			}
-		} else {
-			alert('No refer to the image width and height.');
-			return;
-		}
-	}
-
-	function getimg(id) {
-		if (imgwidth != null && imgname != null && imgheight != null) {
-			if (imgname.match(/^(.*)(\.)(.{1,8})$/) != null) {
-				thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + imgname.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
-				$('#' + id).empty();
-				$('#' + id).css({
-					width: 'auto'
-				});
-				$('#' + id).css({
-					height: 'auto'
-				});
-				$('#' + id).next().css({
-					width: '100%'
-				});
-				// 
-				//set preview flag.
-				$.ajax({
-					url: '/thumb/' + thumb, //Server script to process data
-					type: 'get',
-					success: function(data) {
-						alert(data.error);
-						if (typeof data.thumb_url != 'undefined' && data.thumb_url != null) {
-							$('#' + id).append('<img src="' + data.thumb_url + '">');
-						}
-					}
-				});
-				preflag = true;
-			} else {
-				alert('Image type is not matched.');
-				return;
-			}
-		} else {
-			alert('No refer to the image width and height.');
-			return;
-		}
-	}
+  		// Using FileReader to display the image content
+  		var reader = new FileReader();
+  		reader.onload = (function(aImg) {
+  			return function(e) {
+  				aImg.src = e.target.result;
+  			};
+  		})(img);
+  		reader.readAsDataURL(file);
+  		
+		upload(thumb, file);
+  	}
+	
+  	function upload(thumb, file) {
+  		var params = '';
+  		$(':radio[name=select-minify]').each(function(index, element) {
+  			if ($(this).prop('checked')) {
+  				params = $(this).attr('data-xf');
+  			}
+  		})
+  		if (params != '' && file != null) {
+  			var formdata = new FormData();
+  			formdata.append("photo", file);
+  			formdata.append("params", params);
+  			//console.info(formdata);
+  			// $.ajax({
+  			//   				url: 'http://172.28.3.18:3008/upload', //Server script to process data
+  			//   				type: 'POST',
+  			//   				data: formdata,
+  			//             	// mimeType:"multipart/form-data",
+  			//             	contentType: false,
+  			//             	// cache: false,
+  			//             	processData:false,
+  			// 				dataType: "jsonp",
+  			//   				success: function(data) {
+  			//   					console.log(data.message);
+  			//   					alert(data.message);
+  			//   					if (typeof data.compress != 'undefined' && data.compress != null) {
+  			//   						$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;">第' + ($('#gallery').children().length) + '张图片名称：<b>' + data.imgid + '</b><br><b>压缩前大小:' + data.compress.before + ' 压缩后大小:' + data.compress.after + ' 用时:' + data.compress.time + ' 压缩率:' + data.compress.rate + '</b></span>');
+  			//   					}
+  			//   					$(':radio[name=select-minify]').each(function(index, element) {
+  			//   						$(this).prop('checked', false);
+  			//   					})
+  			//   				}
+  			//   			});
+  			var http = new XMLHttpRequest();
+  			var url = "http://172.28.3.51:3008/upload";
+  			http.open("POST", url, true);
+  			http.onreadystatechange = function() {
+  				if (http.readyState == 4 && http.status == 200) {
+  					var data = JSON.parse(http.responseText);
+  					alert(data.message);
+  					if (typeof data.compress != 'undefined' && data.compress != null) {
+  						$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;"><h4>第' + ($('#gallery').children().length) 
+						+ '张</h4>图片名称: <b>' + data.imgid + '</b><br>图片URL: <b>'
+						+data.minify_url+'</b><br>压缩数据: <b>压缩前大小 ' 
+						+ data.compress.before + ', 压缩后大小 ' + data.compress.after + ', 用时 ' + data.compress.time + ', 压缩率 ' + data.compress.rate + '</b></span>');
+  					}
+  					$(':radio[name=select-minify]').each(function(index, element) {
+  						$(this).prop('checked', false);
+  					})
+  				}
+  			}
+			
+  			http.send(formdata);
+			
+  		} else {
+  			alert('Please select minify radio.');
+  			return false;
+  		}
+  	}
+	
 });

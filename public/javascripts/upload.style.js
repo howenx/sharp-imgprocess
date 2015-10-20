@@ -17,7 +17,6 @@
   $(function() {
 
   	$(document).on("click", "p.dragon-p", function() {
-  		console.log('1');
   		//if the icon-circle-close exists,then remove it
   		if ($(this).parent().parent().next().has('div.icon-circle-close').length === 0) {
   			$(this).parent().parent().next().empty();
@@ -92,19 +91,13 @@
   	});
   	//thumb modules
   	$('#upbn').on("click", function() {
-  		var params = '';
-
-  		$(':radio[name=select-minify]').each(function(index, element) {
-  			if ($(this).prop('checked')) {
-  				params = $(this).attr('data-xf');
-  			}
-  		})
-  		if (params != '') {
-  			$('#fileinput').click();
-  		} else {
+		if($(':radio[name=select-minify]').is(':checked')){
+			$('#fileinput').click();
+		}
+		else {
   			alert('Please select minify radio.');
   			return false;
-  		}
+		}
   	});
   	$('#submit').on("click", function() {
   		var imgname = $('#imgname').val();

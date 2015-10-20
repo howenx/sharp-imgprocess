@@ -63,7 +63,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 						var minifyPath = process.cwd() + "/uploads/minify/" + imageName;
 						if (mimetype === 'image/png' || mimetype === 'image/jpeg') {
 							//when image size more than 1M,Compress it. or copy it to minify.
-							if (imageSize >= 1048576 && minify_flag === 'minify') {
+							if (minify_flag === 'minify') {
 								//If the image type is png or jpeg, minify it.
 								process.nextTick(function() {
 									my.minify(process.cwd() + "/uploads/fullsize/", imageName, process.cwd() + "/uploads/minify", imageName, function(compress) {
@@ -76,35 +76,37 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 										});
 									});
 								});
-							} else if (imageSize < 1048576 && minify_flag === 'minify') {
-								//less than 1M copy it to minify directory.
-								fs.writeFile(minifyPath, data, function(err) {
-									if (err) {
-										console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Copy minify image found an error."));
-										res.status(500).jsonp({
-											error: '445',
-											message: 'Copy minify image found an error.'
-										});
-									} else {
-
-										console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Image Uploaded, But it's size less than 1M and no compression."));
-										var compress = {
-											error: 'ok',
-											before: (imageSize / 1048576).toFixed(2) + "M",
-											after: (imageSize / 1048576).toFixed(2) + "M",
-											rate: '0%',
-											time: '0mm0ss'
-										};
-										res.status(200).jsonp({
-											error: '000',
-											message: "Image Uploaded, But it's size less than 1M and no compression.",
-											imgid: imageName,
-											compress: compress,
-											minify_url: url + '/uploads/minify/' + imageName
-										});
-									}
-								});
-							} else if (minify_flag == 'unminify') {
+							} 
+// 							else if (imageSize < 1048576 && minify_flag === 'minify') {
+// 								//less than 1M copy it to minify directory.
+// 								fs.writeFile(minifyPath, data, function(err) {
+// 									if (err) {
+// 										console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Copy minify image found an error."));
+// 										res.status(500).jsonp({
+// 											error: '445',
+// 											message: 'Copy minify image found an error.'
+// 										});
+// 									} else {
+//
+// 										console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Image Uploaded, But it's size less than 1M and no compression."));
+// 										var compress = {
+// 											error: 'ok',
+// 											before: (imageSize / 1048576).toFixed(2) + "M",
+// 											after: (imageSize / 1048576).toFixed(2) + "M",
+// 											rate: '0%',
+// 											time: '0mm0ss'
+// 										};
+// 										res.status(200).jsonp({
+// 											error: '000',
+// 											message: "Image Uploaded, But it's size less than 1M and no compression.",
+// 											imgid: imageName,
+// 											compress: compress,
+// 											minify_url: url + '/uploads/minify/' + imageName
+// 										});
+// 									}
+// 								});
+// 							}
+							else if (minify_flag == 'unminify') {
 								//unminify copy to minify directory.
 								fs.writeFile(minifyPath, data, function(err) {
 									if (err) {

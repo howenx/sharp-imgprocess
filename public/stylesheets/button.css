@@ -36,16 +36,7 @@ button::-moz-focus-inner {
 .button:active {
 	-webkit-transform: translateY(1px);
 	-moz-transform: translateY(1px);
-}
-.small.button {
-    font-size: 5px;
-    font-weight: normal;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-.large.button {
-	font-size: 14px;
-	padding: 8px 19px 9px;
+	transform: translateY(1px);
 }
 .blue.button {
 	background-color: #2daebf;
@@ -55,11 +46,24 @@ button::-moz-focus-inner {
 	text-decoration: none;
 }
 .blue-light.button {
-	background-color: #00a2d4;
+    background-color: #00a2d4;
+    border: 1px solid #35a6e8;
+    background-color: #35a6e8;
+    color: #fff;
+    font-family: sans-serif;
+    font-family: Helvetica,"Microsoft Yahei", Arial, sans-serif;
+/*    font-size: 13px;*/
+    font-weight: normal;
 }
 .blue-light.button:hover {
-	background-color: #007d9a;
 	text-decoration: none;
+    border: 1px solid #549de9;
+    background-color: #549de9;
+    color: #fff;
+    font-family: sans-serif;
+    font-family: Helvetica,"Microsoft Yahei", Arial, sans-serif;
+/*    font-size: 13px;*/
+    font-weight: normal;
 }
 .green.button {
 	background-color: #91bd09;
@@ -120,4 +124,14 @@ button::-moz-focus-inner {
 	width: 30.72px;
 	height: 30.72px;
 }
-
+.small.button {
+/*    font-size: 5px;*/
+    font-weight: normal;
+    padding-top: 5px;
+    padding-bottom: 5px;
+	font-size: 10px;
+}
+.large.button {
+	font-size: 14px;
+	padding: 8px 19px 9px;
+}

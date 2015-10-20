@@ -20,17 +20,49 @@ h3 {
 	font-weight: normal;
 	font-style: normal;
 }
-#gallery .thumbnail {
-	display: block;
-	width: 100%;
-	height: auto;
-	margin-bottom: 10px;
-	margin-top: 10px;
+
+#gallery {
 	position: relative;
 	overflow: auto;
+	padding: 10px;
+	width: 100%;
+	display: table;
+	border: 1px solid #ddd;
+}
+
+#gallery .thumbnail {
+	display: table;
+	float: left;
+	margin: 10px;
 }
 #gallery .thumbnail img {
+	height: 100px;
+	width: 150px;
+}
+#gpicnm {
+	position: relative;
 	width: 100%;
+	border: 1px solid #ddd;
+	padding: 10px;
+	color: #3367cc;
+	font-size: 14px;
+	font-weight: 400;
+	color: #2d64b3;
+	line-height: 20px;
+	font: 14px/24px arial,"\5b8b\4f53",sans-serif,tahoma,"Microsoft YaHei";
+}
+#gpicnm h4 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	text-align: left;
+	font: 700 16px/26px "Microsoft YaHei",SimHei,arial;
+	color: #333;
+}
+#gpicnm b {
+	font-weight: lighter;
+	font-size: x-small;
+	color: #454545;
+	font-family: monospace;
 }
 .imginput {
 	margin-bottom: 10px;
@@ -237,12 +269,7 @@ li {
 	color: #3367cc;
 	font-size: smaller;
 }
-.pre_temp {
-    display: table;
-    width: auto;
-    background-color: #f4f4f4;
-    margin: 2% auto 0 auto;
-}
+
 /*****************************************************************************************************/
 .compress-div {
 	position: relative;
@@ -250,6 +277,7 @@ li {
 	border: 1px dashed #e6e6e6;
 	padding: 10px;
 	overflow: auto;
+	background-color: #f2f6f8;
 }
 .bottom-price-temp {
 	display: block;
@@ -278,7 +306,7 @@ li {
 	background: url("/images/750/upload_iezdinbygzqwmoldgmzdambqmmyde_750x316.jpg");
 	overflow: auto;
 	background-size: 100%;
-/*	height: auto;*/
+	/*	height: auto;*/
 }
 .unpack-title-container {
 	background: rgb(230, 224, 224);
@@ -361,14 +389,6 @@ li {
 	vertical-align: middle;
 	padding-bottom: 10px;
 }
-#gallery {
-	display: block;
-	border: 2px dashed #e6e6e6;
-	position: relative;
-	overflow: auto;
-	padding: 10px;
-	width: 100%;
-}
 /*****************************************************/
 #shop_unpack {
 	display: inline-block;
@@ -377,11 +397,7 @@ li {
 	position: relative;
 	overflow: auto;
 }
-#gpicnm b {
-	font-weight: normal;
-	color: rgb(136, 136, 136);
-	font-size: 13px;
-}
+
 /**********************************************************/
 .deal {
 	float: left;
@@ -792,8 +808,8 @@ figure {
 	color: #a0a0a0;
 }
 .display-up {
-    font-size: xx-small;
-    font-weight: normal;
+	font-size: xx-small;
+	font-weight: normal;
 }
 .display-price {
 	color: #F55178;
@@ -819,66 +835,115 @@ figure {
 	color: #b5621b;
 	font-size: 20px;
 }
-.display-amount{
-    font-size: 13px;
-    font-style: normal;
-    font-weight: normal;
+.display-amount {
+	font-size: 13px;
+	font-style: normal;
+	font-weight: normal;
 }
 /******************************优集品***********************************/
 .goods_list_img {
-    width: 100%;
-    text-align: center;
-    margin: 0px auto 0px auto;
-/*    box-shadow: 0 0 5px #ccc;*/
-/*    -moz-box-shadow: 0 0 5px #ccc;*/
-/*    -webkit-box-shadow: 0 0 5px #ccc;*/
-    overflow: hidden;
+	width: 100%;
+	text-align: center;
+	margin: 0px auto 0px auto;
+	/*    box-shadow: 0 0 5px #ccc;*/
+	/*    -moz-box-shadow: 0 0 5px #ccc;*/
+	/*    -webkit-box-shadow: 0 0 5px #ccc;*/
+	overflow: hidden;
+	background-color: #fff;
 }
 .goods_list_img .img {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
+	width: 100%;
+	overflow: hidden;
+	position: relative;
 }
 .goods_list_img  a {
-    color: #717171;
-    font-family: arial;
-    text-decoration: none;
+	color: #717171;
+	font-family: arial;
+	text-decoration: none;
 }
 .goods_list_img img {
-    vertical-align: top;
-    border: 0;
+	vertical-align: top;
+	border: 0;
 }
 .goods_list_img .img span {
-    display: block;
-    color: #d0d0d0;
-    font-size: 12px;
-    padding: 2px 3px;
-    background: #000;
-    opacity: 0.5;
-    position: absolute;
-    right: 0;
-    top: 0;
+	display: block;
+	color: #d0d0d0;
+	font-size: 12px;
+	padding: 2px 3px;
+	background: #000;
+	opacity: 0.5;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 .goods_list_img .text {
-    height: 35px;
-    line-height: 35px;
-    text-align: left;
-    font-size: 14px;
-    color: #333;
-    padding: 0 8px;
-    overflow: hidden;
+	height: 35px;
+	line-height: 35px;
+	text-align: left;
+	font-size: 14px;
+	color: #333;
+	padding: 0 8px;
+	overflow: hidden;
 }
 .goods_list_img .text span {
-    color: #858585;
-    font-size: 12px;
-    float: right;
+	color: #858585;
+	font-size: 12px;
+	float: right;
 }
 .goods_list_img .text span b {
-    color: #f76b42;
-    font-size: 14px;
+	color: #f76b42;
+	font-size: 14px;
 }
 /*******************************************/
-.li-dv{
-	display:none;
+.li-dv {
+	display: none;
 	overflow: auto;
+	margin: auto;
+}
+
+/************************table*****************************/
+.pre_temp th{
+    text-align: right;
+    font-family: arial;
+    width: 30%;
+    display: table-cell;
+    vertical-align: inherit;
+    color: #333;
+    font-size: 13px;
+    font-family: Helvetica,"Microsoft Yahei", Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+	font-weight: normal;
+}
+.pre_temp td input{
+    width: 363px;
+    margin-left: 3%;
+    height: 16px;
+    padding: 3px 7px;
+}
+.pre_temp table{
+	width: 100%;
+}
+.pre_temp {
+    background-color: #fff;
+    margin-bottom: 4px;
+    margin-top: 20px;
+    width: 100%;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #333;
+}
+.pre_temp tr{
+	height:35px;
+}
+.pre_temp td a {
+	margin-left: 64%;
+	font-size: 11px;
+}
+.submit-area{
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    display: block;
+    margin-left: 90%;
 }
