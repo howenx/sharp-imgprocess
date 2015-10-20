@@ -55,7 +55,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 				fs.readFile(path, function(err, data) {
 					if (!imageName) {
 						console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("The image file transfer has an error."));
-						res.jsonp({
+						res.status(500).jsonp({
 							error: '444',
 							message: 'The image file transfer has an error.'
 						});
@@ -67,7 +67,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 								//If the image type is png or jpeg, minify it.
 								process.nextTick(function() {
 									my.minify(process.cwd() + "/uploads/fullsize/", imageName, process.cwd() + "/uploads/minify", imageName, function(compress) {
-										res.jsonp({
+										res.status(200).jsonp({
 											error: '000',
 											message: 'Image Uploaded.',
 											imgid: imageName,
@@ -81,7 +81,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 								fs.writeFile(minifyPath, data, function(err) {
 									if (err) {
 										console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Copy minify image found an error."));
-										res.jsonp({
+										res.status(500).jsonp({
 											error: '445',
 											message: 'Copy minify image found an error.'
 										});
@@ -95,7 +95,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 											rate: '0%',
 											time: '0mm0ss'
 										};
-										res.jsonp({
+										res.status(200).jsonp({
 											error: '000',
 											message: "Image Uploaded, But it's size less than 1M and no compression.",
 											imgid: imageName,
@@ -109,7 +109,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 								fs.writeFile(minifyPath, data, function(err) {
 									if (err) {
 										console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Unminify upload images found an error."));
-										res.jsonp({
+										res.status(500).jsonp({
 											error: '445',
 											message: 'Unminify upload images found an error.'
 										});
@@ -123,7 +123,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 											rate: '0%',
 											time: '0mm0ss'
 										};
-										res.jsonp({
+										res.status(200).jsonp({
 											error: '000',
 											message: "Unminify upload images success.",
 											imgid: imageName,
@@ -142,7 +142,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 								rate: '0%',
 								time: '0mm0ss'
 							};
-							res.jsonp({
+							res.status(200).jsonp({
 								error: '000',
 								message: "Image Uploaded, But the image type can't be compressed.",
 								imgid: imageName,
@@ -154,14 +154,14 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 				});
 			} else {
 				console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Image type mismatch."));
-				res.jsonp({
+				res.status(400).jsonp({
 					error: '445',
 					message: 'Image type mismatch.'
 				});
 			}
 		} else {
 			console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("No minify flag parameter."));
-			res.jsonp({
+			res.status(400).jsonp({
 				error: '445',
 				message: 'No minify flag parameter.'
 			});
@@ -205,9 +205,9 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 											fs.lstat(process.cwd() + "/uploads/fullsize/" + file_nm, function(err, stats) {
 												if (!err) {
 													if (match != null && typeof match != 'undefined') {
-														res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
+														res.status(400).sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 													} else {
-														res.jsonp({
+														res.status(400).jsonp({
 															error: '445',
 															message: 'Please minify the image firstly.',
 															thumb_url: url + '/uploads/fullsize/' + file_nm
@@ -226,18 +226,18 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 													if (err) {
 														console.log(colors.gray(err));
 														if (match != null && typeof match != 'undefined') {
-															res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
+															res.status(403).sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 														} else {
-															res.jsonp({
+															res.status(403).jsonp({
 																error: "445",
 																message: err
 															});
 														}
 													} else {
 														if (match != null && typeof match != 'undefined') {
-															res.sendFile(process.cwd() + '/uploads/thumb/' + file);
+															res.status(200).sendFile(process.cwd() + '/uploads/thumb/' + file);
 														} else {
-															res.jsonp({
+															res.status(200).jsonp({
 																error: "000",
 																message: "ok.",
 																thumb_url: url + '/uploads/thumb/' + file
@@ -251,7 +251,7 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 									if (match != null && typeof match != 'undefined') {
 										res.sendFile(process.cwd() + '/uploads/thumb/' + file);
 									} else {
-										res.jsonp({
+										res.status(200).jsonp({
 											error: "000",
 											message: 'ok.',
 											thumb_url: url + '/uploads/thumb/' + file
@@ -262,9 +262,9 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 						} else {
 							console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("The original file can't be thumb because of the type."));
 							if (match != null && typeof match != 'undefined') {
-								res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
+								res.status(400).sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 							} else {
-								res.jsonp({
+								res.status(400).jsonp({
 									error: "445",
 									message: "The original file can't be thumb because of the type.",
 									thumb_url: url + '/uploads/fullsize/' + file_nm
@@ -274,9 +274,9 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 					} else {
 						console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("The original image type not match the require."));
 						if (match != null && typeof match != 'undefined') {
-							res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
+							res.status(400).sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 						} else {
-							res.jsonp({
+							res.status(400).jsonp({
 								error: "445",
 								message: 'The original image type not match the require.'
 							});
@@ -285,9 +285,9 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 				} else {
 					console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("The thumbnail namme not match the require."));
 					if (match != null && typeof match != 'undefined') {
-						res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
+						res.status(400).sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 					} else {
-						res.jsonp({
+						res.status(400).jsonp({
 							error: "445",
 							message: 'The thumbnail namme not match the require.'
 						});
@@ -296,9 +296,9 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 			} else {
 				console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Please assign the width and height."));
 				if (match != null && typeof match != 'undefined') {
-					res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
+					res.status(400).sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 				} else {
-					res.jsonp({
+					res.status(400).jsonp({
 						error: "445",
 						message: 'Please assign the width and height.'
 					});
@@ -307,9 +307,9 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 		} else {
 			console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray("Thumb image type mismatch."));
 			if (match != null && typeof match != 'undefined') {
-				res.sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
+				res.status(400).sendFile(process.cwd() + '/uploads/fullsize/' + file_nm);
 			} else {
-				res.jsonp({
+				res.status(400).jsonp({
 					error: '445',
 					message: 'Thumb Image type mismatch.'
 				});
@@ -338,21 +338,25 @@ router.get(['/uploads/shot/:image', '/uploads/minify/:image', '/uploads/split/:i
 					//if not exist,404.
 					if (err) {
 						console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray('the request file not found.'));
+						res.status(404);
 						next();
 					} else {
-						res.sendFile(localpath);
+						res.status(200).sendFile(localpath);
 					}
 				});
 			} else {
 				console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray('Not match the request path.'));
+				res.status(404);
 				next();
 			}
 		} else {
 			console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray('File type not match.'));
+			res.status(404);
 			next();
 		}
 	} catch (e) {
 		console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + '\t' + colors.gray('catch exception:' + e));
+		res.status(500);
 		next(e);
 	}
 });

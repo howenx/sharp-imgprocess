@@ -73,10 +73,10 @@
 							<label>原价：<input type="text"></label>
 							<label>折扣：<input type="text"></label>
 							<label>图片名称：<input style='width: 270px;' type="text"></label>
-							<label>宽度：<input id='price_custom_w' type="text"></label>
-							<label>高度：<input id='price_custom_h' type="text"></label>
-							<label>默认宽高<input id='price_default_wh' type="checkbox"></label>
-							<a class="preview-botton small prev button" id='pre_price_bt'>Preview</a>
+							<label>宽度：<input name='custom_w' type="text"></label>
+							<label>高度：<input name='custom_h' type="text"></label>
+							<label>原始宽高<input name='origin_wh' type="checkbox"></label>
+							<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>
 						</div>
 					</div>
 					<!--bottom gray template-->
@@ -90,10 +90,10 @@
 						<div class="pre_temp sync-hide" >
 							<label>标题：<input style='width: 235px;' type="text"></label>
 							<label>图片名称：<input style='width: 270px;' type="text"></label>
-							<label>宽度：<input id='gray_custom_w' type="text"></label>
-							<label>高度：<input id='gray_custom_h' type="text"></label>
-							<label>默认宽高<input id='gray_default_wh' type="checkbox"></label>
-							<a class="preview-botton small prev button" id='pre_gray_bt'>Preview</a>
+							<label>宽度：<input name='custom_w' type="text"></label>
+							<label>高度：<input name='custom_h' type="text"></label>
+							<label>原始宽高<input name='origin_wh' type="checkbox"></label>
+							<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>
 						</div>
 					</div>
 					<!--simple template-->
@@ -125,10 +125,10 @@
 							<label>销量：<input type="text"></label>
 							<label>喜欢：<input type="text"></label>
 							<label>图片名称：<input style='width: 270px;' type="text"></label>
-							<label>宽度：<input id='poster_custom_w' type="text"></label>
-							<label>高度：<input id='poster_custom_h' type="text"></label>
-							<label>默认宽高<input id='poster_default_wh' type="checkbox"></label>
-							<a class="preview-botton small prev button" id='pre_poster_bt'>Preview</a>
+							<label>宽度：<input name='custom_w' type="text"></label>
+							<label>高度：<input name='custom_h' type="text"></label>
+							<label>原始宽高<input name='origin_wh' type="checkbox"></label>
+							<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>
 						</div>
 					</div>
 					<!-- unpack template -->
@@ -156,10 +156,10 @@
 							<label>标题占宽度百分比：<input style='width: 235px;' type="text"></label>
 							<label>标题距左侧百分比：<input style='width: 235px;' type="text"></label>
 							<label>图片名称：<input style='width: 270px;' type="text"></label>
-							<label>宽度：<input id='unpack_custom_w' type="text"></label>
-							<label>高度：<input id='unpack_custom_h' type="text"></label>
-							<label>默认宽高<input id='unpack_default_wh' type="checkbox"></label>
-							<a class="preview-botton small prev button" id='pre_unpack_bt'>Preview</a>
+							<label>宽度：<input name='custom_w' type="text"></label>
+							<label>高度：<input name='custom_h' type="text"></label>
+							<label>原始宽高<input name='origin_wh' type="checkbox"></label>
+							<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>
 						</div>
 					</div>
 					<!-- Wide version -->
@@ -209,6 +209,16 @@
 									</div>
 								</div>
 							</div>
+							<div class="pre_temp sync-hide" >
+								<label>仅剩：<input style='width: 235px;' type="text"></label>
+								<label>标题：<input style='width: 235px;' type="text"></label>
+								<label>多少起：<input style='width: 235px;' type="text"></label>
+								<label>图片名称：<input style='width: 270px;' type="text"></label>
+								<label>宽度：<input name='custom_w' type="text"></label>
+								<label>高度：<input name='custom_h' type="text"></label>
+								<label>原始宽高<input name='origin_wh' type="checkbox"></label>
+								<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>
+							</div>
 					</div>
 					<div class='li-dv'>
 						<div id='hmm_collections' class='collections'>
@@ -232,18 +242,39 @@
 								<span class='collection-click'>....</span>
 							</figcaption>
 						</div>
+						<div class="pre_temp sync-hide" >
+							<label>仅剩：<input style='width: 235px;' type="text"></label>
+							<label>标题：<input style='width: 235px;' type="text"></label>
+							<label>多少起：<input style='width: 235px;' type="text"></label>
+							<label>图片名称：<input style='width: 270px;' type="text"></label>
+							<label>宽度：<input name='custom_w' type="text"></label>
+							<label>高度：<input name='custom_h' type="text"></label>
+							<label>原始宽高<input name='origin_wh' type="checkbox"></label>
+							<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>
+						</div>
 					</div>
 					<div class='li-dv'>
 						<div id='u_youjipin' class="goods_list_img">
 							<div class="img">
 								<a class="track">
-									<img src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8">
+									<img data-index='4' src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8" width="100%" style="display: inline;">
 								</a>
-								<span>仅剩10天</span>
+								<span data-index='0'>仅剩10天</span>
 							</div>
 							<div class="text">
-								<span><b>6</b>元起</span>★以思念为料，享受烘焙的甜蜜★
+								<i data-index='1' style='font-style: normal;'>★以思念为料，享受烘焙的甜蜜★</i><span ><b data-index='2'>6</b><i data-index='3' style='font-style: normal;'>元起</i></span>
 							</div>
+						</div>
+						<div class="pre_temp sync-hide" >
+							<label>仅剩：<input style='width: 235px;' class='input' type="text"></label>
+							<label>标题：<input style='width: 235px;' class='input' type="text"></label>
+							<label>多少元/折起：<input style='width: 235px;' class='input' type="text"></label>
+							<label>元/折起：<input style='width: 235px;' class='input' type="text"></label>
+							<label>图片URL：<input style='width: 270px;' class='input' type="text"></label>
+							<label>宽度：<input name='custom_w' class='size' type="text"></label>
+							<label>高度：<input name='custom_h' class='size' type="text"></label>
+							<label>原始宽高<input name='origin_wh' type="checkbox"></label>
+							<a class="preview-botton small prev button" name='pre_unpack_bt'>Preview</a>
 						</div>
 					</div>
 			</div>

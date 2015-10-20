@@ -1,69 +1,10 @@
 $(function() {
-	var imgname;
-	var imgwidth;
-	var imgheight;
-	//request for thumb image name.
-	var thumb;
-	//preview flag for firstly click preview button when choose a radio button.
-	var preflag = false;
+	
+	var data_array = [];
+	
 	$('#upbn').on("click", function() {
 		$('#fileinput').click();
 	});
-
-	function upload(file, imguid) {
-		//console.info(file);
-		var formdata = new FormData();
-		formdata.append("displayImage", file);
-		//console.info(formdata);
-		$.ajax({
-			url: '/upload', //Server script to process data
-			type: 'POST',
-			data: formdata,
-			processData: false,
-			contentType: false,
-			success: function(data) {
-				// console.log(data);
-				alert(data.error);
-				if (typeof data.compress != 'undefined' && data.compress != null) {
-					$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;">第' + ($('#gallery-ch').children().length) + '张图片名称：<b>' + data.imgid + '</b><br><b>压缩前大小:' + data.compress.before + ' 压缩后大小:' + data.compress.after + ' 用时:' + data.compress.time + ' 压缩率:' + data.compress.rate + '</b></span>');
-				}
-				$('#' + imguid).prop('src', '/uploads/minify/' + data.imgid);
-			}
-		});
-	}
-
-
-	function previewImage(file) {
-
-		var imageType = /image.*/;
-
-		if (!file.type.match(imageType)) {
-			throw "File Type must be an image";
-		}
-
-		var img = new Image;
-		img.file = file;
-		var imguid = Math.uuidCompact();
-		// Using FileReader to display the image content
-		var reader = new FileReader();
-		reader.onload = (function(aImg) {
-			return function(e) {
-				$('#gallery-ch').append("<div class='thumbnail' style='position: relative;'>" +
-					"<img class='thumb-roll-image' id='" + imguid + "' src='" + e.target.result + "'>" +
-					"</div>");
-			};
-		})(img);
-		reader.readAsDataURL(file);
-		upload(file, imguid);
-	}
-
-	var uploadfiles = document.querySelector('#fileinput');
-	uploadfiles.addEventListener('change', function() {
-		var files = this.files;
-		for (var i = 0; i < files.length; i++) {
-			previewImage(this.files[i]);
-		}
-	}, false);
 
 	$(':radio[name=setMain]').on("click", function() {
 		if ($(this).prop('checked')) {
@@ -82,8 +23,79 @@ $(function() {
 		$('#mask').hide();
 	});
 
+	$(document).on("change", "input[name='origin_wh']", function() {
+		if ($(this).is(':checked')) {
+			$(this).parent().prev().children().first().val('');
+			$(this).parent().prev().children().first().prop('disabled', true);
+			$(this).parent().prev().children().first().parent().prev().children().first().val('');
+			$(this).parent().prev().children().first().parent().prev().children().first().prop('disabled', true);
+		} else {
+			$(this).parent().prev().children().first().val('');
+			$(this).parent().prev().children().first().prop('disabled', false);
+			$(this).parent().prev().children().first().parent().prev().children().first().val('');
+			$(this).parent().prev().children().first().parent().prev().children().first().prop('disabled', false);
+		}
+	})
+	$(document).on("click", "a[name='pre_unpack_bt']", function() {
+		data_array.length = 0;
+		/** u_youjipin ***/
+		if ($(this).parent().prev().attr('id') == 'u_youjipin') {
+
+			$(this).parent().find(".input").each(function(index, element) {
+				if (index === 0) {
+					$(this).parent().parent().prev().find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+				} else if (index === 1) {
+					$(this).parent().parent().prev().find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+				} else if (index === 2) {
+					$(this).parent().parent().prev().find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+				} else if (index === 3) {
+					$(this).parent().parent().prev().find("[data-index='" + index + "']").text($(this).val());
+					data_array.push($(this).val());
+				} else if (index === 4) {
+					if ($(this).parent().parent().find("input[name='origin_wh']").is(':checked')) {
+						$(this).parent().parent().prev().find("[data-index='" + index + "']").attr('src', $(this).val());
+						data_array.push($(this).val());
+					} else {
+						var imgname = $(this).val().match(/[^\/]+\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP)/gi).toString();
+						var imgwidth = $(this).parent().parent().find('input[name="custom_w"]').val();
+						var imgheight = $(this).parent().parent().find('input[name="custom_h"]').val();
+						$imginput = $(this);
+						if (imgname.match(/^(.*)(\.)(.{1,8})$/) != null) {
+							thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + imgname.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
+							$.ajax({
+								url: 'http://172.28.3.51:3008/thumb/' + thumb, //Server script to process data
+								type: 'get',
+								success: function(data) {
+									if (typeof data.thumb_url != 'undefined' && data.thumb_url != null) {
+										$imginput.parent().parent().prev().find("[data-index='" + index + "']").attr('src', data.thumb_url);
+										data_array.push(data.thumb_url);
+									}
+								},
+								error: function(data, error, errorThrown) {
+									if (data.status && data.status >= 400) {
+										alert(data.responseText);
+									} else {
+										alert("Something went wrong");
+									}
+								}
+							});
+						} else {
+							alert('Image type is not matched.');
+							return false;
+						}
+					}
+				}
+			})
+		}
+	})
+
 	$('#submit').on("click", function() {
 		$check = $('input[name=setMain]:checked');
+		// console.log(JSON.stringify(data_array));
+		// return false;
 		if ($check.length === 1) {
 			$.ajax({
 				url: '/nw', //Server script to process data
@@ -91,7 +103,8 @@ $(function() {
 				data: {
 					tempid: '' + $check.attr('data-xr'),
 					xr_width: $('#' + $check.attr('data-xr')).parent().width(),
-					xr_height: $('#' + $check.attr('data-xr')).parent().height()
+					xr_height: $('#' + $check.attr('data-xr')).parent().height(),
+					array:JSON.stringify(data_array)
 				},
 				success: function(data) {
 					$('#mask').hide();

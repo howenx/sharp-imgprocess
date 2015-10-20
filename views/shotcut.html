@@ -175,12 +175,12 @@
 					<div id='u_youjipin' class="goods_list_img">
 						<div class="img">
 							<a class="track">
-								<img src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8" width="100%" style="display: inline;">
+								<img data-index='4' src="http://i.liveport.cn/images/daily_goods/mobile/2015-09-24-1.jpg?v=8" width="100%" style="display: inline;">
 							</a>
-							<span>仅剩10天</span>
+							<span data-index='0'>仅剩10天</span>
 						</div>
 						<div class="text">
-							<span><b>6</b>元起</span>★以思念为料，享受烘焙的甜蜜★
+							<i data-index='1' style='font-style: normal;'>★以思念为料，享受烘焙的甜蜜★</i><span ><b data-index='2'>6</b><i data-index='3' style='font-style: normal;'>元起</i></span>
 						</div>
 					</div>
 				</div>
@@ -188,6 +188,19 @@
 <script>
 	$(function() {
 		$('#<%=tempid%>').parent().css({'display':'block'});
+		/** u_youjipin ***/
+		if ('<%=tempid%>' == 'u_youjipin') {
+			var index=0;
+			<% array.forEach(function(dt) { %>
+				if (index === 4) {
+					$('#u_youjipin').find("[data-index='" + index + "']").attr('src', '<%=dt%>');
+				}
+				else {
+					$('#u_youjipin').find("[data-index='" + index + "']").text('<%=dt%>');
+				}
+				index++;
+			<% }); %>
+		}
 	})
 </script>
 </body>

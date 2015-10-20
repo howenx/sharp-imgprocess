@@ -180,14 +180,17 @@
   			//   				}
   			//   			});
   			var http = new XMLHttpRequest();
-  			var url = "http://172.28.3.18:3008/upload";
+  			var url = "http://172.28.3.51:3008/upload";
   			http.open("POST", url, true);
   			http.onreadystatechange = function() {
   				if (http.readyState == 4 && http.status == 200) {
   					var data = JSON.parse(http.responseText);
   					alert(data.message);
   					if (typeof data.compress != 'undefined' && data.compress != null) {
-  						$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;">第' + ($('#gallery').children().length) + '张图片名称：<b>' + data.imgid + '</b><br><b>压缩前大小:' + data.compress.before + ' 压缩后大小:' + data.compress.after + ' 用时:' + data.compress.time + ' 压缩率:' + data.compress.rate + '</b></span>');
+  						$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;">第' + ($('#gallery').children().length) 
+						+ '张图片名称：<b>' + data.imgid + '</b><br>图片URL：<b>'
+						+data.minify_url.match(/[\w]+\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP)/gi)+'</b><br><b>压缩前大小:' 
+						+ data.compress.before + ' 压缩后大小:' + data.compress.after + ' 用时:' + data.compress.time + ' 压缩率:' + data.compress.rate + '</b></span>');
   					}
   					$(':radio[name=select-minify]').each(function(index, element) {
   						$(this).prop('checked', false);
