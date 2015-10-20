@@ -33,7 +33,8 @@ var upload = multer({
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	res.render("upload.html", {
-		title: 'Upload images'
+		title: 'Upload images',
+		url: url
 	});
 });
 

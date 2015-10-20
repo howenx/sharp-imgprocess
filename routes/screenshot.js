@@ -12,7 +12,9 @@ var crypto = require('crypto');
 
 /* screenshot page*/
 router.get('/screenshot', function(req, res, next) {
-	res.render('screenshot.html');
+	res.render("screenshot.html", {
+		url: url
+	});
 });
 function utf8_to_b64(str) {
     return btoa(unescape(encodeURIComponent(str)));

@@ -97,7 +97,7 @@ $(function() {
 							thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + imgname.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase();
 							
 							$.ajax({
-								url: 'http://172.28.3.51:3008/thumb/' + thumb, //Server script to process data
+								url: window.url+'/thumb/' + thumb, //Server script to process data
 								type: 'get',
 								success: function(data) {
 									if (typeof data.thumb_url != 'undefined' && data.thumb_url != null) {
@@ -135,7 +135,7 @@ $(function() {
 		$check = $('input[name=setMain]:checked');
 		if ($check.length === 1) {
 			$.ajax({
-				url: '/nw',
+				url: window.url+'/nw',
 				type: 'POST',
 				data: {
 					tempid: '' + $check.attr('data-xr'),
@@ -231,7 +231,7 @@ $(function() {
   			//   				}
   			//   			});
   			var http = new XMLHttpRequest();
-  			var url = "http://172.28.3.51:3008/upload";
+  			var url = window.url+"/upload";
   			http.open("POST", url, true);
   			http.onreadystatechange = function() {
   				if (http.readyState == 4 && http.status == 200) {
