@@ -72,6 +72,8 @@ router.post('/nw', function(req, res) {
             res.jsonp({
                 error:'000',
                 message: "ok.",
+				shot_id:uu_name+'.png',
+				path:'/uploads/shot/'+uu_name+'.png',
                 shot_url: url+'/uploads/shot/'+uu_name+'.png'
             });
 		});

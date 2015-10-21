@@ -73,6 +73,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 											message: 'Image Uploaded.',
 											imgid: imageName,
 											compress: compress,
+											path:'/uploads/minify/' + imageName,
 											minify_url: url + '/uploads/minify/' + imageName
 										});
 									});
@@ -131,6 +132,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 											message: "Unminify upload images success.",
 											imgid: imageName,
 											compress: compress,
+											path:'/uploads/minify/' + imageName,
 											minify_url: url + '/uploads/minify/' + imageName
 										});
 									}
@@ -150,6 +152,7 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 								message: "Image Uploaded, But the image type can't be compressed.",
 								imgid: imageName,
 								compress: compress,
+								path:'/uploads/minify/' + imageName,
 								minify_url: url + '/uploads/fullsize/' + imageName
 							});
 						}
@@ -213,6 +216,8 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 														res.status(400).jsonp({
 															error: '445',
 															message: 'Please minify the image firstly.',
+															thumb_id:file_nm,
+															path:'/uploads/fullsize/' + file_nm,
 															thumb_url: url + '/uploads/fullsize/' + file_nm
 														});
 													}
@@ -243,6 +248,8 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 															res.status(200).jsonp({
 																error: "000",
 																message: "ok.",
+																thumb_id:file,
+																path:'/uploads/thumb/' + file_nm,
 																thumb_url: url + '/uploads/thumb/' + file
 															});
 														}
@@ -257,6 +264,8 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 										res.status(200).jsonp({
 											error: "000",
 											message: 'ok.',
+											thumb_id:file,
+											path:'/uploads/thumb/' + file_nm,
 											thumb_url: url + '/uploads/thumb/' + file
 										});
 									}
@@ -270,6 +279,8 @@ router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
 								res.status(400).jsonp({
 									error: "445",
 									message: "The original file can't be thumb because of the type.",
+									thumb_id:file_nm,
+									path:'/uploads/fullsize/' + file_nm,
 									thumb_url: url + '/uploads/fullsize/' + file_nm
 								});
 							}
