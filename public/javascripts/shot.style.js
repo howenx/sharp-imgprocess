@@ -132,15 +132,17 @@ $(function() {
 
 	/** submit to nwjs shootscreen. **/
 	$('#submit').on("click", function() {
+		console.log(JSON.parse(JSON.stringify(data_array)));
+		
 		$check = $('input[name=setMain]:checked');
 		if ($check.length === 1) {
 			$.ajax({
-				url: window.url+'/nw',
+				url: 'http://172.28.3.18:3008/nw',
 				type: 'POST',
 				data: {
 					tempid: '' + $check.attr('data-xr'),
-					xr_width: $('#' + $check.attr('data-xr')).parent().width(),
-					xr_height: $('#' + $check.attr('data-xr')).parent().height(),
+					xr_width: $('#' + $check.attr('data-xr')).width(),
+					xr_height: $('#' + $check.attr('data-xr')).height(),
 					array:JSON.stringify(data_array)
 				},
 				success: function(data) {
@@ -214,7 +216,7 @@ $(function() {
   			formdata.append("params", params);
 			
   			var http = new XMLHttpRequest();
-  			var url = window.url+"/upload";
+  			var url = "http://172.28.3.18:3008/upload";
 			
   			http.open("POST", url, true);
 			

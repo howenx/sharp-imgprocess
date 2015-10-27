@@ -29,6 +29,8 @@ router.get('/shotcut/:tempid/:xr_width/:xr_height/:array', function(req, res, ne
 		
 		var parsed = JSON.parse(b64_to_utf8(b64_to_utf8(req.params.array+'==')));
 		
+		console.log(colors.red(parsed));
+		
 		var arr = [];
 
 		for(var x in parsed){
@@ -57,7 +59,7 @@ router.post('/nw', function(req, res) {
 	if (req.body.tempid) {
 		var uu_name =uuid.v4().replace(/-/g, '');
 		var filename = process.cwd() +'/uploads/shot/'+uu_name+'.png';
-		console.log(colors.red(process.cwd() + '/webkit/'+' || '+ filename+' || '+  url+' || '+ '/shotcut/'+req.body.tempid+' || '+  req.body.xr_width+' || '+  req.body.xr_height));
+		console.log(colors.red(process.cwd() + '/webkit/'+' || '+ filename+' || '+  url+'/shotcut/'+req.body.tempid+'/'+req.body.xr_width+'/'+req.body.xr_height+'/'+utf8_to_b64(utf8_to_b64(req.body.array))+' || '+ '/shotcut/'+req.body.tempid+' || '+  req.body.xr_width+' || '+  req.body.xr_height));
 		var nw = spawn(process.cwd() + '/node_modules/nw/bin/nw', [process.cwd() + '/webkit/', filename, url+'/shotcut/'+req.body.tempid+'/'+req.body.xr_width+'/'+req.body.xr_height+'/'+utf8_to_b64(utf8_to_b64(req.body.array)), req.body.xr_width, req.body.xr_height]);
 		nw.stdout.on('data', function(data) {
 			console.log('stdout: ' + data);
