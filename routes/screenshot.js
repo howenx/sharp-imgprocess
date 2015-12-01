@@ -24,7 +24,7 @@ function b64_to_utf8(str) {
     return decodeURIComponent(escape(atob(str)));
 }
 /**********screen shot cut *******************/
-router.get('/shotcut/:tempid/:xr_width/:xr_height/:array', function(req, res, next) {
+router.get('/shotcut/:tempid/:img_width/:img_height/:xr_width/:xr_height/:array', function(req, res, next) {
 	if (req.params.tempid) {
 		
 		var parsed = JSON.parse(b64_to_utf8(b64_to_utf8(req.params.array+'==')));
@@ -41,6 +41,8 @@ router.get('/shotcut/:tempid/:xr_width/:xr_height/:array', function(req, res, ne
 			tempid: req.params.tempid,
 			xr_width:req.params.xr_width,
 			xr_height:req.params.xr_height,
+			img_width:req.params.img_width,
+			img_height:req.params.img_height,
 			array:arr
 		});
 	} else {
@@ -59,8 +61,8 @@ router.post('/nw', function(req, res) {
 	if (req.body.tempid) {
 		var uu_name =uuid.v4().replace(/-/g, '');
 		var filename = process.cwd() +'/uploads/shot/'+uu_name+'.png';
-		console.log(colors.red(process.cwd() + '/webkit/'+' || '+ filename+' || '+  url+'/shotcut/'+req.body.tempid+'/'+req.body.xr_width+'/'+req.body.xr_height+'/'+utf8_to_b64(utf8_to_b64(req.body.array))+' || '+ '/shotcut/'+req.body.tempid+' || '+  req.body.xr_width+' || '+  req.body.xr_height));
-		var nw = spawn(process.cwd() + '/node_modules/nw/bin/nw', [process.cwd() + '/webkit/', filename, url+'/shotcut/'+req.body.tempid+'/'+req.body.xr_width+'/'+req.body.xr_height+'/'+utf8_to_b64(utf8_to_b64(req.body.array)), req.body.xr_width, req.body.xr_height]);
+		console.log(colors.red(process.cwd() + '/webkit/'+' || '+ filename+' || '+  url+'/shotcut/'+req.body.tempid+'/'+req.body.img_width+'/'+req.body.img_height+'/'+req.body.xr_width+'/'+req.body.xr_height+'/'+utf8_to_b64(utf8_to_b64(req.body.array))+' || '+ '/shotcut/'+req.body.tempid+' || '+  req.body.xr_width+' || '+  req.body.xr_height));
+		var nw = spawn(process.cwd() + '/node_modules/nw/bin/nw', [process.cwd() + '/webkit/', filename, url+'/shotcut/'+req.body.tempid+'/'+req.body.img_width+'/'+req.body.img_height+'/'+req.body.xr_width+'/'+req.body.xr_height+'/'+utf8_to_b64(utf8_to_b64(req.body.array)), req.body.xr_width, req.body.xr_height]);
 		nw.stdout.on('data', function(data) {
 			console.log('stdout: ' + data);
 		});
