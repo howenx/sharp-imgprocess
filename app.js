@@ -16,11 +16,12 @@ var errorHandler = require('errorhandler');
 var upload = require('./routes/upload');
 var split = require('./routes/split');
 var screenshot = require('./routes/screenshot');
+var alioss = require('./routes/alioss');
 
 /****** Global variable ************/
 https = require('https');
 http = require('http');
-dateformat = require('console-stamp/node_modules/dateformat');
+dateformat = require('dateformat');
 path = require('path');
 colors = require('colors');
 fs = require("fs");
@@ -67,6 +68,7 @@ app.use(express.static('public'));
 app.use('/', upload);
 app.use('/', split);
 app.use('/', screenshot);
+app.use('/', alioss);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

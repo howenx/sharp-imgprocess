@@ -137,7 +137,7 @@ $(function() {
 		$check = $('input[name=setMain]:checked');
 		if ($check.length === 1) {
 			$.ajax({
-				url: 'http://172.28.3.18:3008/nw',
+				url: window.url+'/nw',
 				type: 'POST',
 				data: {
 					tempid: '' + $check.attr('data-xr'),
@@ -216,7 +216,7 @@ $(function() {
   			formdata.append("params", params);
 			
   			var http = new XMLHttpRequest();
-  			var url = "http://172.28.3.18:3008/upload";
+  			var url = window.url+"/upload";
 			
   			http.open("POST", url, true);
 			
