@@ -43,7 +43,7 @@ win.on('loaded', function handleLoad() {
 		},
 		function(cb) {
 			console.log($('body',document).width()+' || '+win.width+' || '+win.window.document.body.scrollWidth+' || '+win.window.document.documentElement.clientWidth+' || '+win.window.innerWidth+' || ');
-			// setTimeout(cb, 10);
+			//setTimeout(cb, 10);
 			win.resizeTo(width,height);
 		},
 		function(err) {
