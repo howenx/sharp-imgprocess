@@ -109,7 +109,7 @@
   				var type = imgname.match(/(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/g).toString().replace(/\./gi, '').toLowerCase();
   				thumb = imgname + '_' + imgwidth + '×' + imgheight + '.' + type;
   				$.ajax({
-  					url: window.url+'/thumb/' + thumb, //Server script to process data
+  					url: window.url+'/thumb/file/' + thumb, //Server script to process data
   					type: 'get',
   					success: function(data) {
   						alert(data.error);
@@ -161,7 +161,7 @@
   					if (typeof data.compress != 'undefined' && data.compress != null) {
   						$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;">第' + ($('#gallery').children().length) 
 						+ '张图片名称：<b>' + data.imgid + '</b><br>图片URL：<b>'
-						+data.minify_url+'</b><br><b>压缩前大小:' 
+						+data.minify_url+'</b><br>OSS服务器：<b>'+data.oss_prefix+'</b><br>OSS图片URL：<b>'+data.oss_url+'</b><br><b>压缩前大小:' 
 						+ data.compress.before + ' 压缩后大小:' + data.compress.after + ' 用时:' + data.compress.time + ' 压缩率:' + data.compress.rate + '</b></span>');
   					}
   					$(':radio[name=select-minify]').each(function(index, element) {

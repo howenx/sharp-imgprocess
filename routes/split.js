@@ -3,6 +3,7 @@ var router = express.Router();
 var gm = require("gm");
 var cheerio = require('cheerio');
 var uuid = require('uuid');
+var aliutil = require('../lib/aliutil');
 
 /* split results display page. */
 router.get('/splithtml/:id', function(req, res) {
@@ -10,7 +11,7 @@ router.get('/splithtml/:id', function(req, res) {
 });
 /* split image for 3 pices. */
 router.get('/split/:id', function(req, res, next) {
-	res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     file = req.params.id;
     try {
         //load template crop_img.html
@@ -71,7 +72,7 @@ router.get('/split/:id', function(req, res, next) {
 });
 /* split image for 3 pices. */
 router.get('/split/file/:id', function(req, res, next) {
-	res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     file = req.params.id;
     try {
         //load template crop_img.html
@@ -84,6 +85,7 @@ router.get('/split/file/:id', function(req, res, next) {
                 path = process.cwd() + '/uploads/fullsize/' + file;
             }
             var sparry = new Array();
+            var ossimages = new Array();
             fs.lstat(path, function(err, stats) {
                 if (!err) {
                     var gm_format, gm_width, gm_height;
@@ -94,7 +96,7 @@ router.get('/split/file/:id', function(req, res, next) {
                                 gm_width = data.size.width;
                                 gm_height = data.size.height;
                                 for (var i = 0; i < 3; i++) {
-                                    var crop_nm = uuid.v4().replace(/-/g, '')+ "." + gm_format;
+                                    var crop_nm = uuid.v4().replace(/-/g, '') + "." + gm_format;
                                     var crop_path = process.cwd() + "/uploads/split/" + crop_nm;
                                     gm(path)
                                         .crop(gm_width, gm_height / 3, 0, (gm_height / 3) * i)
@@ -104,12 +106,26 @@ router.get('/split/file/:id', function(req, res, next) {
                                                 console.log(colors.gray('split success.'));
                                             } else next(err);
                                         });
+                                    var mime_type = '';
+                                    if (type === 'png' || type === 'jpeg') mime_type = 'image/png';
+                                    else mime_type = 'image/jpeg';
                                     sparry.push(url + '/uploads/split/' + crop_nm);
+                                    aliutil.putObject({
+                                        path: crop_path,
+                                        bucket: 'hmm-images',
+                                        file_nm: crop_nm,
+                                        mime_type: mime_type
+                                    }, function(data) {
+                                        ossimages.push(crop_nm);
+                                    });
+
                                     if (i === 2) {
                                         res.jsonp({
                                             error: "000",
                                             message: "ok.",
-                                            split_url:JSON.stringify(sparry)
+                                            split_url: JSON.stringify(sparry),
+                                            oss_url:JSON.stringify(ossimages),
+                                            oss_prefix:ALI_PREFIX
                                         });
                                     }
                                 }
@@ -129,7 +145,7 @@ router.get('/split/file/:id', function(req, res, next) {
                     });
                 }
             });
-        }else{
+        } else {
             console.log(colors.gray("Split image type mismatch."));
             res.jsonp({
                 error: '445',

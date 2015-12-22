@@ -9,6 +9,7 @@ var uuid = require('uuid');
 var atob = require('atob');
 var btoa = require('btoa');
 var crypto = require('crypto');
+var aliutil = require('../lib/aliutil');
 
 /* screenshot page*/
 router.get('/screenshot', function(req, res, next) {
@@ -73,13 +74,21 @@ router.post('/nw', function(req, res) {
 
 		nw.on('exit', function(code) {
 			console.log('child process exited with code ' + code);
-            res.jsonp({
-                error:'000',
-                message: "ok.",
-				shot_id:uu_name+'.png',
-				path:'/uploads/shot/'+uu_name+'.png',
-                shot_url: url+'/uploads/shot/'+uu_name+'.png'
-            });
+            aliutil.putObject({
+                path: filename,
+                bucket: 'hmm-images',
+                file_nm: uu_name+'.png',
+                mime_type: 'image/png'
+            }, function(data) {
+                res.jsonp({
+                    error:'000',
+                    message: "ok.",
+    				shot_id:uu_name+'.png',
+    				path:'/uploads/shot/'+uu_name+'.png',
+                    shot_url: url+'/uploads/shot/'+uu_name+'.png',
+                    oss_url:uu_name+'.png'
+                });
+            });            
 		});
 	} else {
 		var notFound = new Error('not found tempid.');

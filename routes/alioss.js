@@ -9,22 +9,12 @@ var multer = require('multer');
 var uuid = require('uuid');
 var aliutil = require('../lib/aliutil');
 
-/* split results display page. */
 router.get('/oss/list', function(req, res) {
-
     aliutil.listObject('hmm-images', function(data) {
-        res.send(data);
+        aliutil.signedUrl('hmm-images','195c62925c5d4fc18c02d5bea4ba42721450590775056.jpg', function(data) {
+            res.send(data);
+        })
     });
-    // aliutil.putObject({
-//             path: process.cwd() + "/uploads/minify/" + "8fccbf40402810fdee2d8b84b2e7b56d.jpg",
-//             bucket: 'hmm-images',
-//             file_nm: '8fccbf40402810fdee2d8b84b2e7b56d.jpg',
-//             filt_type: 'image/jpeg'
-//         },
-//         function(data) {
-//             res.send(data);
-//         }
-//     );
 });
 
 

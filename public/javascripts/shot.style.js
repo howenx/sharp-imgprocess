@@ -231,7 +231,7 @@ $(function() {
   					if (typeof data.compress != 'undefined' && data.compress != null) {
   						$('#gpicnm').append('<span style="display:block;margin:10px;width:100%;"><h4>第' + ($('#gallery').children().length) 
 						+ '张</h4>图片名称: <b>' + data.imgid + '</b></br>图片路径:<b>' + data.path + '</b><br>图片URL: <b>'
-						+data.minify_url+'</b><br>压缩数据: <b>压缩前大小 ' 
+						+data.minify_url+'</b><br>OSS服务器：<b>'+data.oss_prefix+'</b><br>OSS图片URL：<b>'+data.oss_url+'</b><br>压缩数据: <b>压缩前大小 ' 
 						+ data.compress.before + ', 压缩后大小 ' + data.compress.after + ', 用时 ' + data.compress.time + ', 压缩率 ' + data.compress.rate + '</b></span>');
   					}
 					

@@ -17,8 +17,11 @@ var upload = require('./routes/upload');
 var split = require('./routes/split');
 var screenshot = require('./routes/screenshot');
 var alioss = require('./routes/alioss');
+var view = require('./routes/view');
+var thumb = require('./routes/thumb');
 
 /****** Global variable ************/
+ALI_PREFIX = 'http://hmm-images.oss-cn-beijing.aliyuncs.com/';
 https = require('https');
 http = require('http');
 dateformat = require('dateformat');
@@ -69,6 +72,8 @@ app.use('/', upload);
 app.use('/', split);
 app.use('/', screenshot);
 app.use('/', alioss);
+app.use('/', view);
+app.use('/', thumb);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
