@@ -19,6 +19,7 @@ var screenshot = require('./routes/screenshot');
 var alioss = require('./routes/alioss');
 var view = require('./routes/view');
 var thumb = require('./routes/thumb');
+var shot = require('./routes/shot');
 
 /****** Global variable ************/
 ALI_PREFIX = 'http://hmm-images.oss-cn-beijing.aliyuncs.com/';
@@ -74,6 +75,7 @@ app.use('/', screenshot);
 app.use('/', alioss);
 app.use('/', view);
 app.use('/', thumb);
+app.use('/',shot)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

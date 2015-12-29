@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Template Select</title>
+	<link rel="stylesheet" href="/stylesheets/C6D080ECC007BEC73.css">
+	<link rel="stylesheet" href="/stylesheets/screenshot.css">
+	<link rel="stylesheet" href="/stylesheets/button.css">
+	<style>
+		.container{
+		    position: relative;
+		}
+		.compress-div {
+		    position: relative;
+		    width: 100%;
+		    border: 0px dashed #e6e6e6; 
+		    padding: 0px;
+		    overflow: auto;
+		}
+		body{
+		    margin: 0px;
+		    width: auto;
+		    padding: 0px;
+		    height: auto;
+			/*overflow: hidden;*/
+		}
+	</style>
+</head>
+<body>
+	<div class='container'>
+		<div class='compress-div'>
+			<div class='li-dv' style='display: block;'>
+				<div id='shop_unpack' name="temp_unpack" class="li sync-hide auto">
+					<div class='li unpack-temp-img' id='unpack_img'>
+					</div>
+					<div id='unpack_title' class='unpack-title-container'>
+						<span>
+							<b id='unpack_discount' style="font-weight: normal;">20</b>
+							<b style="font-size: 17px;font-weight: normal;">%</b>
+						</span>
+						<div id='unpack_price_origin'>￥600.00</div>
+						<div id='unpack_price_current'>￥480.00</div>
+						<div id='unpack_vertical_line'></div>
+						<div id='unpack_span'>拼购打你吗<b style="font-size: xx-small;font-weight:normal;">(最低)</b></div>
+						<div id='unpack_price_unpack'>￥400.00</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='submit-area'>
+			<a class="large blue-light button" id='submit'>Submit</a>
+		</div>
+	</div>
+	<script src="//code.jquery.com/jquery-1.11.3.min.js" ></script>
+	<script>
+	$('#submit').click(function(){
+		console.log($('.li-dv')[0].outerHTML);
+		
+		$.ajax({
+			url: "http://172.28.3.51:3008/cut", //Server script to process data
+			type: 'post',
+			data: {
+				html: '' +$('.li-dv')[0].outerHTML,
+				width:$('.li-dv').width(),
+				height:$('.li-dv').height()
+			},
+			success: function(data) {
+				console.log(JSON.stringify(data));
+				window.open(data.shot_url,'_blank');
+			},
+			error: function(data, error, errorThrown) {
+				if (data.status && data.status >= 400) {
+					alert(data.responseText);
+				} else {
+					alert("Something went wrong");
+				}
+			}
+		});
+		
+	});
+	</script>
+</body>
+</html>
