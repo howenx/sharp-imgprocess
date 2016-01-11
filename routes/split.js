@@ -178,7 +178,7 @@ function dealCrop(obj, callback) {
 			var re = new Object();
 			re.sparry =sparry;
 			re.ossimages =ossimages;
-			setTimeout(callback(re), 1000);
+			setTimeout(callback(re), 5000);
 		}
 	}
 }

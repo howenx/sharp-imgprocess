@@ -40,11 +40,12 @@ win.on('loaded', function handleLoad() {
 
 	// Wait for resize to take effect
 	async.until(function() {
-			return $('body', document).width() == width;
+			// return $('body', document).width() == width;
+			return win.width == width && win.height == height;
 		},
 		function(cb) {
 			//setTimeout(cb, 10);
-			console.log('params width: '+width + ' || body width: ' +$('body', document).width() + ' || win width: ' + win.width + ' || ' + win.window.document.body.scrollWidth + ' || ' + win.window.document.documentElement.clientWidth + ' || ' + win.window.innerWidth + ' || ');
+			console.log('params height: '+height + ' || win height: ' + win.height + ' || params width: '+width + ' || body width: ' +$('body', document).width() + ' || win width: ' + win.width + ' || ' + win.window.document.body.scrollWidth + ' || ' + win.window.document.documentElement.clientWidth + ' || ' + win.window.innerWidth + ' || ');
 			win.resizeTo(width, height);
 		},
 		function(err) {
