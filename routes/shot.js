@@ -53,22 +53,37 @@ router.post('/cut', function(req, res, next) {
 					nw.on('exit', function(code) {
 						console.log('child process exited with code ' + code);
 						// setTimeout(
-							aliutil.putObject({
-								path: filename,
-								bucket: 'hmm-images',
-								file_nm: uu_name + '.jpg',
+							// aliutil.putObject({
+// 								path: filename,
+// 								bucket: 'hmm-images',
+// 								file_nm: uu_name + '.jpg',
+// 								mime_type: 'image/jpeg'
+// 							}, function(data) {
+// 								res.jsonp({
+// 									error: '000',
+// 									message: "ok.",
+// 									shot_id: uu_name + '.jpg',
+// 									path: '/uploads/shot/' + uu_name + '.jpg',
+// 									shot_url: url + '/uploads/shot/' + uu_name + '.jpg',
+// 									oss_url: uu_name + '.jpg',
+// 									oss_prefix: ALI_PREFIX
+// 								});
+// 							})
+							aliPut({
+								path: filename+'',
+								file_nm: uu_name+'.jpg',
 								mime_type: 'image/jpeg'
 							}, function(data) {
-								res.jsonp({
-									error: '000',
-									message: "ok.",
-									shot_id: uu_name + '.jpg',
-									path: '/uploads/shot/' + uu_name + '.jpg',
-									shot_url: url + '/uploads/shot/' + uu_name + '.jpg',
-									oss_url: uu_name + '.jpg',
-									oss_prefix: ALI_PREFIX
-								});
-							})
+								console.log(colors.yellow(JSON.stringify(data)))
+							    res.jsonp({
+							        error:'000',
+							        message: "ok.",
+									shot_id:uu_name+'.jpg',
+									path:'/uploads/shot/'+uu_name+'.jpg',
+							        shot_url: url+'/uploads/shot/'+uu_name+'.jpg',
+							        oss_url:uu_name+'.jpg'
+							    });
+							})         
 						// ,2000);
 					});
 				}
@@ -76,5 +91,22 @@ router.post('/cut', function(req, res, next) {
 		})
 	}
 });
+
+function aliPut(obj, callback) {
+	fs.lstat(obj.path, function(err, stats) {
+		if (!err) {
+			aliutil.putObject({
+				path: obj.path + '',
+				bucket: 'hmm-images',
+				file_nm: obj.file_nm + '',
+				mime_type: obj.mime_type
+			}, function(data) {
+				callback(data);
+			});
+		} else {
+			console.log(colors.red('error'));
+		}
+	});
+}
 
 module.exports = router;
