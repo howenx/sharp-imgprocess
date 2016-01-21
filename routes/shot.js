@@ -52,23 +52,24 @@ router.post('/cut', function(req, res, next) {
 
 					nw.on('exit', function(code) {
 						console.log('child process exited with code ' + code);
-						setTimeout(aliutil.putObject({
-							path: filename,
-							bucket: 'hmm-images',
-							file_nm: uu_name + '.jpg',
-							mime_type: 'image/jpeg'
-						}, function(data) {
-							console.log("滚粗的阿里云: "+JSON.stringify(data));
-							res.jsonp({
-								error: '000',
-								message: "ok.",
-								shot_id: uu_name + '.jpg',
-								path: '/uploads/shot/' + uu_name + '.jpg',
-								shot_url: url + '/uploads/shot/' + uu_name + '.jpg',
-								oss_url: uu_name + '.jpg',
-								oss_prefix: ALI_PREFIX
-							});
-						}),1000);
+						// setTimeout(
+							aliutil.putObject({
+								path: filename,
+								bucket: 'hmm-images',
+								file_nm: uu_name + '.jpg',
+								mime_type: 'image/jpeg'
+							}, function(data) {
+								res.jsonp({
+									error: '000',
+									message: "ok.",
+									shot_id: uu_name + '.jpg',
+									path: '/uploads/shot/' + uu_name + '.jpg',
+									shot_url: url + '/uploads/shot/' + uu_name + '.jpg',
+									oss_url: uu_name + '.jpg',
+									oss_prefix: ALI_PREFIX
+								});
+							})
+						// ,2000);
 					});
 				}
 			});

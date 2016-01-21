@@ -61,7 +61,7 @@ router.post('/nw', function(req, res) {
 	
 	if (req.body.tempid) {
 		var uu_name =uuid.v4().replace(/-/g, '');
-		var filename = process.cwd() +'/uploads/shot/'+uu_name+'.png';
+		var filename = process.cwd() +'/uploads/shot/'+uu_name+'.jpg';
 		console.log(colors.red(process.cwd() + '/webkit/'+' || '+ filename+' || '+  url+'/shotcut/'+req.body.tempid+'/'+req.body.img_width+'/'+req.body.img_height+'/'+req.body.xr_width+'/'+req.body.xr_height+'/'+utf8_to_b64(utf8_to_b64(req.body.array))+' || '+ '/shotcut/'+req.body.tempid+' || '+  req.body.xr_width+' || '+  req.body.xr_height));
 		var nw = spawn(process.cwd() + '/node_modules/nw/bin/nw', [process.cwd() + '/webkit/', filename, url+'/shotcut/'+req.body.tempid+'/'+req.body.img_width+'/'+req.body.img_height+'/'+req.body.xr_width+'/'+req.body.xr_height+'/'+utf8_to_b64(utf8_to_b64(req.body.array)), req.body.xr_width, req.body.xr_height]);
 		nw.stdout.on('data', function(data) {
@@ -74,21 +74,21 @@ router.post('/nw', function(req, res) {
 
 		nw.on('exit', function(code) {
 			console.log('child process exited with code ' + code);
-            aliutil.putObject({
-                path: filename,
-                bucket: 'hmm-images',
-                file_nm: uu_name+'.png',
-                mime_type: 'image/png'
-            }, function(data) {
+			aliPut({
+				path: filename+'',
+				file_nm: uu_name+'.jpg',
+				mime_type: 'image/jpeg'
+			}, function(data) {
+				console.log(colors.yellow(JSON.stringify(data)))
                 res.jsonp({
                     error:'000',
                     message: "ok.",
-    				shot_id:uu_name+'.png',
-    				path:'/uploads/shot/'+uu_name+'.png',
-                    shot_url: url+'/uploads/shot/'+uu_name+'.png',
-                    oss_url:uu_name+'.png'
+    				shot_id:uu_name+'.jpg',
+    				path:'/uploads/shot/'+uu_name+'.jpg',
+                    shot_url: url+'/uploads/shot/'+uu_name+'.jpg',
+                    oss_url:uu_name+'.jpg'
                 });
-            });            
+			})           
 		});
 	} else {
 		var notFound = new Error('not found tempid.');
@@ -96,4 +96,21 @@ router.post('/nw', function(req, res) {
 		return next(notFound);
 	}
 });
+
+function aliPut(obj, callback) {
+	fs.lstat(obj.path, function(err, stats) {
+		if (!err) {
+			aliutil.putObject({
+				path: obj.path + '',
+				bucket: 'hmm-images',
+				file_nm: obj.file_nm + '',
+				mime_type: obj.mime_type
+			}, function(data) {
+				callback(data);
+			});
+		} else {
+			console.log(colors.red('error'));
+		}
+	});
+}
 module.exports = router;
