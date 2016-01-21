@@ -22,7 +22,7 @@ router.get('/shottest', function(req, res, next) {
 router.post('/cut', function(req, res, next) {
 	// console.log(req.body.html);
 	res.setHeader('Access-Control-Allow-Origin', '*');	
-	
+	if(req.protocol==='https') url = urls;
 	if (req.body.html) {
 
 		fs.readFile(process.cwd() + "/views/shot.html", function(err, shothtml) {

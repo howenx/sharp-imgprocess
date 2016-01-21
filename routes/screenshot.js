@@ -13,6 +13,7 @@ var aliutil = require('../lib/aliutil');
 
 /* screenshot page*/
 router.get('/screenshot', function(req, res, next) {
+    if(req.protocol==='https') url = urls;
 	res.render("screenshot.html", {
 		url: url
 	});
@@ -26,6 +27,7 @@ function b64_to_utf8(str) {
 }
 /**********screen shot cut *******************/
 router.get('/shotcut/:tempid/:img_width/:img_height/:xr_width/:xr_height/:array', function(req, res, next) {
+    if(req.protocol==='https') url = urls;
 	if (req.params.tempid) {
 		
 		var parsed = JSON.parse(b64_to_utf8(b64_to_utf8(req.params.array+'==')));
@@ -58,7 +60,7 @@ router.get('/shotcut/:tempid/:img_width/:img_height/:xr_width/:xr_height/:array'
 router.post('/nw', function(req, res) {
 	
 	res.setHeader('Access-Control-Allow-Origin', '*');	
-	
+	if(req.protocol==='https') url = urls;
 	if (req.body.tempid) {
 		var uu_name =uuid.v4().replace(/-/g, '');
 		var filename = process.cwd() +'/uploads/shot/'+uu_name+'.png';

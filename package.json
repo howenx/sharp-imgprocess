@@ -7,11 +7,14 @@
   },
   "dependencies": {
     "aliyun-sdk": "^1.6.5",
+    "append-field": "^0.1.0",
     "atob": "^2.0.0",
     "base-64": "^0.1.0",
     "body-parser": "^1.14.2",
     "btoa": "^1.1.2",
+    "busboy": "^0.2.12",
     "cheerio": "^0.19.0",
+    "clone": "^1.0.2",
     "colors": "^1.1.2",
     "console-stamp": "^0.2.0",
     "cookie-parser": "^1.4.0",
@@ -40,8 +43,12 @@
     "morgan": "^1.6.1",
     "multer": "^1.1.0",
     "nw": "^0.12.3",
+    "object-assign": "^4.0.1",
+    "on-finished": "^2.3.0",
     "serve-favicon": "^2.3.0",
-    "uuid": "^2.0.1"
+    "type-is": "^1.6.10",
+    "uuid": "^2.0.1",
+    "xtend": "^4.0.1"
   },
   "description": "nodejs images process",
   "main": "app.js",

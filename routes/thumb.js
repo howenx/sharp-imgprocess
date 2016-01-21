@@ -9,6 +9,7 @@ var aliutil = require('../lib/aliutil');
 /* Thumb Image */
 router.get(['/thumb/file/:id/', '/thumb/:id'], function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
+    if(req.protocol==='https') url = urls;
     try {
         var file = req.params.id;
         var match = req.path.match(/\/file\//);
