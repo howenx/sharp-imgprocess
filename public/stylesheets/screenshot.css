@@ -900,7 +900,7 @@ figure {
 /*******************************************/
 .li-dv {
 	display: none;
-	overflow: auto;
+/*	overflow: auto;*/
 	margin: auto;
 }
 

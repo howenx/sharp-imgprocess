@@ -19,16 +19,16 @@ var height = gui.App.argv[3] / 1;
 
 // Navigate to a website in a new window
 // DEV: Otherwise, we lose our script after navigating
-var guiWidth = width;
-var guiHeight = height;
+
 var win = gui.Window.open(url, {
-	width: guiWidth,
-	height: guiHeight,
+	width:width,
+	height:height,
 	toolbar: false,
 	show: false,
 	frame: false
 });
 win.resizeTo(width, height);
+
 // When all the assets load (e.g. images, CSS, JS)
 win.on('loaded', function handleLoad() {
 	var window = win.window;
@@ -38,15 +38,23 @@ win.on('loaded', function handleLoad() {
 		win.window.document.documentElement.clientWidth,
 		win.window.innerWidth || 0);
 
+// console.log('height: '+win.window.document.body.scrollHeight+ ' || params height: '+height)
+
 	// Wait for resize to take effect
 	async.until(function() {
 			// return $('body', document).width() == width;
-			return win.width == width && win.height == height;
+			return win.width == width;
 		},
 		function(cb) {
 			//setTimeout(cb, 10);
-			console.log('params height: '+height + ' || win height: ' + win.height + ' || params width: '+width + ' || body width: ' +$('body', document).width() + ' || win width: ' + win.width + ' || ' + win.window.document.body.scrollWidth + ' || ' + win.window.document.documentElement.clientWidth + ' || ' + win.window.innerWidth + ' || ');
-			win.resizeTo(width, height);
+			console.log('height: '+win.window.document.body.scrollHeight + ' || params height: '+height + ' || win height: ' + win.height + ' || params width: '+width + ' || body width: ' +$('body', document).width() + ' || win width: ' + win.width + ' || ' + win.window.document.body.scrollWidth + ' || ' + win.window.document.documentElement.clientWidth + ' || ' + win.window.innerWidth + ' || ');
+			// if(height==0){
+// 				// win.resizeTo(width, $('body', document).height());
+// 				win.width = width;
+				
+				// win.height = win.window.document.body.scrollHeight;
+// 			}else 
+			win.resizeTo(width, win.height);
 		},
 		function(err) {
 			setTimeout(function waitForStabilization() {
@@ -61,7 +69,6 @@ win.on('loaded', function handleLoad() {
 					format: 'jpeg',
 					datatype: 'buffer'
 				});
-			}, 200);
+			}, 2000);
 		});
-
 });

@@ -220,6 +220,9 @@ $(function() {
 			
   			http.open("POST", url, true);
 			
+			// http.setRequestHeader("Content-Type", "multipart/form-data");
+			// http.setRequestHeader("content-type","multipart/form-data;boundary=" + Math.random().toString().substr(2));
+			
   			http.onreadystatechange = function() {
 				
   				if (http.readyState == 4 && http.status == 200) {

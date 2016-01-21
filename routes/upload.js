@@ -17,6 +17,7 @@ var storage = multer.diskStorage({
 		fileSize: 1024 * 1024 * 200
 	},
 	filename: function(req, file, cb) {
+		// console.log(req);
 		var getFileExt = function(fileName) {
 			var fileExt = "";
 			if (fileName.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase() != null && fileName.match(/^(.*)(\.)(.{1,8})$/)[3].toLowerCase() != 'undefined') {
@@ -41,13 +42,16 @@ router.get('/', function(req, res, next) {
 
 /* Post Upload File listing. */
 router.post('/upload', upload.single('photo'), function(req, res, next) {
+	
+	console.log(req);
 	res.setHeader('Access-Control-Allow-Origin', '*');
-	console.log(colors.red(JSON.stringify(req.body)));
+	console.log(req.body);
 	var mimetype = req.file.mimetype;
 	var imageName = req.file.filename;
 	var imageSize = req.file.size;
 	var path = req.file.path;
 
+	console.log(colors.red(req.body.params));
 	var minify_flag = req.body.params;
 	try {
 		if (minify_flag != 'undefined' && req.body.params) {

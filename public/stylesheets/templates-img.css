@@ -1,0 +1,21 @@
+/********* templates *********/
+.li-dv{
+    width: 100%;height: auto;position: relative;
+}
+.li-dv .temp-img{
+    width: 100%;height: 100%;position: relative;
+    background: #fff;
+}
+.li-dv img{
+    width: 100%;height: 100%;
+}
+/*** .drag **/
+.li-dv p{
+    display: inline-block;
+    position: absolute;
+    word-wrap: break-word;
+}
+.li-dv .drag,.li-dv .drag-img{
+    position: absolute;
+	width:100%;
+}
