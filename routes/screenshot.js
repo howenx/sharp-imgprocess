@@ -58,8 +58,6 @@ router.get('/shotcut/:tempid/:img_width/:img_height/:xr_width/:xr_height/:array'
 
 /* screenshot shell */
 router.post('/nw', function(req, res) {
-	
-	res.setHeader('Access-Control-Allow-Origin', '*');	
 	if(req.protocol==='https') url = urls;
 	if (req.body.tempid) {
 		var uu_name =uuid.v4().replace(/-/g, '');

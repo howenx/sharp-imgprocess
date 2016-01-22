@@ -25,6 +25,10 @@ var shot = require('./routes/shot');
 
 /****** Global variable ************/
 ALI_PREFIX = 'http://hmm-images.oss-cn-beijing.aliyuncs.com/';
+ALI_PREFIX_S = 'https://hmm-images.oss-cn-beijing.aliyuncs.com/';
+global.END_POINT = 'http://oss-cn-beijing.aliyuncs.com';
+global.END_POINT_S = 'https://oss-cn-beijing.aliyuncs.com';
+END_POINTS_IN = 'https://oss-cn-beijing-internal.aliyuncs.com';
 https = require('https');
 http = require('http');
 
@@ -33,6 +37,7 @@ path = require('path');
 colors = require('colors');
 fs = require("fs");
 colors = require('colors');
+cors = require('cors');
 colors.setTheme({
 	silly: 'rainbow',
 	input: 'grey',
@@ -46,12 +51,40 @@ colors.setTheme({
 	error: 'red'
 });
 
+
+var whitelist = ['https://admin.hanmimei.com', 'http://172.28.3'];
+
+corsOptionsDelegate = function(req, callback){
+  var corsOptions;
+  if((new RegExp( '\\b' + whitelist.join('\\b|\\b') + '\\b')).test(req.header('Origin'))){
+	  	console.log(req.header('Origin')+" --->match");
+    	corsOptions = { origin: true };
+	    if(req.protocol==='https') {
+	  	  ALI_PREFIX = ALI_PREFIX_S;
+	  	  global.END_POINT =global.END_POINT_S;
+	  	  url = urls;
+	    }
+  }else{
+    	corsOptions = { origin: false };
+		console.log(req.header('Origin')+" --->not match");
+		res.status(404);
+		res.jsonp({
+			message: err.message,
+			error: '404'
+		});
+  }
+  callback(null, corsOptions);
+};
+
+app.use(cors(corsOptionsDelegate));
+
 var privateKey  = fs.readFileSync('ssl/hanmimei.key', 'utf8');
 var certificate = fs.readFileSync('ssl/hanmimei.crt', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 
 app.set('port', process.env.PORT || 3008);
 app.set('httpsport', process.env.HTTPSPORT ||3010);
+
 
 /*** view engine setup ****/
 app.engine('html', require('ejs').renderFile);
@@ -78,6 +111,31 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 
 /********* routers ******************/
+
+
+// app.use("/",function (req, res, next) {
+//     if((new RegExp( '\\b' + whitelist.join('\\b|\\b') + '\\b')).test(req.header('Origin'))){
+//   	  	console.log(req.header('Origin')+" --->match");
+//       	corsOptions = { origin: true };
+//   	    if(req.protocol==='https') {
+//   	  	  ALI_PREFIX = ALI_PREFIX_S;
+//   	  	  global.END_POINT =global.END_POINT_S;
+//   	  	  url = urls;
+//   	    }
+// 		next();
+//     }else{
+//       	corsOptions = { origin: false };
+//   		console.log(req.header('Origin')+" --->not match");
+// 		res.status(404);
+// 		res.jsonp({
+// 			message: err.message,
+// 			error: '404'
+// 		});
+//     }
+//   console.log('日你妈－－－－》《');
+//
+// });
+
 app.use(express.static('public'));
 app.use('/', upload);
 app.use('/', split);
@@ -85,7 +143,7 @@ app.use('/', screenshot);
 app.use('/', alioss);
 app.use('/', view);
 app.use('/', thumb);
-app.use('/',shot)
+app.use('/', shot);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
