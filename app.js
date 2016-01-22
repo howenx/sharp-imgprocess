@@ -12,6 +12,8 @@ var methodOverride = require('method-override');
 var session = require('express-session');
 var errorHandler = require('errorhandler');
 
+
+
 /********** modules config *************/
 var upload = require('./routes/upload');
 var split = require('./routes/split');
@@ -25,6 +27,7 @@ var shot = require('./routes/shot');
 ALI_PREFIX = 'http://hmm-images.oss-cn-beijing.aliyuncs.com/';
 https = require('https');
 http = require('http');
+
 dateformat = require('dateformat');
 path = require('path');
 colors = require('colors');
@@ -42,7 +45,14 @@ colors.setTheme({
 	debug: 'blue',
 	error: 'red'
 });
+
+var privateKey  = fs.readFileSync('ssl/hanmimei.key', 'utf8');
+var certificate = fs.readFileSync('ssl/hanmimei.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+
 app.set('port', process.env.PORT || 3008);
+app.set('httpsport', process.env.HTTPSPORT ||3010);
+
 /*** view engine setup ****/
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
@@ -113,12 +123,24 @@ app.use(function(err, req, res, next) {
 });
 
 /************* Listen Server *******************/
-var server = app.listen(app.get('port'), function() {
-	console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + colors.gray('\tNodejs server listening on ') + colors.magenta(ip.address() + ':' + server.address().port));
+// var server = app.listen(app.get('port'), function() {
+//     console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + colors.gray('\tNodejs server listening on ') + colors.magenta(ip.address() + ':' + server.address().port));
+//     console.log(colors.cyan('\n····························style-imgprocess server started····························\n'));
+// });
+//
+
+
+var httpsServer = https.createServer(credentials, app).listen(app.get('httpsport'),function(){
+	console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + colors.gray('\tNodejs server listening on ') + colors.magenta(ip.address() + ':' + httpsServer.address().port));
 	console.log(colors.cyan('\n····························style-imgprocess server started····························\n'));
 });
-url = 'http://' + ip.address() + ':' + server.address().port;
+var httpServer = http.createServer(app).listen(app.get('port'),function(){
+	console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + colors.gray('\tNodejs server listening on ') + colors.magenta(ip.address() + ':' + httpServer.address().port));
+	console.log(colors.cyan('\n····························style-imgprocess server started····························\n'));
+});
 
+url = 'http://' + ip.address() + ':' + httpServer.address().port;
+urls = 'https://' + ip.address() + ':' + httpsServer.address().port;
 
 fs.lstat('uploads', function(err, stats) {
 	if (err) {

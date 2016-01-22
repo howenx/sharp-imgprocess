@@ -5,6 +5,7 @@ var fs = require("fs");
 
 /* get File listing. */
 router.get(['/uploads/shot/:image', '/uploads/minify/:image', '/uploads/split/:image', '/uploads/fullsize/:image', '/uploads/thumb/:image'], function(req, res, next) {
+    if(req.protocol==='https') url = urls;
     res.setHeader('Access-Control-Allow-Origin', '*'); //设置跨域访问 
     try {
         var file = req.params.image;

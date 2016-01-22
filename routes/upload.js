@@ -34,6 +34,7 @@ var upload = multer({
 })
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    if(req.protocol==='https') url = urls;
 	res.render("upload.html", {
 		title: 'Upload images',
 		url: url
@@ -42,16 +43,12 @@ router.get('/', function(req, res, next) {
 
 /* Post Upload File listing. */
 router.post('/upload', upload.single('photo'), function(req, res, next) {
-	
-	console.log(req);
+	if(req.protocol==='https') url = urls;
 	res.setHeader('Access-Control-Allow-Origin', '*');
-	console.log(req.body);
 	var mimetype = req.file.mimetype;
 	var imageName = req.file.filename;
 	var imageSize = req.file.size;
 	var path = req.file.path;
-
-	console.log(colors.red(req.body.params));
 	var minify_flag = req.body.params;
 	try {
 		if (minify_flag != 'undefined' && req.body.params) {
