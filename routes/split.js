@@ -11,9 +11,7 @@ router.get('/splithtml/:id', function(req, res) {
 });
 /* split image for 3 pices. */
 router.get('/split/:id', function(req, res, next) {
-	res.setHeader('Access-Control-Allow-Origin', '*');
 	file = req.params.id;
-    if(req.protocol==='https') url = urls;
 	try {
 		//load template crop_img.html
 		if (file.match(/[^\/]+(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/g) != null && typeof file.match(/[^\/]+(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/g) != 'undefined') {
@@ -73,7 +71,6 @@ router.get('/split/:id', function(req, res, next) {
 });
 /* split image for 3 pices. */
 router.get('/split/file/:id', function(req, res, next) {
-	res.setHeader('Access-Control-Allow-Origin', '*');
 	file = req.params.id;
 	try {
 		//load template crop_img.html

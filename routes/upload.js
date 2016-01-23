@@ -43,7 +43,6 @@ router.get('/', function(req, res, next) {
 
 /* Post Upload File listing. */
 router.post('/upload', upload.single('photo'), function(req, res, next) {
-	res.setHeader('Access-Control-Allow-Origin', '*');
     if(req.protocol==='https') url = urls;
 	var mimetype = req.file.mimetype;
 	var imageName = req.file.filename;
@@ -83,7 +82,6 @@ router.post('/upload', upload.single('photo'), function(req, res, next) {
 // 											mime_type: mimetype
 // 										}, function(data) {
 											// console.log(colors.red(JSON.stringify(data)));
-											console.log("这贼货："+JSON.stringify(compress))
 											res.status(200).jsonp({
 												error: '000',
 												message: 'Image Uploaded.',
