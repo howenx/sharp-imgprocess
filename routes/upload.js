@@ -43,8 +43,8 @@ router.get('/', function(req, res, next) {
 
 /* Post Upload File listing. */
 router.post('/upload', upload.single('photo'), function(req, res, next) {
-	if(req.protocol==='https') url = urls;
 	res.setHeader('Access-Control-Allow-Origin', '*');
+    if(req.protocol==='https') url = urls;
 	var mimetype = req.file.mimetype;
 	var imageName = req.file.filename;
 	var imageSize = req.file.size;
