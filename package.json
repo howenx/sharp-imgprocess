@@ -8,6 +8,7 @@
   "dependencies": {
     "aliyun-sdk": "^1.6.5",
     "append-field": "^0.1.0",
+    "async": "^1.5.2",
     "atob": "^2.0.0",
     "base-64": "^0.1.0",
     "body-parser": "^1.14.2",
@@ -46,6 +47,7 @@
     "nw": "^0.12.3",
     "object-assign": "^4.0.1",
     "on-finished": "^2.3.0",
+    "properties-reader": "0.0.15",
     "serve-favicon": "^2.3.0",
     "type-is": "^1.6.10",
     "uuid": "^2.0.1",
