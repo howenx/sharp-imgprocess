@@ -48,7 +48,7 @@ colors.setTheme({
 	error: 'red'
 });
 
-var whitelist = ['https://admin.hanmimei.com', 'http://172.28.3','http://192.168'];
+var whitelist = ['https://admin.hanmimei.com', 'http://172.28.3','http://192.168.31.142'];
 
 corsOptionsDelegate = function(req, callback){
   var corsOptions;
