@@ -155,6 +155,8 @@ function dealCrop(obj, cb) {
             var filenames={};
             for(var i=0;i<obj.num;i++){
                 filenames['a'+i] = uuid.v4().replace(/-/g, '') + Date.now() + '.' + obj.gm_format;
+				ossimages.push(filenames['a'+i]);
+				localimages.push(url + '/uploads/split/'+filenames['a'+i]);
                 if(i===obj.num-1){
                     callbackfirst(null,filenames);
                 }
@@ -169,9 +171,7 @@ function dealCrop(obj, cb) {
                     .write(process.cwd() + "/uploads/split/" + value, function(err) {
                         if (!err) {
                             // console.log(colors.gray('split success.'));
-                            try {
-                                ossimages.push(value);
-                                localimages.push(url + '/uploads/split/'+value);
+                            try {                                
                                 callback();
                             } catch (e) {
                                 return callback(e);
