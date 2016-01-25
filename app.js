@@ -11,7 +11,7 @@ var app = express();
 var methodOverride = require('method-override');
 var session = require('express-session');
 var errorHandler = require('errorhandler');
-var config = require('./lib/config');
+
 
 
 /********** modules config *************/
@@ -24,8 +24,11 @@ var thumb = require('./routes/thumb');
 var shot = require('./routes/shot');
 
 /****** Global variable ************/
-ALI_PREFIX = config.ali_prefix;
-
+ALI_PREFIX = 'http://hmm-images.oss-cn-beijing.aliyuncs.com/';
+ALI_PREFIX_S = 'https://hmm-images.oss-cn-beijing.aliyuncs.com/';
+global.END_POINT = 'http://oss-cn-beijing.aliyuncs.com';
+global.END_POINT_S = 'https://oss-cn-beijing.aliyuncs.com';
+END_POINTS_IN = 'https://oss-cn-beijing-internal.aliyuncs.com';
 https = require('https');
 http = require('http');
 
@@ -48,16 +51,27 @@ colors.setTheme({
 	error: 'red'
 });
 
-var whitelist = ['https://admin.hanmimei.com', 'http://172.28.3','http://192.168'];
+
+var whitelist = ['https://admin.hanmimei.com', 'http://172.28.3', 'http://127.0.0.1', 'http://172.28.3'];
 
 corsOptionsDelegate = function(req, callback){
   var corsOptions;
   if((new RegExp( '\\b' + whitelist.join('\\b|\\b') + '\\b')).test(req.header('Origin'))){
 	  	console.log(req.header('Origin')+" --->match");
     	corsOptions = { origin: true };
+	    if(req.protocol==='https') {
+	  	  ALI_PREFIX = ALI_PREFIX_S;
+	  	  global.END_POINT =global.END_POINT_S;
+	  	  url = urls;
+	    }
   }else{
     	corsOptions = { origin: false };
 		console.log(req.header('Origin')+" --->not match");
+		res.status(404);
+		res.jsonp({
+			message: err.message,
+			error: '404'
+		});
   }
   callback(null, corsOptions);
 };
@@ -97,6 +111,31 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 
 /********* routers ******************/
+
+
+// app.use("/",function (req, res, next) {
+//     if((new RegExp( '\\b' + whitelist.join('\\b|\\b') + '\\b')).test(req.header('Origin'))){
+//   	  	console.log(req.header('Origin')+" --->match");
+//       	corsOptions = { origin: true };
+//   	    if(req.protocol==='https') {
+//   	  	  ALI_PREFIX = ALI_PREFIX_S;
+//   	  	  global.END_POINT =global.END_POINT_S;
+//   	  	  url = urls;
+//   	    }
+// 		next();
+//     }else{
+//       	corsOptions = { origin: false };
+//   		console.log(req.header('Origin')+" --->not match");
+// 		res.status(404);
+// 		res.jsonp({
+// 			message: err.message,
+// 			error: '404'
+// 		});
+//     }
+//   console.log('日你妈－－－－》《');
+//
+// });
+
 app.use(express.static('public'));
 app.use('/', upload);
 app.use('/', split);
@@ -142,6 +181,11 @@ app.use(function(err, req, res, next) {
 });
 
 /************* Listen Server *******************/
+// var server = app.listen(app.get('port'), function() {
+//     console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + colors.gray('\tNodejs server listening on ') + colors.magenta(ip.address() + ':' + server.address().port));
+//     console.log(colors.cyan('\n····························style-imgprocess server started····························\n'));
+// });
+//
 
 
 var httpsServer = https.createServer(credentials, app).listen(app.get('httpsport'),function(){
