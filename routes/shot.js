@@ -70,7 +70,7 @@ router.post('/cut', function(req, res, next) {
                                 next(null, 'done');
                             }
                         ], function(err, result) {
-                            res.jsonp({
+                            res.status(200).jsonp({
                                 error: '000',
                                 message: "ok.",
                                 shot_id: uu_name + '.jpg',
@@ -85,5 +85,9 @@ router.post('/cut', function(req, res, next) {
         })
     }
 });
+
+function deal(){
+	
+}
 
 module.exports = router;

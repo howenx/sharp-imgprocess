@@ -67,11 +67,6 @@ corsOptionsDelegate = function(req, callback){
   }else{
     	corsOptions = { origin: false };
 		console.log(req.header('Origin')+" --->not match");
-		res.status(404);
-		res.jsonp({
-			message: err.message,
-			error: '404'
-		});
   }
   callback(null, corsOptions);
 };
