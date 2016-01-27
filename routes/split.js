@@ -78,7 +78,7 @@ router.post('/split/file', function(req, res, next) {
 		prefix = req.body.prefix;
 	}
     if (req.protocol === 'https') url = urls;
-	console.log(req.body);
+
     var file = req.body.filename+'';
     try {
         //load template crop_img.html
@@ -94,9 +94,6 @@ router.post('/split/file', function(req, res, next) {
             if (type === 'png' || type === 'jpeg') mime_type = 'image/png';
             else mime_type = 'image/jpeg';
 
-            var sparry = new Array();
-            var ossimages = new Array();
-            var crop_path_array = new Array();
             fs.lstat(path, function(err, stats) {
                 if (!err) {
                     var gm_format, gm_width, gm_height;
