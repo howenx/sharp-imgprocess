@@ -21,6 +21,10 @@ router.get('/shottest', function(req, res, next) {
 });
 
 router.post('/cut', function(req, res, next) {
+	var prefix = '';
+	if (req.body.prefix != "undefined" && req.body.prefix) {
+		prefix = req.body.prefix;
+	}
     // console.log(req.body.html);
     if (req.protocol === 'https') url = urls;
     if (req.body.html) {
@@ -59,7 +63,8 @@ router.post('/cut', function(req, res, next) {
                                 aliutil.putImage({
                                     data: contents,
                                     file_nm: uu_name + '.jpg',
-                                    mime_type: 'image/jpeg'
+                                    mime_type: 'image/jpeg',
+									prefix:prefix
                                 }, function(data){
                                     callback(null,data)
                                 });
@@ -76,7 +81,8 @@ router.post('/cut', function(req, res, next) {
                                 shot_id: uu_name + '.jpg',
                                 path: '/uploads/shot/' + uu_name + '.jpg',
                                 shot_url: url + '/uploads/shot/' + uu_name + '.jpg',
-                                oss_url: uu_name + '.jpg'
+                                oss_url: uu_name + '.jpg',
+								oss_prefix: ALI_PREFIX+prefix
                             });
                         });
                     });
