@@ -14,3 +14,4 @@ node_modules/*
 .idea/*
 # Logs
 logs
+views/shot.html
