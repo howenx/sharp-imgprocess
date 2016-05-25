@@ -169,6 +169,34 @@ $(function() {
   		}
 	})
 	
+	$('#split-submit').click(function(){
+		if($('#split-file').val().match(/[^\/]+(\.(jpg|jpeg|JPG|JPEG|png|PNG|gif|GIF|webp|WEBP))$/) != null){
+			$.ajax({
+			  url: window.url + "/split/file",
+			  data: {
+			       filename: '' +$('#split-file').val(),
+			       prefix:''
+			  },
+			  type: 'post',
+			  success: function(data2) {
+			     console.log(data2);
+				 if(typeof data2.error!='undefined' && data2.error==='000'){
+					 var appendStr = '<span style="display:block;margin:10px;width:100%;"><h4>第' + ($('#split-images').children().length+1) + '张</h4>';
+					 var ossdata = JSON.parse(data2.oss_url);
+					 for(var i=0;i<ossdata.length;i++){
+						 appendStr +='图片'+(i+1)+'URL: <b>'+data2.oss_prefix+ossdata[i]+'</b><br>';
+					 }
+					 appendStr +='</span>';
+					 $('#split-images').append(appendStr);
+				 }
+			  }
+			});
+		}else {
+			alert('Please check file type.')
+		}
+		
+	})
+	
 	/**** preview single image file.*****/
   	function previewImage(file) {
   		var galleryId = "gallery";
