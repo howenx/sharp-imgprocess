@@ -24,8 +24,8 @@ var thumb = require('./routes/thumb');
 var shot = require('./routes/shot');
 
 /****** Global variable ************/
-ALI_PREFIX = 'http://img.kakaogift.cn/';
-ALI_PREFIX_S = 'https://img.img.kakaogift.cn/';
+ALI_PREFIX = 'http://img.hanmimei.com/';
+ALI_PREFIX_S = 'https://img.hanmimei.com';
 global.END_POINT = 'http://oss-cn-hangzhou.aliyuncs.com';
 global.END_POINT_S = 'https://oss-cn-hangzhou.aliyuncs.com';
 END_POINTS_IN = 'https://oss-cn-hangzhou-internal.aliyuncs.com';
@@ -52,7 +52,7 @@ colors.setTheme({
 });
 
 
-var whitelist = ['https://admin.kakaogift.cn','http://admin.kakaogift.cn','https://admin.hanmimei.com', 'http://172.28.3', 'http://127.0.0.1', 'http://172.28.5'];
+var whitelist = ['https://admin.kakaogift.cn','http://admin.kakaogift.cn','https://admin.hanmimei.com','http://121.43.187.240','http://admin.hanmimei.com', 'http://172.28.3', 'http://127.0.0.1', 'http://172.28.5'];
 
 corsOptionsDelegate = function(req, callback){
   var corsOptions;
