@@ -52,7 +52,7 @@ colors.setTheme({
 });
 
 
-var whitelist = ['https://admin.kakaogift.cn','http://admin.kakaogift.cn','https://admin.hanmimei.com', 'http://172.28.3', 'http://127.0.0.1', 'http://172.28.5'];
+var whitelist = ['http://121.43.187.240','https://admin.kakaogift.cn','http://admin.kakaogift.cn','https://admin.hanmimei.com', 'http://172.28.3', 'http://127.0.0.1', 'http://172.28.5'];
 
 corsOptionsDelegate = function(req, callback){
   var corsOptions;
