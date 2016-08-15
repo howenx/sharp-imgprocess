@@ -24,8 +24,8 @@ var thumb = require('./routes/thumb');
 var shot = require('./routes/shot');
 
 /****** Global variable ************/
-ALI_PREFIX = 'http://img.hanmimei.com/';
-ALI_PREFIX_S = 'https://img.hanmimei.com';
+ALI_PREFIX = 'http://dl.kakaogift.cn/';
+ALI_PREFIX_S = 'https://dl.kakaogift.cn/';
 global.END_POINT = 'http://oss-cn-hangzhou.aliyuncs.com';
 global.END_POINT_S = 'https://oss-cn-hangzhou.aliyuncs.com';
 END_POINTS_IN = 'https://oss-cn-hangzhou-internal.aliyuncs.com';
@@ -52,33 +52,42 @@ colors.setTheme({
 });
 
 
-var whitelist = ['https://admin.kakaogift.cn','http://admin.kakaogift.cn','https://admin.hanmimei.com','http://121.43.187.240','http://admin.hanmimei.com', 'http://172.28.3', 'http://127.0.0.1', 'http://172.28.5'];
+var whitelist = ['https://admin.kakaogift.cn', 'http://admin.kakaogift.cn', 'https://admin.hanmimei.com', 'http://121.43.187.240', 'http://admin.hanmimei.com', 'http://172.28.3', 'http://127.0.0.1', 'http://172.28.5'];
 
-corsOptionsDelegate = function(req, callback){
-  var corsOptions;
-  if((new RegExp( '\\b' + whitelist.join('\\b|\\b') + '\\b')).test(req.header('Origin'))){
-	  	console.log(req.header('Origin')+" --->match");
-    	corsOptions = { origin: true };
-	    if(req.protocol==='https') {
-	  	  ALI_PREFIX = ALI_PREFIX_S;
-	  	  global.END_POINT =global.END_POINT_S;
-	  	  url = urls;
-	    }
-  }else{
-    	corsOptions = { origin: false };
-		console.log(req.header('Origin')+" --->not match");
-  }
-  callback(null, corsOptions);
+corsOptionsDelegate = function(req, callback) {
+	var corsOptions;
+	if ((new RegExp('\\b' + whitelist.join('\\b|\\b') + '\\b')).test(req.header('Origin'))) {
+		console.log(req.header('Origin') + " --->match");
+		corsOptions = {
+			origin: true
+		};
+		if (req.protocol === 'https') {
+			ALI_PREFIX = ALI_PREFIX_S;
+			global.END_POINT = global.END_POINT_S;
+			url = urls;
+		}
+	} else {
+		corsOptions = {
+			origin: false
+		};
+		console.log(req.header('Origin') + " --->not match");
+	}
+	callback(null, corsOptions);
 };
 
 app.use(cors(corsOptionsDelegate));
 
-var privateKey  = fs.readFileSync('ssl/kakaogift.key', 'utf8');
-var certificate = fs.readFileSync('ssl/kakaogift.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
+var privateKey = fs.readFileSync('ssl/kg.key', 'utf8');
+var certificate = fs.readFileSync('ssl/kg.cer', 'utf8');
+var ca = fs.readFileSync('ssl/ca.cer', 'utf8');
+var credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
 
 app.set('port', process.env.PORT || 3008);
-app.set('httpsport', process.env.HTTPSPORT ||3010);
+app.set('httpsport', process.env.HTTPSPORT || 3010);
 
 
 /*** view engine setup ****/
@@ -183,11 +192,11 @@ app.use(function(err, req, res, next) {
 //
 
 
-var httpsServer = https.createServer(credentials, app).listen(app.get('httpsport'),function(){
+var httpsServer = https.createServer(credentials, app).listen(app.get('httpsport'), function() {
 	console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + colors.gray('\tNodejs server listening on ') + colors.magenta(ip.address() + ':' + httpsServer.address().port));
 	console.log(colors.cyan('\n····························style-imgprocess server started····························\n'));
 });
-var httpServer = http.createServer(app).listen(app.get('port'),function(){
+var httpServer = http.createServer(app).listen(app.get('port'), function() {
 	console.log('> ' + colors.grey('Time: ' + dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss TT')) + colors.gray('\tNodejs server listening on ') + colors.magenta(ip.address() + ':' + httpServer.address().port));
 	console.log(colors.cyan('\n····························style-imgprocess server started····························\n'));
 });
