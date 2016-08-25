@@ -24,8 +24,10 @@ var thumb = require('./routes/thumb');
 var shot = require('./routes/shot');
 
 /****** Global variable ************/
-ALI_PREFIX = 'http://kgtest-images.oss-cn-hangzhou.aliyuncs.com/';
-ALI_PREFIX_S = 'https://kgtest-images.oss-cn-hangzhou.aliyuncs.com/';
+ALI_PREFIX = 'http://dl.kakaogift.cn/';
+ALI_PREFIX_S = 'https://dl.kakaogift.cn/';
+// ALI_PREFIX = 'http://kgtest-images.oss-cn-hangzhou.aliyuncs.com/';
+// ALI_PREFIX_S = 'https://kgtest-images.oss-cn-hangzhou.aliyuncs.com/';
 global.END_POINT = 'http://oss-cn-hangzhou.aliyuncs.com';
 global.END_POINT_S = 'https://oss-cn-hangzhou.aliyuncs.com';
 END_POINTS_IN = 'https://oss-cn-hangzhou-internal.aliyuncs.com';
